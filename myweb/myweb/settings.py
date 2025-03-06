@@ -25,7 +25,7 @@ SECRET_KEY = 'z+ksf@)0d^qojbh4rnp4b1to$hq&*tt(3bs$gf(3i267g$k9ln'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['gnat-crucial-partly.ngrok-free.app', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -105,7 +105,14 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+from django.utils.translation import gettext as _
+
+LANGUAGE_CODE = 'th-th'  # กำหนดให้เป็นภาษาไทย
+
+LANGUAGES = [
+    ('th', 'Thai'),
+    ('en', 'English'),
+]
 
 TIME_ZONE = 'UTC'
 
@@ -128,3 +135,8 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/images/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
+
+# settings.py
+
+STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY')  # ✅ ใช้ค่าจาก Environment Variable
+STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
