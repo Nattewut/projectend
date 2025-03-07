@@ -1,116 +1,115 @@
 {% extends 'store/main.html' %}
 {% load static %}
 {% block content %}
-     <div class="row">
-        <div class="col-lg-6">
-            <div class="box-element" id="form-wrapper">
-                <form id="form">
-                    <div id="user-info">
-                        <div class="form-field">
-                            <input required class="form-control" type="text" name="name" placeholder="ชื่อ..">
-                        </div>
-                        <div class="form-field">
-                            <input required class="form-control" type="email" name="email" placeholder="อีเมล..">
-                        </div>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="box-element" id="form-wrapper">
+            <form id="form">
+                {% csrf_token %} <!-- ✅ เพิ่ม csrf token เพื่อความปลอดภัยของ Django -->
+                <div id="user-info">
+                    <div class="form-field">
+                        <input required class="form-control" type="text" name="name" placeholder="ชื่อ..">
                     </div>
-
-                    <div id="shipping-info">
-                        <hr>
-                        <p>ข้อมูลการจัดส่ง:</p>
-                        <hr>
-                        <div class="form-field">
-                            <input class="form-control" type="text" name="address" placeholder="ที่อยู่..">
-                        </div>
-                        <div class="form-field">
-                            <input class="form-control" type="text" name="city" placeholder="เมือง..">
-                        </div>
-                        <div class="form-field">
-                            <input class="form-control" type="text" name="state" placeholder="จังหวัด..">
-                        </div>
-                        <div class="form-field">
-                            <input class="form-control" type="text" name="zipcode" placeholder="รหัสไปรษณีย์..">
-                        </div>
-                        <div class="form-field">
-                            <input class="form-control" type="text" name="country" placeholder="ประเทศ..">
-                        </div>
+                    <div class="form-field">
+                        <input required class="form-control" type="email" name="email" placeholder="อีเมล..">
                     </div>
-
-                    <hr>
-                    <input id="form-button" class="btn btn-success btn-block" type="submit" value="ดำเนินการต่อ">
-                </form>
-            </div>
-        </div>
-
-        <div class="col-lg-6">
-            <div class="box-element">
-                <a class="btn btn-outline-dark" href="{% url 'cart' %}">&#x2190; กลับไปที่ตะกร้า</a>
-                <hr>
-                <h3>สรุปคำสั่งซื้อ</h3>
-                <hr>
-                {% for item in items %}
-                <div class="cart-row">
-                    <div style="flex:2"><img class="row-image" src="{{item.product.imageURL}}"></div>
-                    <div style="flex:2"><p>{{item.product.name}}</p></div>
-                    <div style="flex:1"><p>${{item.product.price|floatformat:2}}</p></div>
-                    <div style="flex:1"><p>x{{item.quantity}}</p></div>
                 </div>
-                {% endfor %}
-                <h5>สินค้า:   {{order.get_cart_items}}</h5>
-                <h5>รวม:   ${{order.get_cart_total|floatformat:2}}</h5>
-            </div>
-            
-            <!-- Pay Now Button (initially hidden) -->
-            <div class="box-element" id="pay-now-section" style="display:none;">
-                <button id="checkout-button" class="btn btn-success btn-block">จ่ายเงิน</button>
-            </div>
+
+                <div id="shipping-info">
+                    <hr>
+                    <p>ข้อมูลการจัดส่ง:</p>
+                    <hr>
+                    <div class="form-field">
+                        <input class="form-control" type="text" name="address" placeholder="ที่อยู่..">
+                    </div>
+                    <div class="form-field">
+                        <input class="form-control" type="text" name="city" placeholder="เมือง..">
+                    </div>
+                    <div class="form-field">
+                        <input class="form-control" type="text" name="state" placeholder="จังหวัด..">
+                    </div>
+                    <div class="form-field">
+                        <input class="form-control" type="text" name="zipcode" placeholder="รหัสไปรษณีย์..">
+                    </div>
+                    <div class="form-field">
+                        <input class="form-control" type="text" name="country" placeholder="ประเทศ..">
+                    </div>
+                </div>
+
+                <hr>
+                <input id="form-button" class="btn btn-success btn-block" type="submit" value="ดำเนินการต่อ">
+            </form>
         </div>
     </div>
 
-    <script src="https://js.stripe.com/v3/"></script>
-    <script type="text/javascript">
-        var stripe = Stripe("{{ STRIPE_PUBLIC_KEY }}");
-
-        var form = document.getElementById('form');
-        form.addEventListener('submit', function(e){
-            e.preventDefault();  // Prevent form submission
-            document.getElementById('form-wrapper').style.display = 'none';  // Hide the form
-            document.getElementById('pay-now-section').style.display = 'block';  // Show Pay Now button
-        });
-
-        var checkoutButton = document.getElementById('checkout-button');
+    <div class="col-lg-6">
+        <div class="box-element">
+            <a class="btn btn-outline-dark" href="{% url 'cart' %}">&#x2190; กลับไปที่ตะกร้า</a>
+            <hr>
+            <h3>สรุปคำสั่งซื้อ</h3>
+            <hr>
+            {% for item in items %}
+            <div class="cart-row">
+                <div style="flex:2"><img class="row-image" src="{{item.product.imageURL}}"></div>
+                <div style="flex:2"><p>{{item.product.name}}</p></div>
+                <div style="flex:1"><p>${{item.product.price|floatformat:2}}</p></div>
+                <div style="flex:1"><p>x{{item.quantity}}</p></div>
+            </div>
+            {% endfor %}
+            <h5>สินค้า:   {{order.get_cart_items}}</h5>
+            <h5>รวม:   ${{order.get_cart_total|floatformat:2}}</h5>
+        </div>
         
-        checkoutButton.addEventListener('click', function () {
-            fetch('/process_order/', {
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRFToken": "{{ csrf_token }}"
-                },
-                body: JSON.stringify({
-                    "form": {},  // ✅ ไม่ส่งราคาจาก Frontend
-                    "shipping": {
-                        "address": document.querySelector("input[name='address']").value,
-                        "city": document.querySelector("input[name='city']").value,
-                        "state": document.querySelector("input[name='state']").value,
-                        "zipcode": document.querySelector("input[name='zipcode']").value,
-                        "country": document.querySelector("input[name='country']").value
-                    }
-                })
-            })
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (sessionId) {
-                if (sessionId.id) {
-                    return stripe.redirectToCheckout({ sessionId: sessionId.id });
-                } else {
-                    console.error("Stripe session ID missing:", sessionId);
-                    alert("เกิดข้อผิดพลาด: ไม่สามารถสร้าง session การชำระเงินได้");
+        <div class="box-element" id="pay-now-section" style="display:none;">
+            <button id="checkout-button" class="btn btn-success btn-block">จ่ายเงิน</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script type="text/javascript">
+    var stripe = Stripe("{{ STRIPE_PUBLIC_KEY }}");
+
+    var form = document.getElementById('form');
+    form.addEventListener('submit', function(e){
+        e.preventDefault();  // ไม่ต้องแก้ เพราะถูกแล้ว
+        document.getElementById('form-wrapper').style.display = 'none';
+        document.getElementById('pay-now-section').style.display = 'block';
+    });
+
+    var checkoutButton = document.getElementById('checkout-button');
+    
+    checkoutButton.addEventListener('click', function () {
+        fetch('/process_order/', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": "{{ csrf_token }}" // ✅เพิ่ม csrf_token เพื่อป้องกัน Forbidden (403)
+            },
+            body: JSON.stringify({
+                "form": {}, //จำเป็นต้องมี เพราะ view จะเรียกข้อมูล total จาก form
+                "shipping": {
+                    "address": document.querySelector("input[name='address']").value,
+                    "city": document.querySelector("input[name='city']").value,
+                    "state": document.querySelector("input[name='state']").value,
+                    "zipcode": document.querySelector("input[name='zipcode']").value,
+                    "country": document.querySelector("input[name='country']").value
                 }
             })
-            .catch(function (error) {
-                console.error("Error:", error);
-            });
+        })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (sessionId) {
+            if (sessionId.id) {
+                return stripe.redirectToCheckout({ sessionId: sessionId.id });
+            } else {
+                alert("เกิดข้อผิดพลาด: ไม่สามารถสร้าง session การชำระเงินได้");
+            }
+        })
+        .catch(function (error) {
+            console.error("Error:", error);
         });
-    </script>
+</script>
 {% endblock content %}
+
