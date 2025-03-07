@@ -138,5 +138,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
 # settings.py
 
-STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY')  # ✅ ใช้ค่าจาก Environment Variable
-STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
+STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', 'default_public_key_here') 
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY', 'default_secret_key_here')

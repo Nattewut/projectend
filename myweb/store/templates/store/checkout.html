@@ -5,7 +5,7 @@
     <div class="col-lg-6">
         <div class="box-element" id="form-wrapper">
             <form id="form">
-                {% csrf_token %} <!-- ✅ เพิ่ม csrf token เพื่อความปลอดภัยของ Django -->
+                {% csrf_token %}
                 <div id="user-info">
                     <div class="form-field">
                         <input required class="form-control" type="text" name="name" placeholder="ชื่อ..">
@@ -72,7 +72,7 @@
 
     var form = document.getElementById('form');
     form.addEventListener('submit', function(e){
-        e.preventDefault();  // ไม่ต้องแก้ เพราะถูกแล้ว
+        e.preventDefault();  
         document.getElementById('form-wrapper').style.display = 'none';
         document.getElementById('pay-now-section').style.display = 'block';
     });
@@ -80,36 +80,47 @@
     var checkoutButton = document.getElementById('checkout-button');
     
     checkoutButton.addEventListener('click', function () {
+        let csrfToken = "{{ csrf_token }}";
+        console.log("🔍 CSRF Token:", csrfToken);  // ✅ Debug CSRF Token
+
+        let orderData = {
+            "form": {},
+            "shipping": {
+                "address": document.querySelector("input[name='address']").value,
+                "city": document.querySelector("input[name='city']").value,
+                "state": document.querySelector("input[name='state']").value,
+                "zipcode": document.querySelector("input[name='zipcode']").value,
+                "country": document.querySelector("input[name='country']").value
+            }
+        };
+
+        console.log("🔍 Data being sent:", orderData);  // ✅ Debug JSON ที่ถูกส่ง
+
         fetch('/process_order/', {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
-                "X-CSRFToken": "{{ csrf_token }}" // ✅เพิ่ม csrf_token เพื่อป้องกัน Forbidden (403)
+                "X-CSRFToken": csrfToken
             },
-            body: JSON.stringify({
-                "form": {}, //จำเป็นต้องมี เพราะ view จะเรียกข้อมูล total จาก form
-                "shipping": {
-                    "address": document.querySelector("input[name='address']").value,
-                    "city": document.querySelector("input[name='city']").value,
-                    "state": document.querySelector("input[name='state']").value,
-                    "zipcode": document.querySelector("input[name='zipcode']").value,
-                    "country": document.querySelector("input[name='country']").value
-                }
-            })
+            body: JSON.stringify(orderData)
         })
-        .then(function (response) {
+        .then(response => {
+            console.log("✅ Fetch Response Status:", response.status);
             return response.json();
         })
-        .then(function (sessionId) {
+        .then(sessionId => {
+            console.log("✅ Received session ID:", sessionId); // ✅ Debug ตรวจสอบ session ID
             if (sessionId.id) {
                 return stripe.redirectToCheckout({ sessionId: sessionId.id });
             } else {
+                console.error("❌ Stripe session ID missing:", sessionId);
                 alert("เกิดข้อผิดพลาด: ไม่สามารถสร้าง session การชำระเงินได้");
             }
         })
-        .catch(function (error) {
-            console.error("Error:", error);
+        .catch(error => {
+            console.error("❌ Error:", error);
         });
+    });
 </script>
 {% endblock content %}
 

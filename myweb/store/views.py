@@ -79,6 +79,8 @@ def processOrder(request):
         transaction_id = datetime.datetime.now().timestamp()
         data = json.loads(request.body)
 
+        print("🔍 Received Data from Checkout:", data)  # ✅ Debug
+
         if request.user.is_authenticated:
             customer = request.user.customer
             order, created = Order.objects.get_or_create(customer=customer, complete=False)
@@ -88,6 +90,8 @@ def processOrder(request):
         calculated_total = sum(
             item.product.price * item.quantity for item in order.orderitem_set.all()
         )
+
+        print(f"🛒 Order Total: {calculated_total}")  # ✅ Debug ยอดเงินที่ต้องชำระ
 
         if calculated_total <= 0:
             return JsonResponse({'error': 'Invalid total amount'}, status=400)
@@ -126,11 +130,11 @@ def processOrder(request):
             cancel_url=f"{base_url}/cancel/",
         )
 
-        print(f"✅ Stripe Session Created: {session.id}")
+        print(f"✅ Stripe Session Created: {session.id}")  # ✅ Debug เช็คว่ามีการสร้าง Session ไหม
         return JsonResponse({'id': session.id})
-    
+
     except Exception as e:
-        print(f"❌ ERROR in processOrder: {str(e)}")
+        print(f"❌ ERROR in processOrder: {str(e)}")  # ✅ Debug เช็คข้อผิดพลาด
         return JsonResponse({'error': str(e)}, status=500)
 
 def success(request):
