@@ -68,11 +68,11 @@
 
 <script src="https://js.stripe.com/v3/"></script>
 <script type="text/javascript">
-    var stripe = Stripe("{{ STRIPE_PUBLIC_KEY }}");
+    var stripe = Stripe("{{ STRIPE_PUBLIC_KEY|default:'' }}");
 
     var form = document.getElementById('form');
     form.addEventListener('submit', function(e){
-        e.preventDefault();  
+        e.preventDefault();
         document.getElementById('form-wrapper').style.display = 'none';
         document.getElementById('pay-now-section').style.display = 'block';
     });
@@ -81,7 +81,7 @@
     
     checkoutButton.addEventListener('click', function () {
         let csrfToken = "{{ csrf_token }}";
-        console.log("🔍 CSRF Token:", csrfToken);  // ✅ Debug CSRF Token
+        console.log("🔍 CSRF Token:", csrfToken);
 
         let orderData = {
             "form": {},
@@ -94,7 +94,7 @@
             }
         };
 
-        console.log("🔍 Data being sent:", orderData);  // ✅ Debug JSON ที่ถูกส่ง
+        console.log("🔍 Data being sent:", orderData);
 
         fetch('/process_order/', {
             method: 'POST',
@@ -106,10 +106,13 @@
         })
         .then(response => {
             console.log("✅ Fetch Response Status:", response.status);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
             return response.json();
         })
         .then(sessionId => {
-            console.log("✅ Received session ID:", sessionId); // ✅ Debug ตรวจสอบ session ID
+            console.log("✅ Received session ID:", sessionId);
             if (sessionId.id) {
                 return stripe.redirectToCheckout({ sessionId: sessionId.id });
             } else {
@@ -119,8 +122,8 @@
         })
         .catch(error => {
             console.error("❌ Error:", error);
+            alert("เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง");
         });
     });
 </script>
 {% endblock content %}
-

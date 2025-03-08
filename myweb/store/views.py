@@ -7,10 +7,12 @@ from .utils import cookieCart, cartData, guestOrder
 import stripe
 from django.conf import settings
 import socket
+from django.views.decorators.csrf import csrf_exempt
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 def get_base_url():
+    """ ใช้ฟังก์ชันนี้เพื่อกำหนด base URL ให้ถูกต้อง """
     hostname = socket.gethostname()
     if "localhost" in hostname or "127.0.0.1" in hostname:
         return "http://127.0.0.1:8000"
@@ -49,37 +51,13 @@ def checkout(request):
     }
     return render(request, 'store/checkout.html', context)
 
-def updateItem(request):
-    data = json.loads(request.body)
-    productId = data['productId']
-    action = data['action']
-    print('Action:', action)
-    print('Product:', productId)
-
-    customer = request.user.customer
-    product = Product.objects.get(id=productId)
-    order, created = Order.objects.get_or_create(customer=customer, complete=False)
-
-    orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
-
-    if action == 'add':
-        orderItem.quantity += 1
-    elif action == 'remove':
-        orderItem.quantity -= 1
-
-    orderItem.save()
-
-    if orderItem.quantity <= 0:
-        orderItem.delete()
-
-    return JsonResponse('Item was added', safe=False)
-
+@csrf_exempt  # ✅ แก้ปัญหา CSRF Forbidden (403)
 def processOrder(request):
     try:
         transaction_id = datetime.datetime.now().timestamp()
         data = json.loads(request.body)
 
-        print("🔍 Received Data from Checkout:", data)  # ✅ Debug
+        print("✅ รับข้อมูลจาก Checkout:", data)
 
         if request.user.is_authenticated:
             customer = request.user.customer
@@ -87,11 +65,12 @@ def processOrder(request):
         else:
             customer, order = guestOrder(request, data)
 
+        # คำนวณยอดรวมออเดอร์
         calculated_total = sum(
             item.product.price * item.quantity for item in order.orderitem_set.all()
         )
 
-        print(f"🛒 Order Total: {calculated_total}")  # ✅ Debug ยอดเงินที่ต้องชำระ
+        print(f"🛒 Order Total: {calculated_total}")
 
         if calculated_total <= 0:
             return JsonResponse({'error': 'Invalid total amount'}, status=400)
@@ -100,6 +79,7 @@ def processOrder(request):
         order.complete = True
         order.save()
 
+        # บันทึกที่อยู่การจัดส่ง
         if order.shipping:
             ShippingAddress.objects.create(
                 customer=customer,
@@ -112,6 +92,7 @@ def processOrder(request):
 
         base_url = get_base_url()
 
+        # ✅ สร้าง Stripe Checkout Session
         session = stripe.checkout.Session.create(
             payment_method_types=['card'],
             line_items=[
@@ -130,15 +111,40 @@ def processOrder(request):
             cancel_url=f"{base_url}/cancel/",
         )
 
-        print(f"✅ Stripe Session Created: {session.id}")  # ✅ Debug เช็คว่ามีการสร้าง Session ไหม
+        print(f"✅ Stripe Session Created: {session.id}")
         return JsonResponse({'id': session.id})
 
     except Exception as e:
-        print(f"❌ ERROR in processOrder: {str(e)}")  # ✅ Debug เช็คข้อผิดพลาด
+        print(f"❌ ERROR in processOrder: {str(e)}")
         return JsonResponse({'error': str(e)}, status=500)
+
+def updateItem(request):
+    data = json.loads(request.body)
+    productId = data.get('productId')
+    action = data.get('action')
+    
+    print(f"✅ Action: {action}, Product: {productId}")  # Debugging log
+
+    customer = request.user.customer
+    product = Product.objects.get(id=productId)
+    order, created = Order.objects.get_or_create(customer=customer, complete=False)
+
+    orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
+
+    if action == 'add':
+        orderItem.quantity += 1
+    elif action == 'remove':
+        orderItem.quantity -= 1
+
+    orderItem.save()
+
+    if orderItem.quantity <= 0:
+        orderItem.delete()
+
+    return JsonResponse("Item was updated", safe=False)
 
 def success(request):
     return render(request, 'success.html')  
 
 def cancel(request):
-    return render(request, 'cancel.html')
+    return render(request, 'cancel.html')  
