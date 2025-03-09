@@ -138,5 +138,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
 # settings.py
 
+# ✅ กำหนดค่า STRIPE API Key ให้ปลอดภัย
 STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', 'default_public_key_here') 
 STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY', 'default_secret_key_here')
+
+# ✅ ตรวจสอบว่า STRIPE_SECRET_KEY ถูกโหลดหรือไม่
+print(f"🔍 STRIPE_SECRET_KEY จาก settings.py: {STRIPE_SECRET_KEY}")

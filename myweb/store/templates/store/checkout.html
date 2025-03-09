@@ -83,14 +83,32 @@
         let csrfToken = "{{ csrf_token }}";
         console.log("🔍 CSRF Token:", csrfToken);
 
+        // ✅ ดึงค่าจากฟอร์ม
+        let name = document.querySelector("input[name='name']").value.trim();
+        let email = document.querySelector("input[name='email']").value.trim();
+        let address = document.querySelector("input[name='address']").value.trim();
+        let city = document.querySelector("input[name='city']").value.trim();
+        let state = document.querySelector("input[name='state']").value.trim();
+        let zipcode = document.querySelector("input[name='zipcode']").value.trim();
+        let country = document.querySelector("input[name='country']").value.trim();
+
+        // ✅ ตรวจสอบว่าชื่อและอีเมลไม่ว่าง
+        if (!name || !email) {
+            alert("❌ กรุณากรอกชื่อและอีเมลให้ครบถ้วน");
+            return;
+        }
+
         let orderData = {
-            "form": {},
+            "form": {
+                "name": name,
+                "email": email
+            },
             "shipping": {
-                "address": document.querySelector("input[name='address']").value,
-                "city": document.querySelector("input[name='city']").value,
-                "state": document.querySelector("input[name='state']").value,
-                "zipcode": document.querySelector("input[name='zipcode']").value,
-                "country": document.querySelector("input[name='country']").value
+                "address": address,
+                "city": city,
+                "state": state,
+                "zipcode": zipcode,
+                "country": country
             }
         };
 
@@ -104,15 +122,8 @@
             },
             body: JSON.stringify(orderData)
         })
-        .then(response => {
-            console.log("✅ Fetch Response Status:", response.status);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
+        .then(response => response.json())
         .then(sessionId => {
-            console.log("✅ Received session ID:", sessionId);
             if (sessionId.id) {
                 return stripe.redirectToCheckout({ sessionId: sessionId.id });
             } else {
@@ -126,4 +137,5 @@
         });
     });
 </script>
+
 {% endblock content %}

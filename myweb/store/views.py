@@ -10,6 +10,7 @@ import socket
 from django.views.decorators.csrf import csrf_exempt
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
+print(f"✅ Stripe API Key จาก stripe: {stripe.api_key}")
 
 def get_base_url():
     """ ใช้ฟังก์ชันนี้เพื่อกำหนด base URL ให้ถูกต้อง """
@@ -51,7 +52,7 @@ def checkout(request):
     }
     return render(request, 'store/checkout.html', context)
 
-@csrf_exempt  # ✅ แก้ปัญหา CSRF Forbidden (403)
+@csrf_exempt
 def processOrder(request):
     try:
         transaction_id = datetime.datetime.now().timestamp()
@@ -65,7 +66,20 @@ def processOrder(request):
         else:
             customer, order = guestOrder(request, data)
 
-        # คำนวณยอดรวมออเดอร์
+        # ✅ ตรวจสอบว่าสั่งซื้อสินค้าหรือไม่
+        if not order.orderitem_set.exists():
+            return JsonResponse({'error': 'No items in order'}, status=400)
+
+        # ✅ ตรวจสอบ STRIPE_SECRET_KEY ก่อนใช้งาน
+        if not stripe.api_key or stripe.api_key.startswith("default"):
+            print("❌ ERROR: Stripe API Key ไม่ถูกต้อง")
+            return JsonResponse({'error': 'Stripe API Key ไม่ถูกต้อง'}, status=500)
+
+        # ✅ ตรวจสอบข้อมูลที่จำเป็นต้องมี
+        if "name" not in data.get("form", {}) or "email" not in data.get("form", {}):
+            return JsonResponse({"error": "Missing required fields (name or email)"}, status=400)
+
+        # ✅ คำนวณยอดรวม
         calculated_total = sum(
             item.product.price * item.quantity for item in order.orderitem_set.all()
         )
@@ -79,16 +93,19 @@ def processOrder(request):
         order.complete = True
         order.save()
 
-        # บันทึกที่อยู่การจัดส่ง
-        if order.shipping:
-            ShippingAddress.objects.create(
-                customer=customer,
-                order=order,
-                address=data['shipping']['address'],
-                city=data['shipping']['city'],
-                state=data['shipping']['state'],
-                zipcode=data['shipping']['zipcode'],
-            )
+        # ✅ ตรวจสอบ `shipping` ก่อนใช้งาน
+        shipping_data = data.get('shipping', {})
+        if not shipping_data.get('address'):
+            return JsonResponse({'error': 'Missing shipping address'}, status=400)
+
+        ShippingAddress.objects.create(
+            customer=customer,
+            order=order,
+            address=shipping_data.get('address', ''),
+            city=shipping_data.get('city', ''),
+            state=shipping_data.get('state', ''),
+            zipcode=shipping_data.get('zipcode', ''),
+        )
 
         base_url = get_base_url()
 
@@ -114,10 +131,13 @@ def processOrder(request):
         print(f"✅ Stripe Session Created: {session.id}")
         return JsonResponse({'id': session.id})
 
+    except KeyError as e:
+        print(f"❌ ERROR: Missing Key - {str(e)}")
+        return JsonResponse({'error': f'Missing key: {str(e)}'}, status=400)
     except Exception as e:
         print(f"❌ ERROR in processOrder: {str(e)}")
         return JsonResponse({'error': str(e)}, status=500)
-
+    
 def updateItem(request):
     data = json.loads(request.body)
     productId = data.get('productId')
