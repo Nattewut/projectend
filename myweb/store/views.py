@@ -66,23 +66,12 @@ def processOrder(request):
         else:
             customer, order = guestOrder(request, data)
 
-        # ✅ ตรวจสอบว่าสั่งซื้อสินค้าหรือไม่
-        if not order.orderitem_set.exists():
-            return JsonResponse({'error': 'No items in order'}, status=400)
-
-        # ✅ ตรวจสอบ STRIPE_SECRET_KEY ก่อนใช้งาน
-        if not stripe.api_key or stripe.api_key.startswith("default"):
-            print("❌ ERROR: Stripe API Key ไม่ถูกต้อง")
-            return JsonResponse({'error': 'Stripe API Key ไม่ถูกต้อง'}, status=500)
-
-        # ✅ ตรวจสอบข้อมูลที่จำเป็นต้องมี
+        # ✅ ตรวจสอบว่ามีข้อมูลชื่อและอีเมลหรือไม่
         if "name" not in data.get("form", {}) or "email" not in data.get("form", {}):
             return JsonResponse({"error": "Missing required fields (name or email)"}, status=400)
 
-        # ✅ คำนวณยอดรวม
-        calculated_total = sum(
-            item.product.price * item.quantity for item in order.orderitem_set.all()
-        )
+        # ✅ ใช้ order.get_cart_total เพื่อให้ยอดรวมตรงกับราคาจริง
+        calculated_total = order.get_cart_total
 
         print(f"🛒 Order Total: {calculated_total}")
 
@@ -93,25 +82,11 @@ def processOrder(request):
         order.complete = True
         order.save()
 
-        # ✅ ตรวจสอบ `shipping` ก่อนใช้งาน
-        shipping_data = data.get('shipping', {})
-        if not shipping_data.get('address'):
-            return JsonResponse({'error': 'Missing shipping address'}, status=400)
-
-        ShippingAddress.objects.create(
-            customer=customer,
-            order=order,
-            address=shipping_data.get('address', ''),
-            city=shipping_data.get('city', ''),
-            state=shipping_data.get('state', ''),
-            zipcode=shipping_data.get('zipcode', ''),
-        )
-
         base_url = get_base_url()
 
-        # ✅ สร้าง Stripe Checkout Session
+        # ✅ สร้าง Stripe Checkout Session พร้อมรองรับ QR Code
         session = stripe.checkout.Session.create(
-            payment_method_types=['card'],
+            payment_method_types=['card', 'alipay', 'wechat_pay'],  # ✅ เพิ่ม Alipay & WeChat Pay
             line_items=[
                 {
                     'price_data': {
@@ -134,6 +109,9 @@ def processOrder(request):
     except KeyError as e:
         print(f"❌ ERROR: Missing Key - {str(e)}")
         return JsonResponse({'error': f'Missing key: {str(e)}'}, status=400)
+    except stripe.error.AuthenticationError:
+        print("❌ ERROR: Invalid Stripe API Key")
+        return JsonResponse({'error': 'Invalid API Key provided'}, status=500)
     except Exception as e:
         print(f"❌ ERROR in processOrder: {str(e)}")
         return JsonResponse({'error': str(e)}, status=500)

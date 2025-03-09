@@ -86,11 +86,6 @@
         // ✅ ดึงค่าจากฟอร์ม
         let name = document.querySelector("input[name='name']").value.trim();
         let email = document.querySelector("input[name='email']").value.trim();
-        let address = document.querySelector("input[name='address']").value.trim();
-        let city = document.querySelector("input[name='city']").value.trim();
-        let state = document.querySelector("input[name='state']").value.trim();
-        let zipcode = document.querySelector("input[name='zipcode']").value.trim();
-        let country = document.querySelector("input[name='country']").value.trim();
 
         // ✅ ตรวจสอบว่าชื่อและอีเมลไม่ว่าง
         if (!name || !email) {
@@ -102,13 +97,6 @@
             "form": {
                 "name": name,
                 "email": email
-            },
-            "shipping": {
-                "address": address,
-                "city": city,
-                "state": state,
-                "zipcode": zipcode,
-                "country": country
             }
         };
 
