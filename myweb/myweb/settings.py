@@ -11,10 +11,18 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from dotenv import load_dotenv  # ✅ เพิ่ม dotenv สำหรับโหลดค่าจาก .env
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+# ✅ แก้ไขให้ใช้ BASE_DIR
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# ✅ โหลดค่าจากไฟล์ .env (ถ้ามี)
+dotenv_path = os.path.join(BASE_DIR, ".env")
+if os.path.exists(dotenv_path):
+    load_dotenv(dotenv_path, override=True)  # ✅ ใช้ override=True เพื่อบังคับโหลดค่าใหม่
+    print("✅ โหลดไฟล์ .env สำเร็จ!")
+else:
+    print(f"⚠️ ไม่พบไฟล์ .env ที่ {dotenv_path} ตรวจสอบว่ามีการสร้างไฟล์แล้วหรือไม่")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -27,9 +35,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['gnat-crucial-partly.ngrok-free.app', '127.0.0.1', 'localhost']
 
-
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -71,7 +77,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'myweb.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
@@ -81,7 +86,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -100,7 +104,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
@@ -122,7 +125,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
@@ -136,11 +138,20 @@ MEDIA_URL = '/images/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
-# settings.py
+# ✅ โหลดค่า API Key จาก .env
+OPN_PUBLIC_KEY = os.getenv('OPN_PUBLIC_KEY')
+OPN_SECRET_KEY = os.getenv('OPN_SECRET_KEY')
+OPN_WEBHOOK_SECRET = os.getenv('OPN_WEBHOOK_SECRET')
 
-# ✅ กำหนดค่า STRIPE API Key ให้ปลอดภัย
-STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', 'default_public_key_here') 
-STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY', 'default_secret_key_here')
+# ✅ Debug: แสดงเฉพาะ Public Key (ซ่อน Secret Key เพื่อความปลอดภัย)
+print(f"🔍 OPN_PUBLIC_KEY: {OPN_PUBLIC_KEY}")
 
-# ✅ ตรวจสอบว่า STRIPE_SECRET_KEY ถูกโหลดหรือไม่
-print(f"🔍 STRIPE_SECRET_KEY จาก settings.py: {STRIPE_SECRET_KEY}")
+if not OPN_SECRET_KEY:
+    print("⚠️ OPN_SECRET_KEY ยังไม่ได้โหลด ตรวจสอบไฟล์ .env และรีสตาร์ทเซิร์ฟเวอร์")
+else:
+    print(f"✅ โหลด OPN_SECRET_KEY สำเร็จ!")
+
+if not OPN_WEBHOOK_SECRET:
+    print("⚠️ OPN_WEBHOOK_SECRET ยังไม่ได้โหลด ตรวจสอบไฟล์ .env")
+else:
+    print(f"✅ โหลด OPN_WEBHOOK_SECRET สำเร็จ!")

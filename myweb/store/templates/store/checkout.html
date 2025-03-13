@@ -15,27 +15,6 @@
                     </div>
                 </div>
 
-                <div id="shipping-info">
-                    <hr>
-                    <p>ข้อมูลการจัดส่ง:</p>
-                    <hr>
-                    <div class="form-field">
-                        <input class="form-control" type="text" name="address" placeholder="ที่อยู่..">
-                    </div>
-                    <div class="form-field">
-                        <input class="form-control" type="text" name="city" placeholder="เมือง..">
-                    </div>
-                    <div class="form-field">
-                        <input class="form-control" type="text" name="state" placeholder="จังหวัด..">
-                    </div>
-                    <div class="form-field">
-                        <input class="form-control" type="text" name="zipcode" placeholder="รหัสไปรษณีย์..">
-                    </div>
-                    <div class="form-field">
-                        <input class="form-control" type="text" name="country" placeholder="ประเทศ..">
-                    </div>
-                </div>
-
                 <hr>
                 <input id="form-button" class="btn btn-success btn-block" type="submit" value="ดำเนินการต่อ">
             </form>
@@ -59,35 +38,30 @@
             <h5>สินค้า:   {{order.get_cart_items}}</h5>
             <h5>รวม:   ${{order.get_cart_total|floatformat:2}}</h5>
         </div>
-        
-        <div class="box-element" id="pay-now-section" style="display:none;">
-            <button id="checkout-button" class="btn btn-success btn-block">จ่ายเงิน</button>
+
+        <!-- ✅ เปลี่ยนจากปุ่มจ่ายเงิน เป็นส่วนแสดง QR Code -->
+        <div class="box-element" id="qr-payment-section" style="display:none;">
+            <h3>สแกน QR Code เพื่อชำระเงิน</h3>
+            <img id="qr-code" src="" alt="QR Code" style="width: 300px; height: 300px;">
+            <p>หลังจากชำระเงิน ระบบจะปล่อยสินค้าให้อัตโนมัติ</p>
         </div>
     </div>
 </div>
 
-<script src="https://js.stripe.com/v3/"></script>
-<script type="text/javascript">
-    var stripe = Stripe("{{ STRIPE_PUBLIC_KEY|default:'' }}");
-
+<script>
     var form = document.getElementById('form');
+    
     form.addEventListener('submit', function(e){
         e.preventDefault();
         document.getElementById('form-wrapper').style.display = 'none';
-        document.getElementById('pay-now-section').style.display = 'block';
+        fetchQRCode();
     });
 
-    var checkoutButton = document.getElementById('checkout-button');
-    
-    checkoutButton.addEventListener('click', function () {
+    function fetchQRCode() {
         let csrfToken = "{{ csrf_token }}";
-        console.log("🔍 CSRF Token:", csrfToken);
-
-        // ✅ ดึงค่าจากฟอร์ม
         let name = document.querySelector("input[name='name']").value.trim();
         let email = document.querySelector("input[name='email']").value.trim();
 
-        // ✅ ตรวจสอบว่าชื่อและอีเมลไม่ว่าง
         if (!name || !email) {
             alert("❌ กรุณากรอกชื่อและอีเมลให้ครบถ้วน");
             return;
@@ -100,8 +74,6 @@
             }
         };
 
-        console.log("🔍 Data being sent:", orderData);
-
         fetch('/process_order/', {
             method: 'POST',
             headers: {
@@ -111,19 +83,19 @@
             body: JSON.stringify(orderData)
         })
         .then(response => response.json())
-        .then(sessionId => {
-            if (sessionId.id) {
-                return stripe.redirectToCheckout({ sessionId: sessionId.id });
+        .then(data => {
+            if (data.qr_code_url) {
+                document.getElementById("qr-code").src = data.qr_code_url;
+                document.getElementById("qr-payment-section").style.display = 'block';
             } else {
-                console.error("❌ Stripe session ID missing:", sessionId);
-                alert("เกิดข้อผิดพลาด: ไม่สามารถสร้าง session การชำระเงินได้");
+                alert("เกิดข้อผิดพลาด: ไม่สามารถสร้าง QR Code ได้");
             }
         })
         .catch(error => {
             console.error("❌ Error:", error);
             alert("เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง");
         });
-    });
+    }
 </script>
 
 {% endblock content %}

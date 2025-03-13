@@ -4,13 +4,11 @@ import json
 import datetime
 from .models import * 
 from .utils import cookieCart, cartData, guestOrder
-import stripe
+import requests
 from django.conf import settings
 import socket
 from django.views.decorators.csrf import csrf_exempt
-
-stripe.api_key = settings.STRIPE_SECRET_KEY
-print(f"✅ Stripe API Key จาก stripe: {stripe.api_key}")
+import base64
 
 def get_base_url():
     """ ใช้ฟังก์ชันนี้เพื่อกำหนด base URL ให้ถูกต้อง """
@@ -48,12 +46,13 @@ def checkout(request):
         'items': items,
         'order': order,
         'cartItems': cartItems,
-        'STRIPE_PUBLIC_KEY': settings.STRIPE_PUBLIC_KEY
+        'OPN_PUBLIC_KEY': settings.OPN_PUBLIC_KEY
     }
     return render(request, 'store/checkout.html', context)
 
 @csrf_exempt
 def processOrder(request):
+    """ ✅ เปลี่ยนจาก Stripe เป็น Opn Payments """
     try:
         transaction_id = datetime.datetime.now().timestamp()
         data = json.loads(request.body)
@@ -70,8 +69,8 @@ def processOrder(request):
         if "name" not in data.get("form", {}) or "email" not in data.get("form", {}):
             return JsonResponse({"error": "Missing required fields (name or email)"}, status=400)
 
-        # ✅ ใช้ order.get_cart_total เพื่อให้ยอดรวมตรงกับราคาจริง
-        calculated_total = order.get_cart_total
+        # ✅ คำนวณยอดรวม
+        calculated_total = sum(item.product.price * item.quantity for item in order.orderitem_set.all())
 
         print(f"🛒 Order Total: {calculated_total}")
 
@@ -79,49 +78,91 @@ def processOrder(request):
             return JsonResponse({'error': 'Invalid total amount'}, status=400)
 
         order.transaction_id = transaction_id
-        order.complete = True
+        order.complete = False  # ✅ ต้องรอให้จ่ายเงินก่อน
         order.save()
 
-        base_url = get_base_url()
+        # ✅ เรียก API ของ Opn Payments เพื่อสร้าง QR Code
+        return create_qr_payment(order)
 
-        # ✅ สร้าง Stripe Checkout Session พร้อมรองรับ QR Code
-        session = stripe.checkout.Session.create(
-            payment_method_types=['card', 'alipay', 'wechat_pay'],  # ✅ เพิ่ม Alipay & WeChat Pay
-            line_items=[
-                {
-                    'price_data': {
-                        'currency': 'usd',
-                        'product_data': {'name': item.product.name},
-                        'unit_amount': int(item.product.price * 100),
-                    },
-                    'quantity': item.quantity,
-                }
-                for item in order.orderitem_set.all()
-            ],
-            mode='payment',
-            success_url=f"{base_url}/success/",
-            cancel_url=f"{base_url}/cancel/",
-        )
-
-        print(f"✅ Stripe Session Created: {session.id}")
-        return JsonResponse({'id': session.id})
-
-    except KeyError as e:
-        print(f"❌ ERROR: Missing Key - {str(e)}")
-        return JsonResponse({'error': f'Missing key: {str(e)}'}, status=400)
-    except stripe.error.AuthenticationError:
-        print("❌ ERROR: Invalid Stripe API Key")
-        return JsonResponse({'error': 'Invalid API Key provided'}, status=500)
     except Exception as e:
         print(f"❌ ERROR in processOrder: {str(e)}")
         return JsonResponse({'error': str(e)}, status=500)
+
+def create_qr_payment(order):
+    """ ✅ สร้าง QR Code ของ Opn Payments พร้อม Debug """
+    try:
+        amount = int(order.get_cart_total * 100)  # แปลงเป็นสตางค์ (หน่วยของ Opn)
+        base_url = get_base_url()  # ✅ ใช้ URL ที่ถูกต้อง
+
+        url = "https://api.omise.co/charges"
+
+        # ✅ แปลง Authorization เป็น Base64 (Opn ใช้ Basic Auth)
+        secret_key = settings.OPN_SECRET_KEY
+        auth_token = base64.b64encode(f"{secret_key}:".encode()).decode()
+
+        headers = {
+            "Authorization": f"Basic {auth_token}",
+            "Content-Type": "application/json"
+        }
+        payload = {
+            "amount": amount,
+            "currency": "thb",
+            "source": {
+                "type": "promptpay"
+            },
+            "description": f"Order {order.id}",
+            "return_uri": f"{base_url}/payment_success/{order.id}/"
+        }
+
+        print(f"🔍 ส่งข้อมูลไปที่ Opn API: {payload}")
+        print(f"🔍 Headers: {headers}")
+
+        response = requests.post(url, json=payload, headers=headers)
+        data = response.json()
+
+        print(f"🔍 ตอบกลับจาก Opn API: {data}")
+
+        if "source" in data and "scannable_code" in data["source"]:
+            qr_code_url = data["source"]["scannable_code"]["image"]["download_uri"]
+            return JsonResponse({"qr_code_url": qr_code_url, "order_id": order.id})
+        else:
+            return JsonResponse({"error": "ไม่สามารถสร้าง QR Code ได้"}, status=400)
+
+    except Exception as e:
+        print(f"❌ ERROR ใน create_qr_payment: {str(e)}")
+        return JsonResponse({"error": str(e)}, status=500)
+
+@csrf_exempt
+def opn_webhook(request):
+    """ ✅ ตรวจสอบสถานะการชำระเงินจาก Opn Payments """
+    try:
+        data = json.loads(request.body)
+        event = data.get("event")
+        charge_id = data.get("data", {}).get("id")
+        status = data.get("data", {}).get("status")
+
+        if event == "charge.complete" and status == "successful":
+            order_id = data.get("data", {}).get("description").replace("Order ", "")
+            order = Order.objects.get(id=order_id)
+            order.complete = True
+            order.save()
+
+            # ✅ สั่ง Raspberry Pi ให้ปล่อยสินค้า
+            send_dispense_command(order_id)
+
+            return JsonResponse({"message": "Payment verified, order updated."})
+        else:
+            return JsonResponse({"error": "Payment not successful"}, status=400)
     
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
+
 def updateItem(request):
     data = json.loads(request.body)
     productId = data.get('productId')
     action = data.get('action')
     
-    print(f"✅ Action: {action}, Product: {productId}")  # Debugging log
+    print(f"✅ Action: {action}, Product: {productId}")
 
     customer = request.user.customer
     product = Product.objects.get(id=productId)
