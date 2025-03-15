@@ -160,4 +160,4 @@ def success(request):
     return render(request, 'success.html')  
 
 def cancel(request):
-    return render(request, 'cancel.html')    แก้ไขให้ฉันและส่งมา
+    return render(request, 'cancel.html')   
