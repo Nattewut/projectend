@@ -14,7 +14,6 @@
                         <input required class="form-control" type="email" name="email" placeholder="อีเมล..">
                     </div>
                 </div>
-
                 <hr>
                 <input id="form-button" class="btn btn-success btn-block" type="submit" value="ดำเนินการต่อ">
             </form>
@@ -39,11 +38,34 @@
             <h5>รวม:   ${{order.get_cart_total|floatformat:2}}</h5>
         </div>
 
-        <!-- ✅ เปลี่ยนจากปุ่มจ่ายเงิน เป็นส่วนแสดง QR Code -->
-        <div class="box-element" id="qr-payment-section" style="display:none;">
+        <!-- ✅ ปรับ UI ของ QR Code Section -->
+        <div class="box-element text-center" id="qr-payment-section" style="display:none;">
             <h3>สแกน QR Code เพื่อชำระเงิน</h3>
-            <img id="qr-code" src="" alt="QR Code" style="width: 300px; height: 300px;">
-            <p>หลังจากชำระเงิน ระบบจะปล่อยสินค้าให้อัตโนมัติ</p>
+
+            <!-- ✅ ปรับปุ่ม Thai QR Payment -->
+            <div>
+                <button class="btn btn-primary promptpay-btn">
+                    <img src="{% static 'images/promptpay_logo.png' %}" alt="Thai QR Payment">
+                </button>
+            </div>
+
+            <!-- ✅ จัดตำแหน่ง QR Code ให้อยู่ตรงกลาง -->
+            <div class="d-flex justify-content-center">
+                <img id="qr-code" src="" alt="QR Code">
+            </div>
+
+            <h2 class="payment-amount">กรุณาชำระเงิน... <br><span id="payment-amount"></span> บาท</h2>
+
+            <p class="payment-warning">
+                <strong>⚠ โปรดโอนเงินให้ตรงจำนวน</strong><br>
+                หากโอนไม่ตรง ระบบอาจไม่ตรวจสอบรายการของคุณ
+            </p>
+
+            <div class="loading-bar">
+                <div class="progress"></div>
+            </div>
+
+            <button class="btn btn-danger cancel-btn">ยกเลิกรายการ</button>
         </div>
     </div>
 </div>
@@ -87,6 +109,9 @@
             if (data.qr_code_url) {
                 document.getElementById("qr-code").src = data.qr_code_url;
                 document.getElementById("qr-payment-section").style.display = 'block';
+
+                let amount = "{{ order.get_cart_total|floatformat:2 }}";
+                document.getElementById("payment-amount").innerText = amount;
             } else {
                 alert("เกิดข้อผิดพลาด: ไม่สามารถสร้าง QR Code ได้");
             }
