@@ -35,7 +35,7 @@
             </div>
             {% endfor %}
             <h5>สินค้า:   {{order.get_cart_items}}</h5>
-            <h5>รวม:   ${{order.get_cart_total|floatformat:2}}</h5>
+            <h5>รวม:   <span id="total-amount">{{ order.get_cart_total|floatformat:2 }}</span> บาท</h5>
         </div>
     </div>
 </div>
@@ -107,7 +107,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     form.addEventListener("submit", function(e) {
         e.preventDefault();
-        modal.style.display = "flex";
         fetchQRCode();
     });
 
@@ -115,17 +114,15 @@ document.addEventListener("DOMContentLoaded", function() {
         let csrfToken = "{{ csrf_token }}";
         let name = document.querySelector("input[name='name']").value.trim();
         let email = document.querySelector("input[name='email']").value.trim();
-        let totalAmount = parseFloat("{{ order.get_cart_total|floatformat:2 }}");
+        let totalAmount = parseFloat(document.getElementById("total-amount").textContent);
 
         if (!name || !email) {
             alert("❌ กรุณากรอกชื่อและอีเมลให้ครบถ้วน");
-            modal.style.display = "none";
             return;
         }
 
-        if (totalAmount < 5) {
-            alert("❌ ยอดเงินต้องไม่น้อยกว่า 5 บาท");
-            modal.style.display = "none";
+        if (totalAmount < 4) {
+            alert("❌ ยอดเงินต้องไม่น้อยกว่า 4 บาท");
             return;
         }
 
@@ -149,15 +146,14 @@ document.addEventListener("DOMContentLoaded", function() {
             if (data.qr_code_url) {
                 qrImage.src = data.qr_code_url;
                 paymentAmount.textContent = data.amount + " บาท";
+                modal.style.display = "flex";
             } else {
                 alert("เกิดข้อผิดพลาด: " + data.error);
-                modal.style.display = "none";
             }
         })
         .catch(error => {
             console.error("❌ Error:", error);
             alert("เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง");
-            modal.style.display = "none";
         });
     }
 
