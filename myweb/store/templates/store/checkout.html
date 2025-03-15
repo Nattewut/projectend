@@ -97,82 +97,78 @@
 </style>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    var modal = document.getElementById("qrModal");
-    var closeBtn = document.getElementById("closeModal");
-    var spanClose = document.querySelector(".close");
-    var qrImage = document.getElementById("qr-code");
-    var paymentAmount = document.getElementById("payment-amount");
-    var form = document.getElementById("form");
-
-    form.addEventListener("submit", function(e) {
-        e.preventDefault();
-        modal.style.display = "flex";
-        fetchQRCode();
-    });
-
-    function fetchQRCode() {
-        let csrfToken = "{{ csrf_token }}";
-        let name = document.querySelector("input[name='name']").value.trim();
-        let email = document.querySelector("input[name='email']").value.trim();
-        let totalAmount = parseFloat("{{ order.get_cart_total|floatformat:2 }}");
-
-        if (!name || !email) {
-            alert("❌ กรุณากรอกชื่อและอีเมลให้ครบถ้วน");
-            modal.style.display = "none";
-            return;
-        }
-
-        if (totalAmount < 5) {
-            alert("❌ ยอดเงินต้องไม่น้อยกว่า 5 บาท");
-            modal.style.display = "none";
-            return;
-        }
-
-        let orderData = {
-            "form": {
-                "name": name,
-                "email": email
+    document.addEventListener("DOMContentLoaded", function() {
+        var modal = document.getElementById("qrModal");
+        var closeBtn = document.getElementById("closeModal");
+        var spanClose = document.querySelector(".close");
+        var qrImage = document.getElementById("qr-code");
+        var paymentAmount = document.getElementById("payment-amount");
+        var form = document.getElementById("form");
+    
+        form.addEventListener("submit", function(e) {
+            e.preventDefault();
+            fetchQRCode();
+        });
+    
+        function fetchQRCode() {
+            let csrfToken = "{{ csrf_token }}";
+            let name = document.querySelector("input[name='name']").value.trim();
+            let email = document.querySelector("input[name='email']").value.trim();
+            let totalAmount = parseFloat("{{ order.get_cart_total|floatformat:2 }}");
+    
+            if (!name || !email) {
+                alert("❌ กรุณากรอกชื่อและอีเมลให้ครบถ้วน");
+                return;
             }
+    
+            if (totalAmount <= 0) {
+                alert("❌ กรุณาเพิ่มสินค้าลงในตะกร้า");
+                return;
+            }
+    
+            let orderData = {
+                "form": {
+                    "name": name,
+                    "email": email
+                }
+            };
+    
+            fetch('/process_order/', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrfToken
+                },
+                body: JSON.stringify(orderData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.qr_code_url) {
+                    qrImage.src = data.qr_code_url;
+                    paymentAmount.textContent = data.amount + " บาท";
+                    modal.style.display = "flex";
+                } else {
+                    alert("เกิดข้อผิดพลาด: " + data.error);
+                }
+            })
+            .catch(error => {
+                console.error("❌ Error:", error);
+                alert("เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง");
+            });
+        }
+    
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
         };
-
-        fetch('/process_order/', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRFToken": csrfToken
-            },
-            body: JSON.stringify(orderData)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.qr_code_url) {
-                qrImage.src = data.qr_code_url;
-                paymentAmount.textContent = data.amount + " บาท";
-            } else {
-                alert("เกิดข้อผิดพลาด: " + data.error);
+        spanClose.onclick = function() {
+            modal.style.display = "none";
+        };
+        window.onclick = function(event) {
+            if (event.target == modal) {
                 modal.style.display = "none";
             }
-        })
-        .catch(error => {
-            console.error("❌ Error:", error);
-            alert("เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง");
-            modal.style.display = "none";
-        });
-    }
-
-    closeBtn.onclick = function() {
-        modal.style.display = "none";
-    };
-    spanClose.onclick = function() {
-        modal.style.display = "none";
-    };
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    };
-});
-</script>
-
+        };
+    });
+    </script>
+    
 {% endblock content %} 

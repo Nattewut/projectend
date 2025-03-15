@@ -6,9 +6,8 @@ from .models import *
 from .utils import cookieCart, cartData, guestOrder
 import requests
 from django.conf import settings
-import socket
-from django.views.decorators.csrf import csrf_exempt
 import base64
+from django.views.decorators.csrf import csrf_exempt
 
 def get_base_url():
     """ ใช้ฟังก์ชันนี้เพื่อกำหนด base URL ให้ถูกต้อง """
@@ -63,8 +62,9 @@ def processOrder(request):
         calculated_total = sum(item.product.price * item.quantity for item in order.orderitem_set.all())
         print(f"🛒 Order Total: {calculated_total}")
 
-        if calculated_total < 5:
-            return JsonResponse({'error': 'Minimum order amount is 5 THB'}, status=400)
+        # ✅ อนุญาตให้ QR Code ถูกสร้างได้ทุกยอดเงินที่มากกว่า 0 บาท
+        if calculated_total <= 0:
+            return JsonResponse({'error': 'Invalid total amount'}, status=400)
 
         order.transaction_id = transaction_id
         order.complete = False
@@ -160,4 +160,4 @@ def success(request):
     return render(request, 'success.html')  
 
 def cancel(request):
-    return render(request, 'cancel.html')   
+    return render(request, 'cancel.html')
