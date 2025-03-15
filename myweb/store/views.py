@@ -12,9 +12,6 @@ import base64
 
 def get_base_url():
     """ ใช้ฟังก์ชันนี้เพื่อกำหนด base URL ให้ถูกต้อง """
-    hostname = socket.gethostname()
-    if "localhost" in hostname or "127.0.0.1" in hostname:
-        return "http://127.0.0.1:8000"
     return "https://gnat-crucial-partly.ngrok-free.app"
 
 def store(request):
@@ -22,7 +19,6 @@ def store(request):
     cartItems = data['cartItems']
     order = data['order']
     items = data['items']
-
     products = Product.objects.all()
     context = {'products': products, 'cartItems': cartItems}
     return render(request, 'store/store.html', context)
@@ -32,7 +28,6 @@ def cart(request):
     cartItems = data['cartItems']
     order = data['order']
     items = data['items']
-
     context = {'items': items, 'order': order, 'cartItems': cartItems}
     return render(request, 'store/cart.html', context)
 
@@ -41,7 +36,6 @@ def checkout(request):
     cartItems = data['cartItems']
     order = data['order']
     items = data['items']
-
     context = {
         'items': items,
         'order': order,
@@ -52,11 +46,9 @@ def checkout(request):
 
 @csrf_exempt
 def processOrder(request):
-    """ ✅ เปลี่ยนจาก Stripe เป็น Opn Payments """
     try:
         transaction_id = datetime.datetime.now().timestamp()
         data = json.loads(request.body)
-
         print("✅ รับข้อมูลจาก Checkout:", data)
 
         if request.user.is_authenticated:
@@ -65,38 +57,30 @@ def processOrder(request):
         else:
             customer, order = guestOrder(request, data)
 
-        # ✅ ตรวจสอบว่ามีข้อมูลชื่อและอีเมลหรือไม่
         if "name" not in data.get("form", {}) or "email" not in data.get("form", {}):
             return JsonResponse({"error": "Missing required fields (name or email)"}, status=400)
 
-        # ✅ คำนวณยอดรวม
         calculated_total = sum(item.product.price * item.quantity for item in order.orderitem_set.all())
-
         print(f"🛒 Order Total: {calculated_total}")
 
-        if calculated_total <= 0:
-            return JsonResponse({'error': 'Invalid total amount'}, status=400)
+        if calculated_total < 5:
+            return JsonResponse({'error': 'Minimum order amount is 5 THB'}, status=400)
 
         order.transaction_id = transaction_id
-        order.complete = False  # ✅ ต้องรอให้จ่ายเงินก่อน
+        order.complete = False
         order.save()
 
-        # ✅ เรียก API ของ Opn Payments เพื่อสร้าง QR Code
         return create_qr_payment(order)
-
     except Exception as e:
         print(f"❌ ERROR in processOrder: {str(e)}")
         return JsonResponse({'error': str(e)}, status=500)
 
 def create_qr_payment(order):
-    """ ✅ สร้าง QR Code ของ Opn Payments พร้อม Debug """
     try:
-        amount = int(order.get_cart_total * 100)  # แปลงเป็นสตางค์ (หน่วยของ Opn)
-        base_url = get_base_url()  # ✅ ใช้ URL ที่ถูกต้อง
-
+        amount = int(order.get_cart_total * 100)
+        base_url = get_base_url()
         url = "https://api.omise.co/charges"
 
-        # ✅ แปลง Authorization เป็น Base64 (Opn ใช้ Basic Auth)
         secret_key = settings.OPN_SECRET_KEY
         auth_token = base64.b64encode(f"{secret_key}:".encode()).decode()
 
@@ -107,27 +91,21 @@ def create_qr_payment(order):
         payload = {
             "amount": amount,
             "currency": "thb",
-            "source": {
-                "type": "promptpay"
-            },
+            "source": {"type": "promptpay"},
             "description": f"Order {order.id}",
             "return_uri": f"{base_url}/payment_success/{order.id}/"
         }
 
         print(f"🔍 ส่งข้อมูลไปที่ Opn API: {payload}")
-        print(f"🔍 Headers: {headers}")
-
         response = requests.post(url, json=payload, headers=headers)
         data = response.json()
-
         print(f"🔍 ตอบกลับจาก Opn API: {data}")
 
         if "source" in data and "scannable_code" in data["source"]:
             qr_code_url = data["source"]["scannable_code"]["image"]["download_uri"]
-            return JsonResponse({"qr_code_url": qr_code_url, "order_id": order.id})
+            return JsonResponse({"qr_code_url": qr_code_url, "order_id": order.id, "amount": order.get_cart_total})
         else:
             return JsonResponse({"error": "ไม่สามารถสร้าง QR Code ได้"}, status=400)
-
     except Exception as e:
         print(f"❌ ERROR ใน create_qr_payment: {str(e)}")
         return JsonResponse({"error": str(e)}, status=500)
@@ -147,13 +125,9 @@ def opn_webhook(request):
             order.complete = True
             order.save()
 
-            # ✅ สั่ง Raspberry Pi ให้ปล่อยสินค้า
-            send_dispense_command(order_id)
-
             return JsonResponse({"message": "Payment verified, order updated."})
         else:
             return JsonResponse({"error": "Payment not successful"}, status=400)
-    
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
 

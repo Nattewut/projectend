@@ -115,9 +115,16 @@ document.addEventListener("DOMContentLoaded", function() {
         let csrfToken = "{{ csrf_token }}";
         let name = document.querySelector("input[name='name']").value.trim();
         let email = document.querySelector("input[name='email']").value.trim();
+        let totalAmount = parseFloat("{{ order.get_cart_total|floatformat:2 }}");
 
         if (!name || !email) {
             alert("❌ กรุณากรอกชื่อและอีเมลให้ครบถ้วน");
+            modal.style.display = "none";
+            return;
+        }
+
+        if (totalAmount < 5) {
+            alert("❌ ยอดเงินต้องไม่น้อยกว่า 5 บาท");
             modal.style.display = "none";
             return;
         }
@@ -141,9 +148,9 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(data => {
             if (data.qr_code_url) {
                 qrImage.src = data.qr_code_url;
-                paymentAmount.textContent = data.amount;
+                paymentAmount.textContent = data.amount + " บาท";
             } else {
-                alert("เกิดข้อผิดพลาด: ไม่สามารถสร้าง QR Code ได้");
+                alert("เกิดข้อผิดพลาด: " + data.error);
                 modal.style.display = "none";
             }
         })
@@ -154,7 +161,6 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // ปิด Modal
     closeBtn.onclick = function() {
         modal.style.display = "none";
     };
@@ -170,3 +176,4 @@ document.addEventListener("DOMContentLoaded", function() {
 </script>
 
 {% endblock content %}
+
