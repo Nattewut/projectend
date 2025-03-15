@@ -37,13 +37,6 @@
             <h5>สินค้า:   {{order.get_cart_items}}</h5>
             <h5>รวม:   ${{order.get_cart_total|floatformat:2}}</h5>
         </div>
-
-        <!-- ✅ ปุ่มสำหรับเปิด Modal QR Code -->
-        <div class="text-center">
-            <button id="show-qr-modal" class="btn btn-primary">
-                <img src="{% static 'images/promptpay_logo.png' %}" alt="Thai QR Payment"> ชำระเงินด้วย QR Code
-            </button>
-        </div>
     </div>
 </div>
 
@@ -97,7 +90,7 @@
 .payment-warning {
     color: red;
     font-weight: bold;
-    background: #ffecec;
+    background: #ffe6e6;
     padding: 10px;
     border-radius: 5px;
 }
@@ -110,19 +103,29 @@ document.addEventListener("DOMContentLoaded", function() {
     var spanClose = document.querySelector(".close");
     var qrImage = document.getElementById("qr-code");
     var paymentAmount = document.getElementById("payment-amount");
-    var showQrModal = document.getElementById("show-qr-modal");
+    var form = document.getElementById("form");
 
-    showQrModal.addEventListener("click", function() {
+    form.addEventListener("submit", function(e) {
+        e.preventDefault();
         modal.style.display = "flex";
         fetchQRCode();
     });
 
     function fetchQRCode() {
         let csrfToken = "{{ csrf_token }}";
+        let name = document.querySelector("input[name='name']").value.trim();
+        let email = document.querySelector("input[name='email']").value.trim();
+
+        if (!name || !email) {
+            alert("❌ กรุณากรอกชื่อและอีเมลให้ครบถ้วน");
+            modal.style.display = "none";
+            return;
+        }
+
         let orderData = {
             "form": {
-                "name": document.querySelector("input[name='name']").value,
-                "email": document.querySelector("input[name='email']").value
+                "name": name,
+                "email": email
             }
         };
 
@@ -140,11 +143,14 @@ document.addEventListener("DOMContentLoaded", function() {
                 qrImage.src = data.qr_code_url;
                 paymentAmount.textContent = data.amount;
             } else {
-                alert("เกิดข้อผิดพลาด ไม่สามารถสร้าง QR Code ได้");
+                alert("เกิดข้อผิดพลาด: ไม่สามารถสร้าง QR Code ได้");
+                modal.style.display = "none";
             }
         })
         .catch(error => {
             console.error("❌ Error:", error);
+            alert("เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง");
+            modal.style.display = "none";
         });
     }
 
