@@ -6,6 +6,7 @@ from .models import *
 from .utils import cookieCart, cartData, guestOrder
 import requests
 from django.conf import settings
+import socket
 from django.views.decorators.csrf import csrf_exempt
 import base64
 
@@ -62,22 +63,21 @@ def processOrder(request):
         calculated_total = sum(item.product.price * item.quantity for item in order.orderitem_set.all())
         print(f"🛒 Order Total: {calculated_total}")
 
-        # ✅ เปลี่ยนขั้นต่ำเป็น 4 บาท
-        if calculated_total < 4:
-            return JsonResponse({'error': 'Minimum order amount is 4 THB'}, status=400)
+        if calculated_total < 5:
+            return JsonResponse({'error': 'Minimum order amount is 5 THB'}, status=400)
 
         order.transaction_id = transaction_id
         order.complete = False
         order.save()
 
-        return create_qr_payment(order, calculated_total)
+        return create_qr_payment(order)
     except Exception as e:
         print(f"❌ ERROR in processOrder: {str(e)}")
         return JsonResponse({'error': str(e)}, status=500)
 
-def create_qr_payment(order, calculated_total):
+def create_qr_payment(order):
     try:
-        amount = int(calculated_total * 100)
+        amount = int(order.get_cart_total * 100)
         base_url = get_base_url()
         url = "https://api.omise.co/charges"
 
@@ -103,7 +103,7 @@ def create_qr_payment(order, calculated_total):
 
         if "source" in data and "scannable_code" in data["source"]:
             qr_code_url = data["source"]["scannable_code"]["image"]["download_uri"]
-            return JsonResponse({"qr_code_url": qr_code_url, "amount": calculated_total})
+            return JsonResponse({"qr_code_url": qr_code_url, "order_id": order.id, "amount": order.get_cart_total})
         else:
             return JsonResponse({"error": "ไม่สามารถสร้าง QR Code ได้"}, status=400)
     except Exception as e:
@@ -160,4 +160,4 @@ def success(request):
     return render(request, 'success.html')  
 
 def cancel(request):
-    return render(request, 'cancel.html')
+    return render(request, 'cancel.html')    แก้ไขให้ฉันและส่งมา
