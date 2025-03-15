@@ -38,61 +38,91 @@
             <h5>รวม:   ${{order.get_cart_total|floatformat:2}}</h5>
         </div>
 
-        <!-- ✅ ปรับ UI ของ QR Code Section -->
-        <div class="box-element text-center" id="qr-payment-section" style="display:none;">
-            <h3>สแกน QR Code เพื่อชำระเงิน</h3>
-
-            <!-- ✅ ปรับปุ่ม Thai QR Payment -->
-            <div>
-                <button class="btn btn-primary promptpay-btn">
-                    <img src="{% static 'images/promptpay_logo.png' %}" alt="Thai QR Payment">
-                </button>
-            </div>
-
-            <!-- ✅ จัดตำแหน่ง QR Code ให้อยู่ตรงกลาง -->
-            <div class="d-flex justify-content-center">
-                <img id="qr-code" src="" alt="QR Code">
-            </div>
-
-            <h2 class="payment-amount">กรุณาชำระเงิน... <br><span id="payment-amount"></span> บาท</h2>
-
-            <p class="payment-warning">
-                <strong>⚠ โปรดโอนเงินให้ตรงจำนวน</strong><br>
-                หากโอนไม่ตรง ระบบอาจไม่ตรวจสอบรายการของคุณ
-            </p>
-
-            <div class="loading-bar">
-                <div class="progress"></div>
-            </div>
-
-            <button class="btn btn-danger cancel-btn">ยกเลิกรายการ</button>
+        <!-- ✅ ปุ่มสำหรับเปิด Modal QR Code -->
+        <div class="text-center">
+            <button id="show-qr-modal" class="btn btn-primary">
+                <img src="{% static 'images/promptpay_logo.png' %}" alt="Thai QR Payment"> ชำระเงินด้วย QR Code
+            </button>
         </div>
     </div>
 </div>
 
+<!-- ✅ Modal สำหรับ QR Code -->
+<div id="qrModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>สแกน QR Code เพื่อชำระเงิน</h3>
+        <img id="qr-code" src="" alt="QR Code">
+        <h2 class="payment-amount">กรุณาชำระเงิน... <br><span id="payment-amount"></span> บาท</h2>
+        <p class="payment-warning">
+            ⚠ โปรดโอนเงินให้ตรงจำนวน มิฉะนั้นระบบจะไม่ตรวจสอบรายการของคุณ
+        </p>
+        <button id="closeModal" class="btn btn-danger">ยกเลิกรายการ</button>
+    </div>
+</div>
+
+<style>
+/* ✅ ปรับสไตล์ Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 400px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.payment-warning {
+    color: red;
+    font-weight: bold;
+    background: #ffecec;
+    padding: 10px;
+    border-radius: 5px;
+}
+</style>
+
 <script>
-    var form = document.getElementById('form');
-    
-    form.addEventListener('submit', function(e){
-        e.preventDefault();
-        document.getElementById('form-wrapper').style.display = 'none';
+document.addEventListener("DOMContentLoaded", function() {
+    var modal = document.getElementById("qrModal");
+    var closeBtn = document.getElementById("closeModal");
+    var spanClose = document.querySelector(".close");
+    var qrImage = document.getElementById("qr-code");
+    var paymentAmount = document.getElementById("payment-amount");
+    var showQrModal = document.getElementById("show-qr-modal");
+
+    showQrModal.addEventListener("click", function() {
+        modal.style.display = "flex";
         fetchQRCode();
     });
 
     function fetchQRCode() {
         let csrfToken = "{{ csrf_token }}";
-        let name = document.querySelector("input[name='name']").value.trim();
-        let email = document.querySelector("input[name='email']").value.trim();
-
-        if (!name || !email) {
-            alert("❌ กรุณากรอกชื่อและอีเมลให้ครบถ้วน");
-            return;
-        }
-
         let orderData = {
             "form": {
-                "name": name,
-                "email": email
+                "name": document.querySelector("input[name='name']").value,
+                "email": document.querySelector("input[name='email']").value
             }
         };
 
@@ -107,20 +137,30 @@
         .then(response => response.json())
         .then(data => {
             if (data.qr_code_url) {
-                document.getElementById("qr-code").src = data.qr_code_url;
-                document.getElementById("qr-payment-section").style.display = 'block';
-
-                let amount = "{{ order.get_cart_total|floatformat:2 }}";
-                document.getElementById("payment-amount").innerText = amount;
+                qrImage.src = data.qr_code_url;
+                paymentAmount.textContent = data.amount;
             } else {
-                alert("เกิดข้อผิดพลาด: ไม่สามารถสร้าง QR Code ได้");
+                alert("เกิดข้อผิดพลาด ไม่สามารถสร้าง QR Code ได้");
             }
         })
         .catch(error => {
             console.error("❌ Error:", error);
-            alert("เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง");
         });
     }
+
+    // ปิด Modal
+    closeBtn.onclick = function() {
+        modal.style.display = "none";
+    };
+    spanClose.onclick = function() {
+        modal.style.display = "none";
+    };
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    };
+});
 </script>
 
 {% endblock content %}
