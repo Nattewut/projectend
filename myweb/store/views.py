@@ -116,10 +116,12 @@ def opn_webhook(request):
     try:
         data = json.loads(request.body)
         event = data.get("event")
-        charge_id = data.get("data", {}).get("id")
+        charge_id = data.get("data", {}).get("id")  # ใช้ charge_id
         status = data.get("data", {}).get("status")
 
+        # ตรวจสอบ event และ status จาก Opn
         if event == "charge.complete" and status == "successful":
+            # ใช้ charge_id แทนการใช้ description สำหรับจับคู่คำสั่งซื้อ
             order_id = data.get("data", {}).get("description").replace("Order ", "")
             order = Order.objects.get(id=order_id)
             order.complete = True
