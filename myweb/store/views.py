@@ -114,7 +114,9 @@ def create_qr_payment(order):
 def opn_webhook(request):
     """ ✅ ตรวจสอบสถานะการชำระเงินจาก Opn Payments """
     try:
-        data = json.loads(request.body)
+        data = json.loads(request.body)  # แปลงข้อมูลจาก JSON
+        print(f"Received Webhook Data: {data}")  # ตรวจสอบข้อมูลที่ได้รับจาก Opn
+
         event = data.get("event")
         charge_id = data.get("data", {}).get("id")  # ใช้ charge_id
         status = data.get("data", {}).get("status")
@@ -122,16 +124,19 @@ def opn_webhook(request):
         # ตรวจสอบ event และ status จาก Opn
         if event == "charge.complete" and status == "successful":
             # ใช้ charge_id แทนการใช้ description สำหรับจับคู่คำสั่งซื้อ
-            order_id = data.get("data", {}).get("description").replace("Order ", "")
-            order = Order.objects.get(id=order_id)
+            order = Order.objects.get(charge_id=charge_id)  # ใช้ charge_id ในการค้นหาคำสั่งซื้อ
             order.complete = True
             order.save()
 
             return JsonResponse({"message": "Payment verified, order updated."})
         else:
             return JsonResponse({"error": "Payment not successful"}, status=400)
+    except Order.DoesNotExist:
+        # กรณีที่ไม่พบคำสั่งซื้อจาก charge_id
+        return JsonResponse({"error": "Order not found"}, status=404)
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
+
 
 def updateItem(request):
     data = json.loads(request.body)
