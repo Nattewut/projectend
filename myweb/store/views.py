@@ -121,24 +121,27 @@ def opn_webhook(request):
         charge_id = data.get("data", {}).get("id")  # ใช้ charge_id
         status = data.get("data", {}).get("status")
 
-        # ตรวจสอบ event และ status จาก Omise
+        # ตรวจสอบ event และ status จาก Opn
         # กรณีจำลอง (ใช้กรณีนี้ในการทดสอบ)
-        if event == "charge.complete" and status == "successful":
+        if event == "charge.create" and status == "successful":  # ใช้ event ที่ถูกต้องตามที่ทดสอบ
             # ใช้ charge_id แทนการใช้ description สำหรับจับคู่คำสั่งซื้อ
             order = Order.objects.get(charge_id=charge_id)  # ใช้ charge_id ในการค้นหาคำสั่งซื้อ
-            order.complete = True
+            order.complete = True  # อัปเดตสถานะคำสั่งซื้อ
             order.save()
 
             return JsonResponse({"message": "Payment verified, order updated."})
-        # # กรณีใช้จริง (โค้ดใช้จริง) -> ตรงนี้จะใช้เมื่อเชื่อมต่อกับระบบ Omise จริง
-        # if event == "charge.complete" and status == "successful":
-        #     order = Order.objects.get(charge_id=charge_id)  # ใช้ charge_id ในการค้นหาคำสั่งซื้อ
-        #     order.complete = True
-        #     order.save()
 
-        #     return JsonResponse({"message": "Payment verified, order updated."})
+        # กรณีใช้จริง (โค้ดใช้จริง) -> ตรงนี้จะใช้เมื่อเชื่อมต่อกับระบบ Omise จริง
+        #if event == "charge.complete" and status == "successful":
+        #    order = Order.objects.get(charge_id=charge_id)  # ใช้ charge_id ในการค้นหาคำสั่งซื้อ
+        #   order.complete = True  # เปลี่ยนสถานะคำสั่งซื้อ
+        #    order.save()
+
+        #    return JsonResponse({"message": "Payment verified, order updated."})
+
         else:
             return JsonResponse({"error": "Payment not successful"}, status=400)
+    
     except Order.DoesNotExist:
         # กรณีที่ไม่พบคำสั่งซื้อจาก charge_id
         return JsonResponse({"error": "Order not found"}, status=404)
