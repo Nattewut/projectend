@@ -78,6 +78,7 @@ def processOrder(request):
         return JsonResponse({'error': str(e)}, status=500)
 
 # เช็คว่าโค้ดอยู่ใน Test Mode หรือ Live Mode
+# ตรวจสอบว่าโค้ดอยู่ใน Test Mode หรือ Live Mode
 MODE = os.getenv('MODE', 'TEST')
 
 def create_qr_payment(order):
@@ -109,7 +110,6 @@ def create_qr_payment(order):
 
         # ถ้าอยู่ใน Test Mode, จำลองการชำระเงินสำเร็จ
         if MODE == 'TEST':
-            # จำลองสถานะการชำระเงินสำเร็จ
             if "source" not in data:
                 data = {
                     "source": {
@@ -122,14 +122,20 @@ def create_qr_payment(order):
                 }
                 print("🔍 จำลองสถานะการชำระเงินสำเร็จ")
 
+        # ทำงานใน Live Mode
         if "source" in data and "scannable_code" in data["source"]:
             qr_code_url = data["source"]["scannable_code"]["image"]["download_uri"]
             
             # แสดงข้อความ "ชำระเงินสำเร็จ" ใน Test Mode
             if MODE == 'TEST':
-                return JsonResponse({"message": "ชำระเงินสำเร็จ", "qr_code_url": qr_code_url, "order_id": order.id, "amount": order.get_cart_total})
-
+                return JsonResponse({
+                    "message": "ชำระเงินสำเร็จ",
+                    "qr_code_url": qr_code_url,
+                    "order_id": order.id,
+                    "amount": order.get_cart_total
+                })
             return JsonResponse({"qr_code_url": qr_code_url, "order_id": order.id, "amount": order.get_cart_total})
+
         else:
             return JsonResponse({"error": "ไม่สามารถสร้าง QR Code ได้"}, status=400)
 
