@@ -8,6 +8,8 @@ import requests
 from django.conf import settings
 import base64
 from django.views.decorators.csrf import csrf_exempt
+import os
+from .models import Order
 
 def get_base_url():
     """ ใช้ฟังก์ชันนี้เพื่อกำหนด base URL ให้ถูกต้อง """
@@ -75,9 +77,12 @@ def processOrder(request):
         print(f"❌ ERROR in processOrder: {str(e)}")
         return JsonResponse({'error': str(e)}, status=500)
 
+# เช็คว่าโค้ดอยู่ใน Test Mode หรือ Live Mode
+MODE = os.getenv('MODE', 'TEST')
+
 def create_qr_payment(order):
     try:
-        amount = int(order.get_cart_total * 100)
+        amount = int(order.get_cart_total * 100)  # จำนวนเงินที่ต้องการในสตางค์
         base_url = get_base_url()
         url = "https://api.omise.co/charges"
 
@@ -88,6 +93,7 @@ def create_qr_payment(order):
             "Authorization": f"Basic {auth_token}",
             "Content-Type": "application/json"
         }
+
         payload = {
             "amount": amount,
             "currency": "thb",
@@ -96,26 +102,44 @@ def create_qr_payment(order):
             "return_uri": f"{base_url}/payment_success/{order.id}/"
         }
 
-        # ส่งข้อมูลไปที่ Opn API สำหรับ Test Mode
+        print(f"🔍 ส่งข้อมูลไปที่ Opn API: {payload}")
         response = requests.post(url, json=payload, headers=headers)
         data = response.json()
         print(f"🔍 ตอบกลับจาก Opn API: {data}")
 
+        # ถ้าอยู่ใน Test Mode, จำลองการชำระเงินสำเร็จ
+        if MODE == 'TEST':
+            # จำลองสถานะการชำระเงินสำเร็จ
+            if "source" not in data:
+                data = {
+                    "source": {
+                        "scannable_code": {
+                            "image": {
+                                "download_uri": "https://some/fake/qr-code-image.png"
+                            }
+                        }
+                    }
+                }
+                print("🔍 จำลองสถานะการชำระเงินสำเร็จ")
+
         if "source" in data and "scannable_code" in data["source"]:
             qr_code_url = data["source"]["scannable_code"]["image"]["download_uri"]
-            # ใน Test Mode ให้แสดงข้อความ "ชำระเงินสำเร็จ" ทันที
-            if settings.DEBUG:
+            
+            # แสดงข้อความ "ชำระเงินสำเร็จ" ใน Test Mode
+            if MODE == 'TEST':
                 return JsonResponse({"message": "ชำระเงินสำเร็จ", "qr_code_url": qr_code_url, "order_id": order.id, "amount": order.get_cart_total})
+
             return JsonResponse({"qr_code_url": qr_code_url, "order_id": order.id, "amount": order.get_cart_total})
         else:
             return JsonResponse({"error": "ไม่สามารถสร้าง QR Code ได้"}, status=400)
+
     except Exception as e:
         print(f"❌ ERROR ใน create_qr_payment: {str(e)}")
         return JsonResponse({"error": str(e)}, status=500)
 
 @csrf_exempt
 def opn_webhook(request):
-    """ ✅ ตรวจสอบสถานะการชำระเงินจาก Opn Payments """
+    """ ตรวจสอบสถานะการชำระเงินจาก Opn Payments """
     try:
         data = json.loads(request.body)  # แปลงข้อมูลจาก JSON
         print(f"Received Webhook Data: {data}")  # ตรวจสอบข้อมูลที่ได้รับจาก Opn
@@ -124,33 +148,21 @@ def opn_webhook(request):
         charge_id = data.get("data", {}).get("id")  # ใช้ charge_id
         status = data.get("data", {}).get("status")
 
-        # ตรวจสอบ event และ status จาก Opn
-        # กรณีจำลอง (ใช้กรณีนี้ในการทดสอบ)
-        if event == "charge.create" and status == "successful":  # ใช้ event ที่ถูกต้องตามที่ทดสอบ
+        if event == "charge.complete" and status == "successful":
             # ใช้ charge_id แทนการใช้ description สำหรับจับคู่คำสั่งซื้อ
             order = Order.objects.get(charge_id=charge_id)  # ใช้ charge_id ในการค้นหาคำสั่งซื้อ
-            order.complete = True  # อัปเดตสถานะคำสั่งซื้อ
+            order.complete = True  # เปลี่ยนสถานะคำสั่งซื้อเป็นสำเร็จ
             order.save()
 
             return JsonResponse({"message": "Payment verified, order updated."})
-
-        # กรณีใช้จริง (โค้ดใช้จริง) -> ตรงนี้จะใช้เมื่อเชื่อมต่อกับระบบ Omise จริง
-        #if event == "charge.complete" and status == "successful":
-        #    order = Order.objects.get(charge_id=charge_id)  # ใช้ charge_id ในการค้นหาคำสั่งซื้อ
-        #   order.complete = True  # เปลี่ยนสถานะคำสั่งซื้อ
-        #    order.save()
-
-        #    return JsonResponse({"message": "Payment verified, order updated."})
-
         else:
             return JsonResponse({"error": "Payment not successful"}, status=400)
-    
     except Order.DoesNotExist:
         # กรณีที่ไม่พบคำสั่งซื้อจาก charge_id
         return JsonResponse({"error": "Order not found"}, status=404)
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
-
+    
 def updateItem(request):
     data = json.loads(request.body)
     productId = data.get('productId')

@@ -145,18 +145,27 @@ MEDIA_URL = '/images/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
+MODE = os.getenv('MODE', 'TEST')
+
 # ✅ โหลดค่า API Key จาก .env
 OPN_PUBLIC_KEY = os.getenv('OPN_PUBLIC_KEY')
 OPN_SECRET_KEY = os.getenv('OPN_SECRET_KEY')
 OPN_WEBHOOK_SECRET = os.getenv('OPN_WEBHOOK_SECRET')
 
-# ✅ Debug: แสดงเฉพาะ Public Key (ซ่อน Secret Key เพื่อความปลอดภัย)
-print(f"🔍 OPN_PUBLIC_KEY: {OPN_PUBLIC_KEY}")
+if MODE == 'TEST':
+    print("🚧 ระบบกำลังใช้งานใน Test Mode")
+elif MODE == 'LIVE':
+    print("🚀 ระบบกำลังใช้งานใน Live Mode")
 
 if not OPN_SECRET_KEY:
     print("⚠️ OPN_SECRET_KEY ยังไม่ได้โหลด ตรวจสอบไฟล์ .env และรีสตาร์ทเซิร์ฟเวอร์")
 else:
     print(f"✅ โหลด OPN_SECRET_KEY สำเร็จ!")
+
+if not OPN_SECRET_KEY:
+    print("⚠️ OPN_PUBLIC_KEY ยังไม่ได้โหลด ตรวจสอบไฟล์ .env และรีสตาร์ทเซิร์ฟเวอร์")
+else:
+    print(f"✅ โหลด OPN_PUBLIC_KEY สำเร็จ!")
 
 if not OPN_WEBHOOK_SECRET:
     print("⚠️ OPN_WEBHOOK_SECRET ยังไม่ได้โหลด ตรวจสอบไฟล์ .env")
