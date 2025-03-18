@@ -24,16 +24,23 @@ if os.path.exists(dotenv_path):
 else:
     print(f"⚠️ ไม่พบไฟล์ .env ที่ {dotenv_path} ตรวจสอบว่ามีการสร้างไฟล์แล้วหรือไม่")
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'z+ksf@)0d^qojbh4rnp4b1to$hq&*tt(3bs$gf(3i267g$k9ln'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['gnat-crucial-partly.ngrok-free.app', '127.0.0.1', 'localhost']  # ✅ เพิ่ม ngrok URL
+# ✅ อนุญาตให้ Django รับการเชื่อมต่อจาก Ngrok URL และเซิร์ฟเวอร์ภายใน
+ALLOWED_HOSTS = [
+    'gnat-crucial-partly.ngrok-free.app',  # ✅ เพิ่ม Ngrok URL
+    '127.0.0.1',
+    'localhost'
+]
+
+# ✅ แก้ไขปัญหา CSRF Verification Failed (403 Forbidden)
+CSRF_TRUSTED_ORIGINS = [
+    'https://gnat-crucial-partly.ngrok-free.app'  # ✅ อนุญาตให้ Ngrok ส่ง CSRF Token
+]
 
 # Application definition
 INSTALLED_APPS = [

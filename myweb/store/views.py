@@ -96,13 +96,16 @@ def create_qr_payment(order):
             "return_uri": f"{base_url}/payment_success/{order.id}/"
         }
 
-        print(f"🔍 ส่งข้อมูลไปที่ Opn API: {payload}")
+        # ส่งข้อมูลไปที่ Opn API สำหรับ Test Mode
         response = requests.post(url, json=payload, headers=headers)
         data = response.json()
         print(f"🔍 ตอบกลับจาก Opn API: {data}")
 
         if "source" in data and "scannable_code" in data["source"]:
             qr_code_url = data["source"]["scannable_code"]["image"]["download_uri"]
+            # ใน Test Mode ให้แสดงข้อความ "ชำระเงินสำเร็จ" ทันที
+            if settings.DEBUG:
+                return JsonResponse({"message": "ชำระเงินสำเร็จ", "qr_code_url": qr_code_url, "order_id": order.id, "amount": order.get_cart_total})
             return JsonResponse({"qr_code_url": qr_code_url, "order_id": order.id, "amount": order.get_cart_total})
         else:
             return JsonResponse({"error": "ไม่สามารถสร้าง QR Code ได้"}, status=400)
