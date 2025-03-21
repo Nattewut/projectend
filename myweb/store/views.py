@@ -10,6 +10,9 @@ import base64
 from django.views.decorators.csrf import csrf_exempt
 import os
 from .models import Order
+import time
+from django.shortcuts import redirect
+
 
 def get_base_url():
     """ ใช้ฟังก์ชันนี้เพื่อกำหนด base URL ให้ถูกต้อง """
@@ -84,7 +87,7 @@ MODE = os.getenv('MODE', 'TEST')
 def create_qr_payment(order):
     try:
         amount = int(order.get_cart_total * 100)  # จำนวนเงินที่ต้องการในสตางค์
-        base_url = get_base_url()
+        base_url = "https://gnat-crucial-partly.ngrok-free.app"
         url = "https://api.omise.co/charges"
 
         secret_key = settings.OPN_SECRET_KEY
@@ -142,10 +145,6 @@ def create_qr_payment(order):
     except Exception as e:
         print(f"❌ ERROR ใน create_qr_payment: {str(e)}")
         return JsonResponse({"error": str(e)}, status=500)
-
-import time
-from django.shortcuts import redirect
-from django.http import JsonResponse
 
 @csrf_exempt
 def opn_webhook(request):
