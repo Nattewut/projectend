@@ -143,31 +143,51 @@ def create_qr_payment(order):
         print(f"❌ ERROR ใน create_qr_payment: {str(e)}")
         return JsonResponse({"error": str(e)}, status=500)
 
+import time
+from django.shortcuts import redirect
+from django.http import JsonResponse
+
 @csrf_exempt
 def opn_webhook(request):
-    """ ตรวจสอบสถานะการชำระเงินจาก Opn Payments """
+    """จำลองการรับข้อมูลจาก Webhook ของ Opn Payments"""
     try:
-        data = json.loads(request.body)  # แปลงข้อมูลจาก JSON
-        print(f"Received Webhook Data: {data}")  # ตรวจสอบข้อมูลที่ได้รับจาก Opn
+        data = json.loads(request.body)
+        print(f"Received Webhook Data: {data}")
 
         event = data.get("event")
         charge_id = data.get("data", {}).get("id")  # ใช้ charge_id
         status = data.get("data", {}).get("status")
 
+        if MODE == 'TEST':
+            if event == "charge.create":
+                print("🔍 ระบบอยู่ใน Test Mode และสถานะเป็น 'pending' - จำลองการชำระเงิน")
+
+                # รอ 2 วินาทีจำลองสถานะการชำระเงินสำเร็จ
+                time.sleep(2)
+
+                # จำลองสถานะเป็น "paid"
+                status = "paid"
+
+                # เมื่อสถานะเป็น "paid" ให้ redirect ไปที่หน้าชำระเงินสำเร็จ
+                return redirect('payment_success')  # ไปที่หน้า success
+
+        # ตรวจสอบสถานะการชำระเงินจริงใน Live Mode
         if event == "charge.complete" and status == "successful":
-            # ใช้ charge_id แทนการใช้ description สำหรับจับคู่คำสั่งซื้อ
+            print("🔍 การชำระเงินสำเร็จแล้ว")
             order = Order.objects.get(charge_id=charge_id)  # ใช้ charge_id ในการค้นหาคำสั่งซื้อ
             order.complete = True  # เปลี่ยนสถานะคำสั่งซื้อเป็นสำเร็จ
             order.save()
 
             return JsonResponse({"message": "Payment verified, order updated."})
-        else:
-            return JsonResponse({"error": "Payment not successful"}, status=400)
-    except Order.DoesNotExist:
-        # กรณีที่ไม่พบคำสั่งซื้อจาก charge_id
-        return JsonResponse({"error": "Order not found"}, status=404)
+
+        return JsonResponse({"error": "Payment not successful or invalid event"}, status=400)
+
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
+
+def payment_success(request):
+    """หน้าชำระเงินสำเร็จ"""
+    return render(request, 'success.html')  # แสดงหน้า success.html
     
 def updateItem(request):
     data = json.loads(request.body)
@@ -199,3 +219,6 @@ def success(request):
 
 def cancel(request):
     return render(request, 'cancel.html')
+
+def payment_success(request):
+    return render(request, 'payment_success.html')
