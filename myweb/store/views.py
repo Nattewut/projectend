@@ -157,11 +157,13 @@ def opn_webhook(request):
         charge_id = data.get("data", {}).get("id")  # ใช้ charge_id
         status = data.get("data", {}).get("status")
 
+        # หากโหมดเป็น Test Mode
         if MODE == 'TEST':
-            if event == "charge.create":
+            # ตรวจสอบว่า event เป็น "charge.create" และสถานะเป็น "pending"
+            if event == "charge.create" and status == "pending":
                 print("🔍 ระบบอยู่ใน Test Mode และสถานะเป็น 'pending' - จำลองการชำระเงิน")
 
-                # รอ 2 วินาทีจำลองสถานะการชำระเงินสำเร็จ
+                # รอ 2 วินาทีเพื่อจำลองสถานะการชำระเงินสำเร็จ
                 time.sleep(2)
 
                 # จำลองสถานะเป็น "paid"
@@ -169,6 +171,17 @@ def opn_webhook(request):
 
                 # เมื่อสถานะเป็น "paid" ให้ redirect ไปที่หน้าชำระเงินสำเร็จ
                 return redirect('payment_success')  # ไปที่หน้า success
+
+            # จำลองการแจ้งเตือนเมื่อสถานะเป็น 400 หรือ 404
+            if status == "400" or status == "404":
+                print(f"🔍 พบข้อผิดพลาดสถานะ {status}")
+
+                # จำลองการชำระเงินสำเร็จ
+                time.sleep(2)  # จำลองการชำระเงินสำเร็จหลังจาก 2 วินาที
+                status = "paid"  # เปลี่ยนสถานะเป็น "paid"
+                
+                # ให้ redirect ไปที่หน้าชำระเงินสำเร็จ
+                return redirect('payment_success')
 
         # ตรวจสอบสถานะการชำระเงินจริงใน Live Mode
         if event == "charge.complete" and status == "successful":
@@ -179,6 +192,7 @@ def opn_webhook(request):
 
             return JsonResponse({"message": "Payment verified, order updated."})
 
+        # หากไม่ใช่สถานะที่คาดหวังใน Live Mode หรือ Test Mode
         return JsonResponse({"error": "Payment not successful or invalid event"}, status=400)
 
     except Exception as e:
@@ -187,6 +201,8 @@ def opn_webhook(request):
 def payment_success(request):
     """หน้าชำระเงินสำเร็จ"""
     return render(request, 'success.html')  # แสดงหน้า success.html
+
+
     
 def updateItem(request):
     data = json.loads(request.body)
