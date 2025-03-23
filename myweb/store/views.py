@@ -152,30 +152,28 @@ def opn_webhook(request):
     """ ตรวจสอบสถานะการชำระเงินจาก Opn Payments """
     try:
         data = json.loads(request.body)  # แปลงข้อมูลจาก JSON
-        signature = request.headers.get("X-Signature")  # หาค่า signature ที่ส่งมาจาก Opn
-
-        # ตรวจสอบว่า signature ตรงกับที่คำนวณ
-        webhook_secret = settings.OPN_WEBHOOK_SECRET  # หรือหาค่า secret ตามที่คุณได้จาก Opn
-        calculated_signature = hmac.new(webhook_secret.encode(), request.body, hashlib.sha256).hexdigest()
-
-        if signature != calculated_signature:
-            return JsonResponse({"error": "Invalid signature"}, status=400)
 
         # เริ่มต้นการจัดการข้อมูล Webhook ต่อไป
         event = data.get("event")
         charge_id = data.get("data", {}).get("id")
         status = data.get("data", {}).get("status")
 
+        # ตรวจสอบว่า charge_id มีค่าหรือไม่
+        if not charge_id:
+            return JsonResponse({"error": "Charge ID is missing"}, status=400)
+
         # ทำตามกระบวนการปกติของการอัพเดตคำสั่งซื้อ
         if event == "charge.complete" and status == "successful":
-            order = Order.objects.get(charge_id=charge_id)
-            order.complete = True
-            order.save()
-            return JsonResponse({"message": "Payment verified, order updated."})
+            try:
+                order = Order.objects.get(charge_id=charge_id)
+                order.complete = True  # เปลี่ยนสถานะคำสั่งซื้อเป็นสำเร็จ
+                order.save()
+                return JsonResponse({"message": "Payment verified, order updated."})
+            except Order.DoesNotExist:
+                return JsonResponse({"error": "Order not found for the given charge_id"}, status=404)
 
-        return JsonResponse({"error": "Payment not successful"}, status=400)
-    except Order.DoesNotExist:
-        return JsonResponse({"error": "Order not found"}, status=404)
+        return JsonResponse({"error": "Payment not successful or event not supported"}, status=400)
+
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
 
