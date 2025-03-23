@@ -10,6 +10,8 @@ import base64
 from django.views.decorators.csrf import csrf_exempt
 import os
 from .models import Order
+import time
+from django.shortcuts import redirect
 
 def get_base_url():
     """ ใช้ฟังก์ชันนี้เพื่อกำหนด base URL ให้ถูกต้อง """
@@ -143,6 +145,8 @@ def create_qr_payment(order):
         print(f"❌ ERROR ใน create_qr_payment: {str(e)}")
         return JsonResponse({"error": str(e)}, status=500)
 
+import time  # ต้อง import time เพื่อใช้ฟังก์ชัน sleep
+
 @csrf_exempt
 def opn_webhook(request):
     """ ตรวจสอบสถานะการชำระเงินจาก Opn Payments """
@@ -150,21 +154,39 @@ def opn_webhook(request):
         data = json.loads(request.body)  # แปลงข้อมูลจาก JSON
         print(f"Received Webhook Data: {data}")  # ตรวจสอบข้อมูลที่ได้รับจาก Opn
 
-        event = data.get("event")
-        charge_id = data.get("data", {}).get("id")  # ใช้ charge_id
-        status = data.get("data", {}).get("status")
-
-        if event == "charge.complete" and status == "successful":
-            # ใช้ charge_id แทนการใช้ description สำหรับจับคู่คำสั่งซื้อ
-            order = Order.objects.get(charge_id=charge_id)  # ใช้ charge_id ในการค้นหาคำสั่งซื้อ
+        # ตรวจสอบว่าโหมดคืออะไร
+        if MODE == 'TEST':
+            # สำหรับ Test Mode, จำลองการชำระเงินสำเร็จทันที
+            order = Order.objects.get(charge_id="fake_charge_id")  # ใช้ charge_id ที่จำลองขึ้น
             order.complete = True  # เปลี่ยนสถานะคำสั่งซื้อเป็นสำเร็จ
             order.save()
 
-            return JsonResponse({"message": "Payment verified, order updated."})
+            # รอ 2 วินาทีใน Test Mode ก่อนเปลี่ยนเส้นทางไปหน้าสำเร็จ
+            time.sleep(2)
+
+            # ใช้ redirect ไปที่หน้า success
+            return redirect(f"/payment_success/{order.id}/")
+
+        elif MODE == 'LIVE':
+            # สำหรับ Live Mode, รอการแจ้งเตือนจาก Webhook ว่าสำเร็จ
+            event = data.get("event")
+            charge_id = data.get("data", {}).get("id")  # ใช้ charge_id
+            status = data.get("data", {}).get("status")
+
+            if event == "charge.complete" and status == "successful":
+                order = Order.objects.get(charge_id=charge_id)
+                order.complete = True  # เปลี่ยนสถานะคำสั่งซื้อเป็นสำเร็จ
+                order.save()
+
+                # ไปยังหน้า success
+                return redirect(f"/payment_success/{order.id}/")
+            else:
+                return JsonResponse({"error": "Payment not successful"}, status=400)
+
         else:
-            return JsonResponse({"error": "Payment not successful"}, status=400)
+            return JsonResponse({"error": "Invalid mode"}, status=400)
+
     except Order.DoesNotExist:
-        # กรณีที่ไม่พบคำสั่งซื้อจาก charge_id
         return JsonResponse({"error": "Order not found"}, status=404)
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
@@ -193,6 +215,10 @@ def updateItem(request):
         orderItem.delete()
 
     return JsonResponse("Item was updated", safe=False)
+
+def payment_success(request, order_id):
+    order = Order.objects.get(id=order_id)
+    return render(request, 'payment_success.html', {'order': order})
 
 def success(request):
     return render(request, 'success.html')  
