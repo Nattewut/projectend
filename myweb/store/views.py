@@ -15,6 +15,8 @@ from django.shortcuts import redirect
 from .models import Product
 import RPi.GPIO as GPIO
 
+logger = logging.getLogger(__name__)
+
 def get_base_url():
     """ ใช้ฟังก์ชันนี้เพื่อกำหนด base URL ให้ถูกต้อง """
     return "https://gnat-crucial-partly.ngrok-free.app"
@@ -169,7 +171,7 @@ def create_qr_payment(order):
                 print("🔍 จำลองสถานะการชำระเงินสำเร็จใน Test Mode")
         
         if "source" in data and "scannable_code" in data["source"]:
-            qr_code_url = data["source"]["scannable_code"]["image"]["download_uri"]
+            qr_code_url = data["sourmport timece"]["scannable_code"]["image"]["download_uri"]
             
             # หากใน Test Mode ก็ให้ส่ง QR Code ที่จำลองขึ้น
             if MODE == 'TEST':
@@ -187,10 +189,6 @@ def create_qr_payment(order):
     except Exception as e:
         print(f"❌ ERROR ใน create_qr_payment: {str(e)}")
         return JsonResponse({"error": str(e)}, status=500)
-
-import time  # ต้อง import time เพื่อใช้ฟังก์ชัน sleep
-
-logger = logging.getLogger(__name__)
 
 @csrf_exempt
 def opn_webhook(request):
@@ -211,9 +209,16 @@ def opn_webhook(request):
         # ตรวจสอบ event และ status
         if event == "charge.complete" and status == "successful":
             try:
+                # ค้นหา Order โดยใช้ charge_id
                 order = Order.objects.get(charge_id=charge_id)
                 order.complete = True
                 order.save()
+
+                # ควบคุมมอเตอร์
+                for item in order.items.all():
+                    motor_id = item.product.motor_control_id
+                    control_motor(motor_id)
+
                 logger.info(f"Order {order.id} successfully updated.")
                 return JsonResponse({"message": "Payment verified, order updated."})
             except Order.DoesNotExist:
@@ -229,7 +234,7 @@ def opn_webhook(request):
     except Exception as e:
         logger.error(f"Error occurred: {str(e)}")
         return JsonResponse({"error": str(e)}, status=500)
-
+    
 # ตั้งค่า GPIO
 GPIO.setmode(GPIO.BOARD)  # ใช้หมายเลขขา GPIO ตามแบบ BOARD (ตัวเลขพิน)
 
