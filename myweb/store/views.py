@@ -192,16 +192,6 @@ def create_qr_payment(order):
         return JsonResponse({"error": str(e)}, status=500)
 
 
-def validate_json(data):
-    """ ตรวจสอบว่า JSON ที่ได้รับมีข้อมูลครบถ้วนหรือไม่ """
-    required_keys = ['event', 'data', 'status', 'data.id']
-    
-    for key in required_keys:
-        if key not in data:
-            logger.error(f"Missing key: {key} in Webhook data")  # บันทึกข้อผิดพลาดใน logs
-            return False
-    return True
-
 @csrf_exempt
 def opn_webhook(request):
     """ ตรวจสอบสถานะการชำระเงินจาก Opn Payments """
@@ -256,6 +246,16 @@ def opn_webhook(request):
     except Exception as e:
         logger.error(f"Error occurred: {str(e)}")
         return JsonResponse({"error": str(e)}, status=500)  # ใช้ 500 สำหรับ Server Error
+
+def validate_json(data):
+    """ ตรวจสอบว่า JSON ที่ได้รับมีข้อมูลครบถ้วนหรือไม่ """
+    required_keys = ['event', 'data', 'status', 'data.id']
+    for key in required_keys:
+        if key not in data:
+            logger.error(f"Missing key: {key}")  # บันทึกข้อผิดพลาดใน logs
+            return False
+    return True
+
 
 # ตั้งค่า GPIO
 GPIO.setmode(GPIO.BOARD)  # ใช้หมายเลขขา GPIO ตามแบบ BOARD (ตัวเลขพิน)
