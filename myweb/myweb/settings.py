@@ -154,7 +154,6 @@ OPN_WEBHOOK_SECRET = os.getenv('OPN_WEBHOOK_SECRET')
 
 print(f"🚧 ระบบกำลังใช้งานใน {MODE} Mode")
 
-
 if MODE == 'TEST':
     print("🚧 ระบบกำลังใช้งานใน Test Mode")
 elif MODE == 'LIVE':

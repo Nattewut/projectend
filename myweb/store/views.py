@@ -14,6 +14,7 @@ import time
 from django.shortcuts import redirect
 from .models import Product
 import RPi.GPIO as GPIO
+import logging
 
 logger = logging.getLogger(__name__)
 
@@ -106,14 +107,14 @@ def processOrder(request):
             customer, order = guestOrder(request, data)
 
         if "name" not in data.get("form", {}) or "email" not in data.get("form", {}):
-            return JsonResponse({"error": "Missing required fields (name or email)"}, status=400)
+            return JsonResponse({"error": "Missing required fields (name or email)"}, status=422)  # ใช้ 422 แทน 400
 
         calculated_total = sum(item.product.price * item.quantity for item in order.orderitem_set.all())
         print(f"🛒 Order Total: {calculated_total}")
 
         # ✅ อนุญาตให้ QR Code ถูกสร้างได้ทุกยอดเงินที่มากกว่า 0 บาท
         if calculated_total <= 0:
-            return JsonResponse({'error': 'Invalid total amount'}, status=400)
+            return JsonResponse({'error': 'Invalid total amount'}, status=422)  # ใช้ 422 แทน 400
 
         order.transaction_id = transaction_id
         order.complete = False
@@ -122,7 +123,7 @@ def processOrder(request):
         return create_qr_payment(order)
     except Exception as e:
         print(f"❌ ERROR in processOrder: {str(e)}")
-        return JsonResponse({'error': str(e)}, status=500)
+        return JsonResponse({'error': str(e)}, status=500)  # ใช้ 500 สำหรับ Server Error
 
 # เช็คว่าโค้ดอยู่ใน Test Mode หรือ Live Mode
 # ตรวจสอบว่าโค้ดอยู่ใน Test Mode หรือ Live Mode
@@ -171,7 +172,7 @@ def create_qr_payment(order):
                 print("🔍 จำลองสถานะการชำระเงินสำเร็จใน Test Mode")
         
         if "source" in data and "scannable_code" in data["source"]:
-            qr_code_url = data["sourmport timece"]["scannable_code"]["image"]["download_uri"]
+            qr_code_url = data["source"]["scannable_code"]["image"]["download_uri"]
             
             # หากใน Test Mode ก็ให้ส่ง QR Code ที่จำลองขึ้น
             if MODE == 'TEST':
@@ -184,12 +185,21 @@ def create_qr_payment(order):
             return JsonResponse({"qr_code_url": qr_code_url, "order_id": order.id, "amount": order.get_cart_total})
 
         else:
-            return JsonResponse({"error": "ไม่สามารถสร้าง QR Code ได้"}, status=400)
+            return JsonResponse({"error": "ไม่สามารถสร้าง QR Code ได้"}, status=422)  # ใช้ 422 แทน 400
 
     except Exception as e:
         print(f"❌ ERROR ใน create_qr_payment: {str(e)}")
         return JsonResponse({"error": str(e)}, status=500)
 
+
+def validate_json(data):
+    """ ตรวจสอบว่า JSON ที่ได้รับมีข้อมูลครบถ้วนหรือไม่ """
+    required_keys = ['event', 'data', 'status', 'data.id']
+    for key in required_keys:
+        if key not in data:
+            logger.error(f"Missing key: {key}")  # บันทึกข้อผิดพลาดใน logs
+            return False
+    return True
 
 
 @csrf_exempt
@@ -205,7 +215,7 @@ def opn_webhook(request):
         # ตรวจสอบว่า JSON ที่ได้รับมีข้อมูลครบถ้วนหรือไม่
         if not validate_json(data):
             logger.error("Invalid JSON format. Missing required keys.")
-            return JsonResponse({"error": "Invalid JSON format. Missing required keys."}, status=400)
+            return JsonResponse({"error": "Invalid JSON format. Missing required keys."}, status=422)  # ใช้ 422 แทน 400
         
         # ตรวจสอบข้อมูลที่ได้รับจาก Opn
         event = data.get("event")
@@ -213,7 +223,7 @@ def opn_webhook(request):
         status = data.get("data", {}).get("status")
 
         if not charge_id:
-            return JsonResponse({"error": "Charge ID missing"}, status=400)
+            return JsonResponse({"error": "Charge ID missing"}, status=422)  # ใช้ 422 แทน 400
 
         # ตรวจสอบ event และ status
         if event == "charge.complete" and status == "successful":
@@ -232,25 +242,20 @@ def opn_webhook(request):
                 return JsonResponse({"message": "Payment verified, order updated."})
             except Order.DoesNotExist:
                 logger.error(f"Order with charge_id {charge_id} not found.")
-                return JsonResponse({"error": "Order not found"}, status=404)
+                return JsonResponse({"error": "Order not found"}, status=404)  # ใช้ 404 เมื่อไม่พบคำสั่งซื้อ
 
         # ถ้า event ไม่ใช่ charge.complete หรือสถานะไม่สำเร็จ
-        return JsonResponse({"error": "Payment not successful"}, status=400)
+        logger.warning("Payment not successful")
+        return JsonResponse({"error": "Payment not successful"}, status=422)  # ใช้ 422 แทน 400
 
     except json.JSONDecodeError:
         logger.error("Failed to decode JSON.")
-        return JsonResponse({"error": "Invalid JSON data"}, status=400)
+        return JsonResponse({"error": "Invalid JSON data"}, status=400)  # 400 ใช้สำหรับ JSON Decode Error
     except Exception as e:
         logger.error(f"Error occurred: {str(e)}")
-        return JsonResponse({"error": str(e)}, status=500)
+        return JsonResponse({"error": str(e)}, status=500)  # ใช้ 500 สำหรับ Server Error
 
-def validate_json(data):
-    """ ตรวจสอบว่า JSON ที่ได้รับมีข้อมูลครบถ้วนหรือไม่ """
-    required_keys = ['event', 'data', 'status', 'data.id']
-    for key in required_keys:
-        if key not in data:
-            return False
-    return True
+# GPIO setup and motor control code remains the same...
 
     
 # ตั้งค่า GPIO
