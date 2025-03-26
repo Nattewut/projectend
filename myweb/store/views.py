@@ -222,10 +222,12 @@ def opn_webhook(request):
         charge_id = data.get("data", {}).get("id")
         status = data.get("data", {}).get("status")
 
+        # ตรวจสอบว่า charge_id ถูกต้อง
         if not charge_id:
+            logger.error("Charge ID is missing in the request.")
             return JsonResponse({"error": "Charge ID missing"}, status=422)  # ใช้ 422 แทน 400
 
-        # ตรวจสอบ event และ status
+        # ตรวจสอบว่า event และ status ถูกต้อง
         if event == "charge.complete" and status == "successful":
             try:
                 # ค้นหา Order โดยใช้ charge_id
@@ -255,9 +257,6 @@ def opn_webhook(request):
         logger.error(f"Error occurred: {str(e)}")
         return JsonResponse({"error": str(e)}, status=500)  # ใช้ 500 สำหรับ Server Error
 
-# GPIO setup and motor control code remains the same...
-
-    
 # ตั้งค่า GPIO
 GPIO.setmode(GPIO.BOARD)  # ใช้หมายเลขขา GPIO ตามแบบ BOARD (ตัวเลขพิน)
 
