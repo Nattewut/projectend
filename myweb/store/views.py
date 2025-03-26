@@ -247,6 +247,7 @@ def opn_webhook(request):
         logger.error(f"Error occurred: {str(e)}")
         return JsonResponse({"error": str(e)}, status=500)  # ใช้ 500 สำหรับ Server Error
 
+
 def validate_json(data):
     """ ตรวจสอบว่า JSON ที่ได้รับมีข้อมูลครบถ้วนหรือไม่ """
     required_keys = ['event', 'data', 'status', 'data.id']
