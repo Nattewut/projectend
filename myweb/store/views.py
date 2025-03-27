@@ -250,11 +250,16 @@ def opn_webhook(request):
 
 def validate_json(data):
     """ ตรวจสอบว่า JSON ที่ได้รับมีข้อมูลครบถ้วนหรือไม่ """
-    required_keys = ['event', 'data', 'status', 'data.id']
-    for key in required_keys:
-        if key not in data:
-            logger.error(f"Missing key: {key}")  # บันทึกข้อผิดพลาดใน logs
-            return False
+    # ตรวจสอบว่า 'event' และ 'data' มีใน JSON
+    if 'event' not in data or 'data' not in data:
+        logger.error("Missing 'event' or 'data' key")
+        return False
+    
+    # ตรวจสอบว่าใน 'data' มี key 'id' และ 'status'
+    if 'id' not in data['data'] or 'status' not in data['data']:
+        logger.error("Missing 'id' or 'status' in 'data' key")
+        return False
+    
     return True
 
 
