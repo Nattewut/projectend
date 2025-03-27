@@ -16,9 +16,8 @@ from .models import Product
 import RPi.GPIO as GPIO
 import logging
 
+# ตั้งค่า logger
 logger = logging.getLogger(__name__)
-logger.info(f"Payment status: {status}")
-logger.info(f"Charge ID: {charge_id}")
 
 def get_base_url():
     """ ใช้ฟังก์ชันนี้เพื่อกำหนด base URL ให้ถูกต้อง """
@@ -30,6 +29,7 @@ def store(request):
     order = data['order']
     items = data['items']
     products = Product.objects.all()
+    logger.info(f"Store page rendered with {len(products)} products")
     context = {'products': products, 'cartItems': cartItems}
     return render(request, 'store/store.html', context)
 
@@ -38,6 +38,7 @@ def cart(request):
     cartItems = data['cartItems']
     order = data['order']
     items = data['items']
+    logger.info(f"Cart page rendered with {len(items)} items in the cart")
     context = {'items': items, 'order': order, 'cartItems': cartItems}
     return render(request, 'store/cart.html', context)
 
@@ -46,6 +47,7 @@ def checkout(request):
     cartItems = data['cartItems']
     order = data['order']
     items = data['items']
+    logger.info(f"Checkout page rendered with {len(items)} items in the cart")
     context = {
         'items': items,
         'order': order,
@@ -56,51 +58,41 @@ def checkout(request):
 
 def process_order(request):
     if request.method == "POST":
-        # ตัวอย่างการสร้างสินค้าใหม่
-        product1 = Product.objects.create(
-            name="Shoes",
-            price=15.0,
-            motor_control_id=1,  # เชื่อมโยงกับมอเตอร์ 1
-            image="path_to_image"
-        )
+        logger.info("Processing new order...")
+        try:
+            # ตัวอย่างการสร้างสินค้าใหม่
+            product1 = Product.objects.create(
+                name="Shoes",
+                price=15.0,
+                motor_control_id=1,  # เชื่อมโยงกับมอเตอร์ 1
+                image="path_to_image"
+            )
 
-        product2 = Product.objects.create(
-            name="Headphones",
-            price=10.0,
-            motor_control_id=2,  # เชื่อมโยงกับมอเตอร์ 2
-            image="path_to_image"
-        )
+            # เพิ่มสินค้าอื่นๆ ตามที่ต้องการ
+            logger.info(f"Created product: {product1.name}")
 
-        product3 = Product.objects.create(
-            name="Poster",
-            price=5.0,
-            motor_control_id=3,  # เชื่อมโยงกับมอเตอร์ 3
-            image="path_to_image"
-        )
+            items = request.POST.get("items")  # รับข้อมูลสินค้า
+            logger.info(f"Received items: {items}")
 
-        # คุณสามารถเพิ่ม logic ที่เชื่อมโยงมอเตอร์ตามสินค้าในคำสั่งซื้อ
-        # เช่น เมื่อลูกค้าซื้อสินค้า:
-        items = request.POST.get("items")  # รับข้อมูลสินค้า
+            # การควบคุมมอเตอร์ตามสินค้า
+            for item in items:
+                product = Product.objects.get(id=item["product_id"])
+                motor_id = product.motor_control_id
+                control_motor(motor_id)
 
-        # ตัวอย่างเชื่อมโยงสินค้าและควบคุมมอเตอร์
-        for item in items:
-            product = Product.objects.get(id=item["product_id"])
-            motor_id = product.motor_control_id
-
-            # สมมุติว่าเราเรียกฟังก์ชันที่เชื่อมโยงกับมอเตอร์
-            control_motor(motor_id)
-
-        return JsonResponse({"message": "Order processed successfully"})
-    
-    return JsonResponse({"error": "Invalid request"}, status=400)
-
+            logger.info(f"Order processed successfully")
+            return JsonResponse({"message": "Order processed successfully"})
+        
+        except Exception as e:
+            logger.error(f"Error in processing order: {str(e)}")
+            return JsonResponse({"error": "Invalid request"}, status=400)
 
 @csrf_exempt
 def processOrder(request):
     try:
         transaction_id = datetime.datetime.now().timestamp()
         data = json.loads(request.body)
-        print("✅ รับข้อมูลจาก Checkout:", data)
+        logger.info(f"Received data from Checkout: {data}")
 
         if request.user.is_authenticated:
             customer = request.user.customer
@@ -109,14 +101,16 @@ def processOrder(request):
             customer, order = guestOrder(request, data)
 
         if "name" not in data.get("form", {}) or "email" not in data.get("form", {}):
-            return JsonResponse({"error": "Missing required fields (name or email)"}, status=422)  # ใช้ 422 แทน 400
+            logger.warning("Missing required fields (name or email)")
+            return JsonResponse({"error": "Missing required fields (name or email)"}, status=422)
 
         calculated_total = sum(item.product.price * item.quantity for item in order.orderitem_set.all())
-        print(f"🛒 Order Total: {calculated_total}")
+        logger.info(f"🛒 Order Total: {calculated_total}")
 
         # ✅ อนุญาตให้ QR Code ถูกสร้างได้ทุกยอดเงินที่มากกว่า 0 บาท
         if calculated_total <= 0:
-            return JsonResponse({'error': 'Invalid total amount'}, status=422)  # ใช้ 422 แทน 400
+            logger.warning("Invalid total amount")
+            return JsonResponse({'error': 'Invalid total amount'}, status=422)
 
         order.transaction_id = transaction_id
         order.complete = False
@@ -124,11 +118,9 @@ def processOrder(request):
 
         return create_qr_payment(order)
     except Exception as e:
-        print(f"❌ ERROR in processOrder: {str(e)}")
-        return JsonResponse({'error': str(e)}, status=500)  # ใช้ 500 สำหรับ Server Error
+        logger.error(f"❌ ERROR in processOrder: {str(e)}")
+        return JsonResponse({'error': str(e)}, status=500)
 
-# เช็คว่าโค้ดอยู่ใน Test Mode หรือ Live Mode
-# ตรวจสอบว่าโค้ดอยู่ใน Test Mode หรือ Live Mode
 MODE = os.getenv('MODE', 'TEST')
 
 def create_qr_payment(order):
@@ -153,12 +145,11 @@ def create_qr_payment(order):
             "return_uri": f"{base_url}/payment_success/{order.id}/"
         }
 
-        print(f"🔍 ส่งข้อมูลไปที่ Opn API: {payload}")
+        logger.info(f"🔍 ส่งข้อมูลไปที่ Opn API: {payload}")
         response = requests.post(url, json=payload, headers=headers)
         data = response.json()
-        print(f"🔍 ตอบกลับจาก Opn API: {data}")
+        logger.info(f"🔍 ตอบกลับจาก Opn API: {data}")
 
-        # เช็คว่าโค้ดอยู่ใน Test Mode หรือ Live Mode
         if MODE == 'TEST':
             # หากเป็น Test Mode, ระบบจะจำลองการชำระเงิน
             if "source" not in data:
@@ -171,15 +162,13 @@ def create_qr_payment(order):
                         }
                     }
                 }
-                print("🔍 จำลองสถานะการชำระเงินสำเร็จใน Test Mode")
+                logger.info("🔍 จำลองสถานะการชำระเงินสำเร็จใน Test Mode")
         
         if "source" in data and "scannable_code" in data["source"]:
             qr_code_url = data["source"]["scannable_code"]["image"]["download_uri"]
-            
-            # หากใน Test Mode ก็ให้ส่ง QR Code ที่จำลองขึ้น
             if MODE == 'TEST':
                 return JsonResponse({
-                    "message": "ชำระเงินสำเร็จ",  # ข้อความที่จะแสดงเมื่อสถานะเป็น Test Mode
+                    "message": "ชำระเงินสำเร็จ",
                     "qr_code_url": qr_code_url,
                     "order_id": order.id,
                     "amount": order.get_cart_total
@@ -187,142 +176,103 @@ def create_qr_payment(order):
             return JsonResponse({"qr_code_url": qr_code_url, "order_id": order.id, "amount": order.get_cart_total})
 
         else:
-            return JsonResponse({"error": "ไม่สามารถสร้าง QR Code ได้"}, status=422)  # ใช้ 422 แทน 400
+            logger.warning("Cannot create QR Code")
+            return JsonResponse({"error": "ไม่สามารถสร้าง QR Code ได้"}, status=422)
 
     except Exception as e:
-        print(f"❌ ERROR ใน create_qr_payment: {str(e)}")
+        logger.error(f"❌ ERROR ใน create_qr_payment: {str(e)}")
         return JsonResponse({"error": str(e)}, status=500)
-
 
 @csrf_exempt
 def opn_webhook(request):
-    """ ตรวจสอบสถานะการชำระเงินจาก Opn Payments """
+    logger.info("Received webhook request")
     try:
-        # แปลงข้อมูลจาก JSON
         data = json.loads(request.body)
+        logger.info(f"Webhook data: {data}")  # บันทึกข้อมูลที่ได้รับจาก Webhook
+        
+        if request.headers.get('X-Opn-Signature') != settings.OPN_WEBHOOK_SECRET:
+            logger.warning("Invalid Webhook Secret")
+            return JsonResponse({"error": "Invalid Webhook Secret"}, status=400)
 
-        # บันทึกข้อมูลที่ได้รับจาก Webhook ลงใน logs
-        logger.info(f"Received Webhook Data: {data}")
+        charge_id = data.get('data', {}).get('object', {}).get('id')
+        status = data.get('data', {}).get('object', {}).get('status')
 
-        # ตรวจสอบว่า JSON ที่ได้รับมีข้อมูลครบถ้วนหรือไม่
-        if not validate_json(data):
-            logger.error("Invalid JSON format. Missing required keys.")
-            return JsonResponse({"error": "Invalid JSON format. Missing required keys."}, status=422)
+        logger.info(f"Charge ID: {charge_id}")
+        logger.info(f"Payment status: {status}")
 
-        # ตรวจสอบข้อมูลที่ได้รับจาก Opn
-        event = data.get("event")
-        charge_id = data.get("data", {}).get("id")
-        status = data.get("data", {}).get("status")
+        if status == 'successful':
+            logger.info(f"Payment successful for charge: {charge_id}")
+        else:
+            logger.warning(f"Payment failed or pending for charge: {charge_id}")
 
-        # ตรวจสอบว่า charge_id ถูกต้อง
-        if not charge_id:
-            logger.error("Charge ID is missing in the request.")
-            return JsonResponse({"error": "Charge ID missing"}, status=422)
+        return JsonResponse({"status": "success"}, status=200)
 
-        # ตรวจสอบว่า event และ status ถูกต้อง
-        if event == "charge.complete" and status == "successful":
-            try:
-                # ค้นหา Order โดยใช้ charge_id
-                order = Order.objects.get(charge_id=charge_id)
-                order.complete = True
-                order.save()
-
-                # ควบคุมมอเตอร์
-                for item in order.items.all():
-                    motor_id = item.product.motor_control_id
-                    control_motor(motor_id)
-
-                logger.info(f"Order {order.id} successfully updated.")
-                return JsonResponse({"message": "Payment verified, order updated."})
-            except Order.DoesNotExist:
-                logger.error(f"Order with charge_id {charge_id} not found.")
-                return JsonResponse({"error": "Order not found"}, status=404)
-
-        # ถ้า event ไม่ใช่ charge.complete หรือสถานะไม่สำเร็จ
-        logger.warning("Payment not successful")
-        return JsonResponse({"error": "Payment not successful"}, status=422)
-
-    except json.JSONDecodeError:
-        logger.error("Failed to decode JSON.")
-        return JsonResponse({"error": "Invalid JSON data"}, status=400)
     except Exception as e:
-        logger.error(f"Error occurred: {str(e)}")
-        return JsonResponse({"error": str(e)}, status=500)
-
+        logger.error(f"Error processing webhook: {str(e)}")
+        return JsonResponse({"error": "Internal Server Error"}, status=500)
 
 def validate_json(data):
     """ ตรวจสอบว่า JSON ที่ได้รับมีข้อมูลครบถ้วนหรือไม่ """
-    # ตรวจสอบว่า 'event' และ 'data' มีใน JSON
     if 'event' not in data or 'data' not in data:
         logger.error("Missing 'event' or 'data' key")
         return False
     
-    # ตรวจสอบว่าใน 'data' มี key 'id' และ 'status'
     if 'id' not in data['data'] or 'status' not in data['data']:
         logger.error("Missing 'id' or 'status' in 'data' key")
         return False
     
     return True
 
-
-# ตั้งค่า GPIO
 GPIO.setmode(GPIO.BOARD)  # ใช้หมายเลขขา GPIO ตามแบบ BOARD (ตัวเลขพิน)
 
-# กำหนดขา GPIO ที่จะควบคุมมอเตอร์ 3 ตัว
 motor_pin_1 = 11  # GPIO pin สำหรับมอเตอร์ 1
 motor_pin_2 = 13  # GPIO pin สำหรับมอเตอร์ 2
 motor_pin_3 = 15  # GPIO pin สำหรับมอเตอร์ 3
 
-# ตั้งค่าขา GPIO เป็น OUT
 GPIO.setup(motor_pin_1, GPIO.OUT)
 GPIO.setup(motor_pin_2, GPIO.OUT)
 GPIO.setup(motor_pin_3, GPIO.OUT)
 
-# ตั้งค่า feedback pin สำหรับตรวจสอบการหมุนของมอเตอร์
-motor_feedback_pin_1 = 16  # สมมุติว่ามี feedback pin สำหรับมอเตอร์ 1
-motor_feedback_pin_2 = 18  # สมมุติว่ามี feedback pin สำหรับมอเตอร์ 2
-motor_feedback_pin_3 = 22  # สมมุติว่ามี feedback pin สำหรับมอเตอร์ 3
+motor_feedback_pin_1 = 16
+motor_feedback_pin_2 = 18
+motor_feedback_pin_3 = 22
 
-# ตั้งค่าขา feedback pins เป็น INPUT
 GPIO.setup(motor_feedback_pin_1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(motor_feedback_pin_2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(motor_feedback_pin_3, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 def control_motor(motor_id):
     """ ฟังก์ชันควบคุมมอเตอร์ตาม id """
-    print(f"Controlling motor {motor_id}")  # พิมพ์ว่าเริ่มควบคุมมอเตอร์ตัวไหน
+    logger.info(f"Controlling motor {motor_id}")  
 
-    # การควบคุมมอเตอร์ตาม id
     if motor_id == 1:
-        print("Starting Motor 1...")  # พิมพ์ว่าเริ่มมอเตอร์ 1
-        GPIO.output(motor_pin_1, GPIO.HIGH)  # เปิดมอเตอร์ 1
+        logger.info("Starting Motor 1...")
+        GPIO.output(motor_pin_1, GPIO.HIGH)
         while GPIO.input(motor_feedback_pin_1) == GPIO.HIGH:
-            time.sleep(0.1)  # รอให้มอเตอร์หมุนจนกว่าจะครบ 1 รอบ
-        GPIO.output(motor_pin_1, GPIO.LOW)  # ปิดมอเตอร์ 1
-        print("Motor 1 stopped")  # พิมพ์ว่า มอเตอร์ 1 หยุดแล้ว
+            time.sleep(0.1)
+        GPIO.output(motor_pin_1, GPIO.LOW)
+        logger.info("Motor 1 stopped")
 
     elif motor_id == 2:
-        print("Starting Motor 2...")  # พิมพ์ว่าเริ่มมอเตอร์ 2
-        GPIO.output(motor_pin_2, GPIO.HIGH)  # เปิดมอเตอร์ 2
+        logger.info("Starting Motor 2...")
+        GPIO.output(motor_pin_2, GPIO.HIGH)
         while GPIO.input(motor_feedback_pin_2) == GPIO.HIGH:
             time.sleep(0.1)
-        GPIO.output(motor_pin_2, GPIO.LOW)  # ปิดมอเตอร์ 2
-        print("Motor 2 stopped")  # พิมพ์ว่า มอเตอร์ 2 หยุดแล้ว
+        GPIO.output(motor_pin_2, GPIO.LOW)
+        logger.info("Motor 2 stopped")
 
     elif motor_id == 3:
-        print("Starting Motor 3...")  # พิมพ์ว่าเริ่มมอเตอร์ 3
-        GPIO.output(motor_pin_3, GPIO.HIGH)  # เปิดมอเตอร์ 3
+        logger.info("Starting Motor 3...")
+        GPIO.output(motor_pin_3, GPIO.HIGH)
         while GPIO.input(motor_feedback_pin_3) == GPIO.HIGH:
             time.sleep(0.1)
-        GPIO.output(motor_pin_3, GPIO.LOW)  # ปิดมอเตอร์ 3
-        print("Motor 3 stopped")  # พิมพ์ว่า มอเตอร์ 3 หยุดแล้ว
+        GPIO.output(motor_pin_3, GPIO.LOW)
+        logger.info("Motor 3 stopped")
 
-# ทดสอบการควบคุมมอเตอร์
-control_motor(1)  # สั่งให้มอเตอร์ 1 ทำงาน
-control_motor(2)  # สั่งให้มอเตอร์ 2 ทำงาน
-control_motor(3)  # สั่งให้มอเตอร์ 3 ทำงาน
+control_motor(1)
+control_motor(2)
+control_motor(3)
 
-# ปิด GPIO
 GPIO.cleanup()
 
 def updateItem(request):
@@ -330,7 +280,7 @@ def updateItem(request):
     productId = data.get('productId')
     action = data.get('action')
     
-    print(f"✅ Action: {action}, Product: {productId}")
+    logger.info(f"Action: {action}, Product: {productId}")
 
     customer = request.user.customer
     product = Product.objects.get(id=productId)
