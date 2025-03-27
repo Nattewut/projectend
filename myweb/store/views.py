@@ -198,15 +198,15 @@ def opn_webhook(request):
     try:
         # แปลงข้อมูลจาก JSON
         data = json.loads(request.body)
-        
+
         # บันทึกข้อมูลที่ได้รับจาก Webhook ลงใน logs
         logger.info(f"Received Webhook Data: {data}")
-        
+
         # ตรวจสอบว่า JSON ที่ได้รับมีข้อมูลครบถ้วนหรือไม่
         if not validate_json(data):
             logger.error("Invalid JSON format. Missing required keys.")
-            return JsonResponse({"error": "Invalid JSON format. Missing required keys."}, status=422)  # ใช้ 422 แทน 400
-        
+            return JsonResponse({"error": "Invalid JSON format. Missing required keys."}, status=422)
+
         # ตรวจสอบข้อมูลที่ได้รับจาก Opn
         event = data.get("event")
         charge_id = data.get("data", {}).get("id")
@@ -215,7 +215,7 @@ def opn_webhook(request):
         # ตรวจสอบว่า charge_id ถูกต้อง
         if not charge_id:
             logger.error("Charge ID is missing in the request.")
-            return JsonResponse({"error": "Charge ID missing"}, status=422)  # ใช้ 422 แทน 400
+            return JsonResponse({"error": "Charge ID missing"}, status=422)
 
         # ตรวจสอบว่า event และ status ถูกต้อง
         if event == "charge.complete" and status == "successful":
@@ -234,18 +234,18 @@ def opn_webhook(request):
                 return JsonResponse({"message": "Payment verified, order updated."})
             except Order.DoesNotExist:
                 logger.error(f"Order with charge_id {charge_id} not found.")
-                return JsonResponse({"error": "Order not found"}, status=404)  # ใช้ 404 เมื่อไม่พบคำสั่งซื้อ
+                return JsonResponse({"error": "Order not found"}, status=404)
 
         # ถ้า event ไม่ใช่ charge.complete หรือสถานะไม่สำเร็จ
         logger.warning("Payment not successful")
-        return JsonResponse({"error": "Payment not successful"}, status=422)  # ใช้ 422 แทน 400
+        return JsonResponse({"error": "Payment not successful"}, status=422)
 
     except json.JSONDecodeError:
         logger.error("Failed to decode JSON.")
-        return JsonResponse({"error": "Invalid JSON data"}, status=400)  # 400 ใช้สำหรับ JSON Decode Error
+        return JsonResponse({"error": "Invalid JSON data"}, status=400)
     except Exception as e:
         logger.error(f"Error occurred: {str(e)}")
-        return JsonResponse({"error": str(e)}, status=500)  # ใช้ 500 สำหรับ Server Error
+        return JsonResponse({"error": str(e)}, status=500)
 
 
 def validate_json(data):
