@@ -17,6 +17,8 @@ import RPi.GPIO as GPIO
 import logging
 
 logger = logging.getLogger(__name__)
+logger.info(f"Payment status: {status}")
+logger.info(f"Charge ID: {charge_id}")
 
 def get_base_url():
     """ ใช้ฟังก์ชันนี้เพื่อกำหนด base URL ให้ถูกต้อง """
