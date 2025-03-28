@@ -204,6 +204,10 @@ def opn_webhook(request):
     """ รับข้อมูล Webhook จาก Omise """
     logger.info("Received webhook request")
 
+    # ตรวจสอบ IP ของเครื่องที่ส่ง Webhook มายังเรา
+    client_ip = request.META.get('REMOTE_ADDR')
+    logger.info(f"Client IP: {client_ip}")
+
     # ตรวจสอบลายเซ็น
     if not verify_signature(request):
         logger.error("Invalid Webhook Signature")
