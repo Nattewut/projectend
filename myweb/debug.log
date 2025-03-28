@@ -13,3 +13,95 @@ INFO 2025-03-28 22:16:52,000 autoreload D:\Desktop\PROJECTEND ระบบชำระเงินสมบูรแ
 INFO 2025-03-28 22:16:52,627 autoreload Watching for file changes with StatReloader
 INFO 2025-03-28 22:26:04,134 autoreload D:\Desktop\PROJECTEND ระบบชำระเงินสมบูรแล้วเผื่อในกรณีโค้ดผิดพลาด4\myweb\store\models.py changed, reloading.
 INFO 2025-03-28 22:26:04,624 autoreload Watching for file changes with StatReloader
+INFO 2025-03-29 01:02:24,006 autoreload D:\Desktop\PROJECTEND ระบบชำระเงินสมบูรแล้วเผื่อในกรณีโค้ดผิดพลาด4\myweb\store\views.py changed, reloading.
+INFO 2025-03-29 01:02:24,490 autoreload Watching for file changes with StatReloader
+INFO 2025-03-29 01:02:31,114 autoreload D:\Desktop\PROJECTEND ระบบชำระเงินสมบูรแล้วเผื่อในกรณีโค้ดผิดพลาด4\myweb\store\views.py changed, reloading.
+INFO 2025-03-29 01:02:31,557 autoreload Watching for file changes with StatReloader
+INFO 2025-03-29 01:02:42,253 autoreload D:\Desktop\PROJECTEND ระบบชำระเงินสมบูรแล้วเผื่อในกรณีโค้ดผิดพลาด4\myweb\store\views.py changed, reloading.
+INFO 2025-03-29 01:02:42,695 autoreload Watching for file changes with StatReloader
+INFO 2025-03-29 01:27:58,393 autoreload D:\Desktop\PROJECTEND ระบบชำระเงินสมบูรแล้วเผื่อในกรณีโค้ดผิดพลาด4\myweb\store\views.py changed, reloading.
+INFO 2025-03-29 01:27:58,836 autoreload Watching for file changes with StatReloader
+INFO 2025-03-29 01:33:25,649 autoreload D:\Desktop\PROJECTEND ระบบชำระเงินสมบูรแล้วเผื่อในกรณีโค้ดผิดพลาด4\myweb\store\views.py changed, reloading.
+INFO 2025-03-29 01:33:26,091 autoreload Watching for file changes with StatReloader
+INFO 2025-03-29 01:39:29,596 autoreload D:\Desktop\PROJECTEND ระบบชำระเงินสมบูรแล้วเผื่อในกรณีโค้ดผิดพลาด4\myweb\store\views.py changed, reloading.
+INFO 2025-03-29 01:39:30,021 autoreload Watching for file changes with StatReloader
+INFO 2025-03-29 01:39:44,793 autoreload D:\Desktop\PROJECTEND ระบบชำระเงินสมบูรแล้วเผื่อในกรณีโค้ดผิดพลาด4\myweb\store\views.py changed, reloading.
+INFO 2025-03-29 01:39:45,209 autoreload Watching for file changes with StatReloader
+INFO 2025-03-29 01:41:48,049 autoreload D:\Desktop\PROJECTEND ระบบชำระเงินสมบูรแล้วเผื่อในกรณีโค้ดผิดพลาด4\myweb\store\urls.py changed, reloading.
+INFO 2025-03-29 01:41:48,486 autoreload Watching for file changes with StatReloader
+INFO 2025-03-29 01:42:10,580 autoreload D:\Desktop\PROJECTEND ระบบชำระเงินสมบูรแล้วเผื่อในกรณีโค้ดผิดพลาด4\myweb\store\views.py changed, reloading.
+INFO 2025-03-29 01:42:11,015 autoreload Watching for file changes with StatReloader
+ERROR 2025-03-29 01:42:13,401 log Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: store_product.motor_control_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Desktop\PROJECTEND ระบบชำระเงินสมบูรแล้วเผื่อในกรณีโค้ดผิดพลาด4\myweb\store\views.py", line 46, in store
+    logger.info(f"Store page rendered with {len(products)} products")
+                                            ~~~^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 382, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: store_product.motor_control_id
+ERROR 2025-03-29 01:42:13,412 basehttp "GET / HTTP/1.1" 500 130503
+INFO 2025-03-29 01:50:53,058 autoreload D:\Desktop\PROJECTEND ระบบชำระเงินสมบูรแล้วเผื่อในกรณีโค้ดผิดพลาด4\myweb\store\models.py changed, reloading.
+INFO 2025-03-29 01:50:53,539 autoreload Watching for file changes with StatReloader
+INFO 2025-03-29 01:53:12,935 autoreload Watching for file changes with StatReloader
+INFO 2025-03-29 01:53:14,315 basehttp "GET / HTTP/1.1" 200 5173
+INFO 2025-03-29 01:53:14,362 basehttp "GET /static/css/main.css HTTP/1.1" 304 0
+INFO 2025-03-29 01:53:14,367 basehttp "GET /static/images/cart.png HTTP/1.1" 304 0
+INFO 2025-03-29 01:53:14,367 basehttp "GET /images/shoes_yNyuZHS.jpg HTTP/1.1" 304 0
+INFO 2025-03-29 01:53:14,390 basehttp "GET /images/poster_TUOkDrn.jpg HTTP/1.1" 304 0
+INFO 2025-03-29 01:53:14,391 basehttp "GET /images/headphones_YycFlsb.jpg HTTP/1.1" 304 0
+INFO 2025-03-29 01:53:14,394 basehttp "GET /static/js/cart.js HTTP/1.1" 304 0
+INFO 2025-03-29 01:53:16,069 basehttp "GET /cart/ HTTP/1.1" 200 6116
+INFO 2025-03-29 01:53:16,099 basehttp "GET /static/images/arrow-up.png HTTP/1.1" 304 0
+INFO 2025-03-29 01:53:16,099 basehttp "GET /static/images/arrow-down.png HTTP/1.1" 304 0
+INFO 2025-03-29 01:53:16,900 basehttp "GET /checkout/ HTTP/1.1" 200 9977
+INFO 2025-03-29 01:53:21,181 basehttp "POST /process_order/ HTTP/1.1" 200 275
+INFO 2025-03-29 01:55:54,230 autoreload Watching for file changes with StatReloader

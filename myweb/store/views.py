@@ -13,11 +13,25 @@ from .models import Order
 import time
 from django.shortcuts import redirect
 from .models import Product
-import RPi.GPIO as GPIO
 import logging
 
 # ตั้งค่า logger
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+# หากต้องการให้ log ข้อมูลออกไปที่ไฟล์
+file_handler = logging.FileHandler('app.log')
+file_handler.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+file_handler.setFormatter(formatter)
+
+logger.addHandler(file_handler)
+
+# หรือหากต้องการให้ log ข้อมูลไปที่ console ด้วย
+console_handler = logging.StreamHandler()
+console_handler.setLevel(logging.INFO)
+console_handler.setFormatter(formatter)
+logger.addHandler(console_handler)
 
 def get_base_url():
     """ ใช้ฟังก์ชันนี้เพื่อกำหนด base URL ให้ถูกต้อง """
@@ -202,6 +216,7 @@ def verify_signature(request):
 @csrf_exempt
 def opn_webhook(request):
     """ รับข้อมูล Webhook จาก Omise """
+    logger.info('Webhook endpoint "/webhook/opn/" registered successfully')  # เพิ่มการบันทึก log
     logger.info("Received webhook request")
 
     # ตรวจสอบ IP ของเครื่องที่ส่ง Webhook มายังเรา (Optional)
@@ -229,9 +244,8 @@ def opn_webhook(request):
             order = Order.objects.get(charge_id=charge_id)  # ค้นหา Order โดยใช้ charge_id
             order.payment_status = 'successful'  # เปลี่ยนสถานะเป็น 'successful'
             order.save()  # บันทึกการเปลี่ยนแปลงในฐานข้อมูล
+            control_motor(order.id)  # เรียกฟังก์ชันควบคุมมอเตอร์
             
-            # คุณสามารถเพิ่มการทำงานอื่นๆ ที่ต้องการ เช่น ส่งอีเมลหรือการแจ้งเตือนที่อื่น
-
         return JsonResponse({"status": "success"}, status=200)
     
     except Exception as e:
@@ -239,58 +253,66 @@ def opn_webhook(request):
         return JsonResponse({"error": "Internal Server Error"}, status=500)
 
 
-GPIO.setmode(GPIO.BOARD)  # ใช้หมายเลขขา GPIO ตามแบบ BOARD (ตัวเลขพิน)
+# ตรวจสอบว่าโค้ดกำลังรันบน Raspberry Pi หรือไม่
+if os.path.exists('/sys/firmware/devicetree/base/compatible'):
+    import RPi.GPIO as GPIO
+    GPIO.setmode(GPIO.BOARD)  # ใช้หมายเลขขา GPIO ตามแบบ BOARD (ตัวเลขพิน)
 
-motor_pin_1 = 11  # GPIO pin สำหรับมอเตอร์ 1
-motor_pin_2 = 13  # GPIO pin สำหรับมอเตอร์ 2
-motor_pin_3 = 15  # GPIO pin สำหรับมอเตอร์ 3
+    motor_pin_1 = 11  # GPIO pin สำหรับมอเตอร์ 1
+    motor_pin_2 = 13  # GPIO pin สำหรับมอเตอร์ 2
+    motor_pin_3 = 15  # GPIO pin สำหรับมอเตอร์ 3
 
-GPIO.setup(motor_pin_1, GPIO.OUT)
-GPIO.setup(motor_pin_2, GPIO.OUT)
-GPIO.setup(motor_pin_3, GPIO.OUT)
+    GPIO.setup(motor_pin_1, GPIO.OUT)
+    GPIO.setup(motor_pin_2, GPIO.OUT)
+    GPIO.setup(motor_pin_3, GPIO.OUT)
 
-motor_feedback_pin_1 = 16
-motor_feedback_pin_2 = 18
-motor_feedback_pin_3 = 22
+    motor_feedback_pin_1 = 16
+    motor_feedback_pin_2 = 18
+    motor_feedback_pin_3 = 22
 
-GPIO.setup(motor_feedback_pin_1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(motor_feedback_pin_2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(motor_feedback_pin_3, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(motor_feedback_pin_1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(motor_feedback_pin_2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(motor_feedback_pin_3, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+else:
+    # หากไม่ใช่ Raspberry Pi, ไม่ให้ใช้ GPIO
+    GPIO = None
+    print("ไม่สามารถใช้งาน GPIO บนเครื่องนี้ได้")
 
 def control_motor(motor_id):
     """ ฟังก์ชันควบคุมมอเตอร์ตาม id """
-    logger.info(f"Controlling motor {motor_id}")  
+    if GPIO:
+        logger.info(f"Controlling motor {motor_id}")  
 
-    if motor_id == 1:
-        logger.info("Starting Motor 1...")
-        GPIO.output(motor_pin_1, GPIO.HIGH)
-        while GPIO.input(motor_feedback_pin_1) == GPIO.HIGH:
-            time.sleep(0.1)
-        GPIO.output(motor_pin_1, GPIO.LOW)
-        logger.info("Motor 1 stopped")
+        if motor_id == 1:
+            logger.info("Starting Motor 1...")
+            GPIO.output(motor_pin_1, GPIO.HIGH)
+            while GPIO.input(motor_feedback_pin_1) == GPIO.HIGH:
+                time.sleep(0.1)
+            GPIO.output(motor_pin_1, GPIO.LOW)
+            logger.info("Motor 1 stopped")
 
-    elif motor_id == 2:
-        logger.info("Starting Motor 2...")
-        GPIO.output(motor_pin_2, GPIO.HIGH)
-        while GPIO.input(motor_feedback_pin_2) == GPIO.HIGH:
-            time.sleep(0.1)
-        GPIO.output(motor_pin_2, GPIO.LOW)
-        logger.info("Motor 2 stopped")
+        elif motor_id == 2:
+            logger.info("Starting Motor 2...")
+            GPIO.output(motor_pin_2, GPIO.HIGH)
+            while GPIO.input(motor_feedback_pin_2) == GPIO.HIGH:
+                time.sleep(0.1)
+            GPIO.output(motor_pin_2, GPIO.LOW)
+            logger.info("Motor 2 stopped")
 
-    elif motor_id == 3:
-        logger.info("Starting Motor 3...")
-        GPIO.output(motor_pin_3, GPIO.HIGH)
-        while GPIO.input(motor_feedback_pin_3) == GPIO.HIGH:
-            time.sleep(0.1)
-        GPIO.output(motor_pin_3, GPIO.LOW)
-        logger.info("Motor 3 stopped")
+        elif motor_id == 3:
+            logger.info("Starting Motor 3...")
+            GPIO.output(motor_pin_3, GPIO.HIGH)
+            while GPIO.input(motor_feedback_pin_3) == GPIO.HIGH:
+                time.sleep(0.1)
+            GPIO.output(motor_pin_3, GPIO.LOW)
+            logger.info("Motor 3 stopped")
 
-control_motor(1)
-control_motor(2)
-control_motor(3)
+        GPIO.cleanup()  # ทำความสะอาดการตั้งค่าของ GPIO เมื่อเสร็จ
+    else:
+        logger.warning("GPIO not initialized. Running on non-Raspberry Pi machine.")
 
-GPIO.cleanup()
-
+# ฟังก์ชันสำหรับอัปเดตไอเท็มในตะกร้า
 def updateItem(request):
     data = json.loads(request.body)
     productId = data.get('productId')
@@ -316,14 +338,18 @@ def updateItem(request):
 
     return JsonResponse("Item was updated", safe=False)
 
+# ฟังก์ชันการแสดงหน้าจอสำเร็จหลังการชำระเงิน
 def payment_success(request, order_id):
     order = Order.objects.get(id=order_id)
     return render(request, 'payment_success.html', {'order': order})
 
+# ฟังก์ชันการแสดงหน้าสำเร็จทั่วไป
 def success(request):
     return render(request, 'success.html')  
 
+# ฟังก์ชันการแสดงหน้ายกเลิกการชำระเงิน
 def cancel(request):
     return render(request, 'cancel.html')
+
 
 

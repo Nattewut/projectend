@@ -14,10 +14,13 @@ class Customer(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=200)
-    price = models.FloatField()
+    price = models.FloatField(null=False)  # ปรับให้ไม่มี null เพื่อให้ชัดเจน
     digital = models.BooleanField(default=False, null=True, blank=True)
     image = models.ImageField(null=True, blank=True)
-    motor_control_id = models.IntegerField(choices=[(1, 'Motor 1'), (2, 'Motor 2'), (3, 'Motor 3')], default=1)  # เชื่อมโยงมอเตอร์กับสินค้า
+    motor_control_id = models.IntegerField(
+        choices=[(1, 'Motor 1'), (2, 'Motor 2'), (3, 'Motor 3')],
+        default=1
+    )  # เชื่อมโยงมอเตอร์กับสินค้า
     
     def __str__(self):
         return self.name

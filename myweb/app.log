@@ -1,0 +1,4 @@
+2025-03-29 01:53:14,252 - INFO - Store page rendered with 3 products
+2025-03-29 01:53:16,057 - INFO - Cart page rendered with 3 items in the cart
+2025-03-29 01:53:16,896 - INFO - Checkout page rendered with 3 items in the cart
+2025-03-29 01:53:20,261 - INFO - Received data from Checkout: {'form': {'name': '”‰', 'email': 'ds@ds'}}

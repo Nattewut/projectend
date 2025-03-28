@@ -15,10 +15,8 @@ urlpatterns = [
 
     # ✅ เพิ่ม Webhook สำหรับ Opn Payments
     path('webhook/opn/', views.opn_webhook, name="opn_webhook"),
-    logger.info('Webhook endpoint "/webhook/opn/" registered successfully'),
+
     # ✅ URL สำหรับแสดงผลหลังชำระเงิน
     path('success/', views.success, name='success'),
     path('cancel/', views.cancel, name='cancel'),
 ]
-
-
