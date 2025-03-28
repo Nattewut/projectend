@@ -183,45 +183,50 @@ def create_qr_payment(order):
         logger.error(f"❌ ERROR ใน create_qr_payment: {str(e)}")
         return JsonResponse({"error": str(e)}, status=500)
 
+def verify_signature(request):
+    """ ตรวจสอบลายเซ็นจาก Omise Webhook """
+    signature = request.headers.get('X-Opn-Signature')
+    if not signature:
+        logger.warning("Signature missing")
+        return False
+
+    secret_key = settings.OPN_WEBHOOK_SECRET  # ดึงจาก settings หรือ environment variables
+    body = request.body.decode('utf-8')
+    computed_signature = hmac.new(secret_key.encode(), body.encode(), hashlib.sha256).hexdigest()
+
+    if signature != computed_signature:
+        logger.warning(f"Invalid signature: {signature} != {computed_signature}")
+        return False
+    return True
+
 @csrf_exempt
 def opn_webhook(request):
+    """ รับข้อมูล Webhook จาก Omise """
     logger.info("Received webhook request")
+
+    # ตรวจสอบลายเซ็น
+    if not verify_signature(request):
+        logger.error("Invalid Webhook Signature")
+        return JsonResponse({"error": "Invalid Webhook Signature"}, status=400)
+
     try:
         data = json.loads(request.body)
         logger.info(f"Webhook data: {data}")  # บันทึกข้อมูลที่ได้รับจาก Webhook
         
-        if request.headers.get('X-Opn-Signature') != settings.OPN_WEBHOOK_SECRET:
-            logger.warning("Invalid Webhook Secret")
-            return JsonResponse({"error": "Invalid Webhook Secret"}, status=400)
+        event_type = data.get('key')
+        charge_status = data.get('data', {}).get('object', {}).get('status')
 
-        charge_id = data.get('data', {}).get('object', {}).get('id')
-        status = data.get('data', {}).get('object', {}).get('status')
-
-        logger.info(f"Charge ID: {charge_id}")
-        logger.info(f"Payment status: {status}")
-
-        if status == 'successful':
+        # ตรวจสอบว่าเป็น event 'charge.complete' และการชำระเงินสำเร็จ
+        if event_type == 'charge.complete' and charge_status == 'successful':
+            charge_id = data.get('data', {}).get('object', {}).get('id')
             logger.info(f"Payment successful for charge: {charge_id}")
-        else:
-            logger.warning(f"Payment failed or pending for charge: {charge_id}")
+            # ทำการอัพเดตสถานะการชำระเงินหรือข้อมูลตามความต้องการ
 
         return JsonResponse({"status": "success"}, status=200)
-
+    
     except Exception as e:
         logger.error(f"Error processing webhook: {str(e)}")
         return JsonResponse({"error": "Internal Server Error"}, status=500)
-
-def validate_json(data):
-    """ ตรวจสอบว่า JSON ที่ได้รับมีข้อมูลครบถ้วนหรือไม่ """
-    if 'event' not in data or 'data' not in data:
-        logger.error("Missing 'event' or 'data' key")
-        return False
-    
-    if 'id' not in data['data'] or 'status' not in data['data']:
-        logger.error("Missing 'id' or 'status' in 'data' key")
-        return False
-    
-    return True
 
 GPIO.setmode(GPIO.BOARD)  # ใช้หมายเลขขา GPIO ตามแบบ BOARD (ตัวเลขพิน)
 
