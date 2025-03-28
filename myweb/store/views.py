@@ -199,7 +199,6 @@ def verify_signature(request):
         return False
     return True
 
-@csrf_exempt
 def opn_webhook(request):
     """ รับข้อมูล Webhook จาก Omise """
     logger.info("Received webhook request")
