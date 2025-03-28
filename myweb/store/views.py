@@ -199,14 +199,15 @@ def verify_signature(request):
         return False
     return True
 
+@csrf_exempt
 def opn_webhook(request):
     """ รับข้อมูล Webhook จาก Omise """
     logger.info("Received webhook request")
 
-    # ตรวจสอบ IP ของเครื่องที่ส่ง Webhook มายังเรา
+    # ตรวจสอบ IP ของเครื่องที่ส่ง Webhook มายังเรา (Optional)
     client_ip = request.META.get('REMOTE_ADDR')
     logger.info(f"Client IP: {client_ip}")
-
+    
     # ตรวจสอบลายเซ็น
     if not verify_signature(request):
         logger.error("Invalid Webhook Signature")
@@ -223,13 +224,20 @@ def opn_webhook(request):
         if event_type == 'charge.complete' and charge_status == 'successful':
             charge_id = data.get('data', {}).get('object', {}).get('id')
             logger.info(f"Payment successful for charge: {charge_id}")
-            # ทำการอัพเดตสถานะการชำระเงินหรือข้อมูลตามความต้องการ
+            
+            # อัปเดตสถานะการชำระเงินในฐานข้อมูล (สมมุติว่าใช้โมเดล Order)
+            order = Order.objects.get(charge_id=charge_id)  # ค้นหา Order โดยใช้ charge_id
+            order.payment_status = 'successful'  # เปลี่ยนสถานะเป็น 'successful'
+            order.save()  # บันทึกการเปลี่ยนแปลงในฐานข้อมูล
+            
+            # คุณสามารถเพิ่มการทำงานอื่นๆ ที่ต้องการ เช่น ส่งอีเมลหรือการแจ้งเตือนที่อื่น
 
         return JsonResponse({"status": "success"}, status=200)
     
     except Exception as e:
         logger.error(f"Error processing webhook: {str(e)}")
         return JsonResponse({"error": "Internal Server Error"}, status=500)
+
 
 GPIO.setmode(GPIO.BOARD)  # ใช้หมายเลขขา GPIO ตามแบบ BOARD (ตัวเลขพิน)
 
