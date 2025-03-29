@@ -197,6 +197,7 @@ def verify_signature(request):
     """ ตรวจสอบลายเซ็นจาก Omise Webhook """
     signature = request.headers.get('X-Opn-Signature')
     print(f"Received Signature: {signature}")  # เพิ่ม print เพื่อแสดงลายเซ็นที่ได้รับจาก Webhook
+    
     if not signature:
         logger.warning("Signature missing")
         return False
@@ -221,7 +222,7 @@ def opn_webhook(request):
     # ตรวจสอบ IP ของเครื่องที่ส่ง Webhook มายังเรา (Optional)
     client_ip = request.META.get('REMOTE_ADDR')
     logger.info(f"Client IP: {client_ip}")
-    
+
     # ตรวจสอบลายเซ็น
     if not verify_signature(request):
         logger.error("Invalid Webhook Signature")
