@@ -105,3 +105,14 @@ INFO 2025-03-29 01:53:16,099 basehttp "GET /static/images/arrow-down.png HTTP/1.
 INFO 2025-03-29 01:53:16,900 basehttp "GET /checkout/ HTTP/1.1" 200 9977
 INFO 2025-03-29 01:53:21,181 basehttp "POST /process_order/ HTTP/1.1" 200 275
 INFO 2025-03-29 01:55:54,230 autoreload Watching for file changes with StatReloader
+INFO 2025-03-29 18:26:35,136 autoreload Watching for file changes with StatReloader
+INFO 2025-03-29 18:26:52,160 basehttp "GET / HTTP/1.1" 200 5173
+INFO 2025-03-29 18:26:53,229 basehttp "GET /cart/ HTTP/1.1" 200 6116
+INFO 2025-03-29 18:26:54,015 basehttp "GET /checkout/ HTTP/1.1" 200 9977
+INFO 2025-03-29 18:26:59,627 basehttp "POST /process_order/ HTTP/1.1" 200 275
+INFO 2025-03-29 19:04:09,567 autoreload D:\Desktop\โปรเจค\PROJECTEND ระบบชำระเงินสมบูรแล้วติดปัญหาคุมมอเตอร์\myweb\store\views.py changed, reloading.
+INFO 2025-03-29 19:04:10,128 autoreload Watching for file changes with StatReloader
+INFO 2025-03-29 19:04:34,132 autoreload D:\Desktop\โปรเจค\PROJECTEND ระบบชำระเงินสมบูรแล้วติดปัญหาคุมมอเตอร์\myweb\store\views.py changed, reloading.
+INFO 2025-03-29 19:04:34,669 autoreload Watching for file changes with StatReloader
+INFO 2025-03-29 19:08:54,019 autoreload D:\Desktop\โปรเจค\PROJECTEND ระบบชำระเงินสมบูรแล้วติดปัญหาคุมมอเตอร์\myweb\store\views.py changed, reloading.
+INFO 2025-03-29 19:08:54,567 autoreload Watching for file changes with StatReloader

@@ -349,7 +349,5 @@ def success(request):
 
 # ฟังก์ชันการแสดงหน้ายกเลิกการชำระเงิน
 def cancel(request):
-    return render(request, 'cancel.html')
-
-
+    return render(request, 'cancel.html') 
 
