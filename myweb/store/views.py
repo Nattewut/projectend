@@ -14,6 +14,8 @@ import time
 from django.shortcuts import redirect
 from .models import Product
 import logging
+import hmac
+import hashlib
 
 # ตั้งค่า logger
 logger = logging.getLogger(__name__)
@@ -194,13 +196,16 @@ def create_qr_payment(order):
 def verify_signature(request):
     """ ตรวจสอบลายเซ็นจาก Omise Webhook """
     signature = request.headers.get('X-Opn-Signature')
+    print(f"Received Signature: {signature}")  # เพิ่ม print เพื่อแสดงลายเซ็นที่ได้รับจาก Webhook
     if not signature:
         logger.warning("Signature missing")
         return False
 
-    secret_key = settings.OPN_WEBHOOK_SECRET  # ดึงจาก settings หรือ environment variables
+    secret_key = settings.OPN_SECRET_KEY  # ดึงจาก settings หรือ environment variables
     body = request.body.decode('utf-8')
     computed_signature = hmac.new(secret_key.encode(), body.encode(), hashlib.sha256).hexdigest()
+
+    print(f"Computed Signature: {computed_signature}")  # เพิ่ม print เพื่อแสดงลายเซ็นที่คำนวณ
 
     if signature != computed_signature:
         logger.warning(f"Invalid signature: {signature} != {computed_signature}")
@@ -224,20 +229,24 @@ def opn_webhook(request):
 
     try:
         data = json.loads(request.body)
+        print(f"Received Webhook Data: {data}")  # เพิ่ม print เพื่อแสดงข้อมูลที่ได้รับจาก Webhook
         logger.info(f"Webhook data: {data}")  # บันทึกข้อมูลที่ได้รับจาก Webhook
         
         event_type = data.get('key')
         charge_status = data.get('data', {}).get('object', {}).get('status')
 
+        print(f"Event Type: {event_type}, Charge Status: {charge_status}")  # พิมพ์ข้อมูลเหตุการณ์
+
         # ตรวจสอบว่าเป็น event 'charge.complete' และการชำระเงินสำเร็จ
         if event_type == 'charge.complete' and charge_status == 'successful':
             charge_id = data.get('data', {}).get('object', {}).get('id')
             logger.info(f"Payment successful for charge: {charge_id}")
-            
+            print(f"Payment successful for charge: {charge_id}")  # พิมพ์ข้อมูลการชำระเงิน
+
             # อัปเดตสถานะการชำระเงินในฐานข้อมูล (สมมุติว่าใช้โมเดล Order)
-            order = Order.objects.get(charge_id=charge_id)  # ค้นหา Order โดยใช้ charge_id
-            order.payment_status = 'successful'  # เปลี่ยนสถานะเป็น 'successful'
-            order.save()  # บันทึกการเปลี่ยนแปลงในฐานข้อมูล
+            order = Order.objects.get(charge_id=charge_id)
+            order.payment_status = 'successful'
+            order.save()
             
         return JsonResponse({"status": "success"}, status=200)
     
@@ -282,5 +291,5 @@ def success(request):
 
 # ฟังก์ชันการแสดงหน้ายกเลิกการชำระเงิน
 def cancel(request):
-    return render(request, 'cancel.html') 
+    return render(request, 'cancel.html')  
 
