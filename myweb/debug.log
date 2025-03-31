@@ -105,3 +105,64 @@ INFO 2025-03-29 01:53:16,099 basehttp "GET /static/images/arrow-down.png HTTP/1.
 INFO 2025-03-29 01:53:16,900 basehttp "GET /checkout/ HTTP/1.1" 200 9977
 INFO 2025-03-29 01:53:21,181 basehttp "POST /process_order/ HTTP/1.1" 200 275
 INFO 2025-03-29 01:55:54,230 autoreload Watching for file changes with StatReloader
+INFO 2025-03-31 23:24:52,026 autoreload Watching for file changes with StatReloader
+INFO 2025-03-31 23:24:53,487 basehttp "GET / HTTP/1.1" 200 5173
+INFO 2025-03-31 23:24:54,706 basehttp "GET /cart/ HTTP/1.1" 200 4873
+INFO 2025-03-31 23:24:55,442 basehttp "GET /checkout/ HTTP/1.1" 200 9311
+INFO 2025-03-31 23:24:59,284 basehttp "POST /process_order/ HTTP/1.1" 200 275
+INFO 2025-03-31 23:27:40,841 basehttp "POST /process_order/ HTTP/1.1" 200 275
+INFO 2025-03-31 23:33:46,092 autoreload Watching for file changes with StatReloader
+INFO 2025-03-31 23:34:36,794 autoreload D:\Desktop\โปรเจค\PROJECTEND ระบบชำระเงินสมบูรแล้วติดปัญหาคุมมอเตอร์ - Copy\myweb\store\views.py changed, reloading.
+INFO 2025-03-31 23:34:37,390 autoreload Watching for file changes with StatReloader
+INFO 2025-03-31 23:44:21,574 basehttp "POST /process_order/ HTTP/1.1" 200 276
+INFO 2025-03-31 23:53:57,092 basehttp "POST /process_order/ HTTP/1.1" 200 276
+INFO 2025-03-31 23:59:00,065 autoreload Watching for file changes with StatReloader
+INFO 2025-03-31 23:59:02,797 basehttp "GET / HTTP/1.1" 200 5173
+INFO 2025-03-31 23:59:03,868 basehttp "GET /cart/ HTTP/1.1" 200 4873
+INFO 2025-03-31 23:59:04,946 basehttp "GET /checkout/ HTTP/1.1" 200 9311
+INFO 2025-03-31 23:59:09,265 basehttp "POST /process_order/ HTTP/1.1" 200 276
+INFO 2025-04-01 00:23:17,236 autoreload D:\Desktop\โปรเจค\PROJECTEND ระบบชำระเงินสมบูรแล้วติดปัญหาคุมมอเตอร์ - Copy\myweb\store\views.py changed, reloading.
+INFO 2025-04-01 00:23:17,813 autoreload Watching for file changes with StatReloader
+INFO 2025-04-01 00:29:48,542 autoreload D:\Desktop\โปรเจค\PROJECTEND ระบบชำระเงินสมบูรแล้วติดปัญหาคุมมอเตอร์ - Copy\myweb\store\urls.py changed, reloading.
+INFO 2025-04-01 00:29:49,250 autoreload Watching for file changes with StatReloader
+INFO 2025-04-01 00:34:27,784 autoreload D:\Desktop\โปรเจค\PROJECTEND ระบบชำระเงินสมบูรแล้วติดปัญหาคุมมอเตอร์ - Copy\myweb\store\urls.py changed, reloading.
+INFO 2025-04-01 00:34:28,411 autoreload Watching for file changes with StatReloader
+INFO 2025-04-01 00:34:54,520 autoreload D:\Desktop\โปรเจค\PROJECTEND ระบบชำระเงินสมบูรแล้วติดปัญหาคุมมอเตอร์ - Copy\myweb\store\views.py changed, reloading.
+INFO 2025-04-01 00:34:55,046 autoreload Watching for file changes with StatReloader
+INFO 2025-04-01 00:41:39,728 basehttp "GET / HTTP/1.1" 200 5173
+INFO 2025-04-01 00:41:41,539 basehttp "GET /cart/ HTTP/1.1" 200 4873
+INFO 2025-04-01 00:41:42,426 basehttp "GET /checkout/ HTTP/1.1" 200 9311
+INFO 2025-04-01 00:41:46,392 basehttp "POST /process_order/ HTTP/1.1" 200 276
+INFO 2025-04-01 00:43:06,251 autoreload Watching for file changes with StatReloader
+INFO 2025-04-01 00:43:13,113 basehttp "POST /process_order/ HTTP/1.1" 200 276
+INFO 2025-04-01 00:44:09,371 autoreload Watching for file changes with StatReloader
+INFO 2025-04-01 00:44:13,899 basehttp "POST /process_order/ HTTP/1.1" 200 276
+WARNING 2025-04-01 00:51:10,581 log Not Found: /webhook/
+WARNING 2025-04-01 00:51:10,582 basehttp "POST /webhook/ HTTP/1.1" 404 4809
+INFO 2025-04-01 00:53:59,547 autoreload D:\Desktop\โปรเจค\PROJECTEND ระบบชำระเงินสมบูรแล้วติดปัญหาคุมมอเตอร์ - Copy\myweb\store\urls.py changed, reloading.
+INFO 2025-04-01 00:54:00,133 autoreload Watching for file changes with StatReloader
+WARNING 2025-04-01 00:54:31,293 log Bad Request: /webhook/
+WARNING 2025-04-01 00:54:31,293 basehttp "POST /webhook/ HTTP/1.1" 400 38
+ERROR 2025-04-01 00:54:47,617 log Internal Server Error: /webhook/opn
+Traceback (most recent call last):
+  File "D:\Desktop\ProjectEnd2\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "D:\Desktop\ProjectEnd2\venv\Lib\site-packages\django\utils\deprecation.py", line 131, in __call__
+    response = self.process_response(request, response)
+  File "D:\Desktop\ProjectEnd2\venv\Lib\site-packages\django\middleware\common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Desktop\ProjectEnd2\venv\Lib\site-packages\django\middleware\common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+    ...<9 lines>...
+    )
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 127.0.0.1:8000/webhook/opn/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR 2025-04-01 00:54:47,620 basehttp "POST /webhook/opn HTTP/1.1" 500 70891
+WARNING 2025-04-01 00:54:52,334 log Bad Request: /webhook/
+WARNING 2025-04-01 00:54:52,335 basehttp "POST /webhook/ HTTP/1.1" 400 38
+INFO 2025-04-01 01:00:53,631 autoreload D:\Desktop\โปรเจค\PROJECTEND ระบบชำระเงินสมบูรแล้วติดปัญหาคุมมอเตอร์ - Copy\myweb\store\views.py changed, reloading.
+INFO 2025-04-01 01:00:54,177 autoreload Watching for file changes with StatReloader
+INFO 2025-04-01 01:01:13,046 autoreload Watching for file changes with StatReloader
+ERROR 2025-04-01 01:01:19,680 log Internal Server Error: /webhook/
+ERROR 2025-04-01 01:01:19,681 basehttp "POST /webhook/ HTTP/1.1" 500 38
+INFO 2025-04-01 01:02:29,401 autoreload Watching for file changes with StatReloader

@@ -2,3 +2,30 @@
 2025-03-29 01:53:16,057 - INFO - Cart page rendered with 3 items in the cart
 2025-03-29 01:53:16,896 - INFO - Checkout page rendered with 3 items in the cart
 2025-03-29 01:53:20,261 - INFO - Received data from Checkout: {'form': {'name': '”‰', 'email': 'ds@ds'}}
+2025-03-31 23:24:53,459 - INFO - Store page rendered with 3 products
+2025-03-31 23:24:54,702 - INFO - Cart page rendered with 1 items in the cart
+2025-03-31 23:24:55,410 - INFO - Checkout page rendered with 1 items in the cart
+2025-03-31 23:24:58,293 - INFO - Received data from Checkout: {'form': {'name': 'ew', 'email': 'ew@EW'}}
+2025-03-31 23:27:40,189 - INFO - Received data from Checkout: {'form': {'name': 'ew', 'email': 'ew@EW'}}
+2025-03-31 23:44:20,544 - INFO - Received data from Checkout: {'form': {'name': 'ew', 'email': 'ew@EW'}}
+2025-03-31 23:53:56,262 - INFO - Received data from Checkout: {'form': {'name': 'ew', 'email': 'ew@EW'}}
+2025-03-31 23:59:02,779 - INFO - Store page rendered with 3 products
+2025-03-31 23:59:03,865 - INFO - Cart page rendered with 1 items in the cart
+2025-03-31 23:59:04,944 - INFO - Checkout page rendered with 1 items in the cart
+2025-03-31 23:59:08,286 - INFO - Received data from Checkout: {'form': {'name': '”‰', 'email': 'ds@ds'}}
+2025-04-01 00:41:39,711 - INFO - Store page rendered with 3 products
+2025-04-01 00:41:41,536 - INFO - Cart page rendered with 1 items in the cart
+2025-04-01 00:41:42,423 - INFO - Checkout page rendered with 1 items in the cart
+2025-04-01 00:41:45,641 - INFO - Received data from Checkout: {'form': {'name': '°À', 'email': 'ds@ds'}}
+2025-04-01 00:43:12,374 - INFO - Received data from Checkout: {'form': {'name': '°À', 'email': 'ds@ds'}}
+2025-04-01 00:44:13,181 - INFO - Received data from Checkout: {'form': {'name': '°À', 'email': 'ds@ds'}}
+2025-04-01 00:54:31,291 - INFO - Webhook endpoint "/webhook/opn/" registered successfully
+2025-04-01 00:54:31,291 - INFO - Received webhook request
+2025-04-01 00:54:31,291 - INFO - Client IP: 127.0.0.1
+2025-04-01 00:54:31,292 - WARNING - Signature missing
+2025-04-01 00:54:31,292 - ERROR - Invalid Webhook Signature
+2025-04-01 00:54:52,332 - INFO - Webhook endpoint "/webhook/opn/" registered successfully
+2025-04-01 00:54:52,333 - INFO - Received webhook request
+2025-04-01 00:54:52,333 - INFO - Client IP: 127.0.0.1
+2025-04-01 00:54:52,333 - WARNING - Signature missing
+2025-04-01 00:54:52,334 - ERROR - Invalid Webhook Signature

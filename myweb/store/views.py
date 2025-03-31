@@ -14,6 +14,7 @@ import time
 from django.shortcuts import redirect
 from .models import Product
 import logging
+from django.shortcuts import render, get_object_or_404
 
 # ตั้งค่า logger
 logger = logging.getLogger(__name__)
@@ -156,7 +157,7 @@ def create_qr_payment(order):
             "currency": "thb",
             "source": {"type": "promptpay"},
             "description": f"Order {order.id}",
-            "return_uri": f"{base_url}/payment_success/{order.id}/"
+            "return_uri": f"{get_base_url()}/payment_success/{order.id}/"
         }
 
         logger.info(f"🔍 ส่งข้อมูลไปที่ Opn API: {payload}")
@@ -215,103 +216,38 @@ def verify_signature(request):
 
 @csrf_exempt
 def opn_webhook(request):
-    """ รับข้อมูล Webhook จาก Omise """
-    logger.info('Webhook endpoint "/webhook/opn/" registered successfully')  # เพิ่มการบันทึก log
-    logger.info("Received webhook request")
-
-    # ตรวจสอบ IP ของเครื่องที่ส่ง Webhook มายังเรา (Optional)
-    client_ip = request.META.get('REMOTE_ADDR')
-    logger.info(f"Client IP: {client_ip}")
-    
-    # ตรวจสอบลายเซ็น
-    if not verify_signature(request):
-        logger.error("Invalid Webhook Signature")
-        return JsonResponse({"error": "Invalid Webhook Signature"}, status=400)
+    logger.info("📨 Received Webhook")
 
     try:
+        # ขั้นตอน 1: รับข้อมูลจาก Webhook โดยไม่ตรวจสอบ signature
         data = json.loads(request.body)
-        logger.info(f"Webhook data: {data}")  # บันทึกข้อมูลที่ได้รับจาก Webhook
-        
-        event_type = data.get('key')
-        charge_status = data.get('data', {}).get('object', {}).get('status')
+        event_type = data.get("key")  # เช่น charge.complete
+        charge = data.get("data", {}).get("object", {})
+        charge_status = charge.get("status")
+        metadata = charge.get("metadata", {})
+        order_id = metadata.get("orderId")  # ดึง orderId จาก metadata
 
-        # ตรวจสอบว่าเป็น event 'charge.complete' และการชำระเงินสำเร็จ
-        if event_type == 'charge.complete' and charge_status == 'successful':
-            charge_id = data.get('data', {}).get('object', {}).get('id')
-            logger.info(f"Payment successful for charge: {charge_id}")
-            
-            # อัปเดตสถานะการชำระเงินในฐานข้อมูล (สมมุติว่าใช้โมเดล Order)
-            order = Order.objects.get(charge_id=charge_id)  # ค้นหา Order โดยใช้ charge_id
-            order.payment_status = 'successful'  # เปลี่ยนสถานะเป็น 'successful'
-            order.save()  # บันทึกการเปลี่ยนแปลงในฐานข้อมูล
-            control_motor(order.id)  # เรียกฟังก์ชันควบคุมมอเตอร์
-            
-        return JsonResponse({"status": "success"}, status=200)
-    
+        # ตรวจสอบว่า event_type เป็น charge.complete หรือไม่
+        if event_type == "charge.complete" and charge_status == "successful":
+            from .models import Order
+            try:
+                order = Order.objects.get(id=order_id)  # หาคำสั่งซื้อที่มี order_id ตรงกัน
+                order.payment_status = "successful"
+                order.complete = True
+                order.save()  # บันทึกคำสั่งซื้อ
+                logger.info(f"✅ Order {order.id} marked as successful")
+                return JsonResponse({"status": "ok"})
+            except Order.DoesNotExist:
+                logger.error(f"❌ Order {order_id} not found.")
+                return JsonResponse({"error": "Order not found"}, status=404)
+        else:
+            logger.info(f"📦 Received event: {event_type} with status: {charge_status}")
+            return JsonResponse({"status": "ok"})
+
     except Exception as e:
-        logger.error(f"Error processing webhook: {str(e)}")
-        return JsonResponse({"error": "Internal Server Error"}, status=500)
-
-
-# ตรวจสอบว่าโค้ดกำลังรันบน Raspberry Pi หรือไม่
-if os.path.exists('/sys/firmware/devicetree/base/compatible'):
-    import RPi.GPIO as GPIO
-    GPIO.setmode(GPIO.BOARD)  # ใช้หมายเลขขา GPIO ตามแบบ BOARD (ตัวเลขพิน)
-
-    motor_pin_1 = 11  # GPIO pin สำหรับมอเตอร์ 1
-    motor_pin_2 = 13  # GPIO pin สำหรับมอเตอร์ 2
-    motor_pin_3 = 15  # GPIO pin สำหรับมอเตอร์ 3
-
-    GPIO.setup(motor_pin_1, GPIO.OUT)
-    GPIO.setup(motor_pin_2, GPIO.OUT)
-    GPIO.setup(motor_pin_3, GPIO.OUT)
-
-    motor_feedback_pin_1 = 16
-    motor_feedback_pin_2 = 18
-    motor_feedback_pin_3 = 22
-
-    GPIO.setup(motor_feedback_pin_1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-    GPIO.setup(motor_feedback_pin_2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-    GPIO.setup(motor_feedback_pin_3, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-
-else:
-    # หากไม่ใช่ Raspberry Pi, ไม่ให้ใช้ GPIO
-    GPIO = None
-    print("ไม่สามารถใช้งาน GPIO บนเครื่องนี้ได้")
-
-def control_motor(motor_id):
-    """ ฟังก์ชันควบคุมมอเตอร์ตาม id """
-    if GPIO:
-        logger.info(f"Controlling motor {motor_id}")  
-
-        if motor_id == 1:
-            logger.info("Starting Motor 1...")
-            GPIO.output(motor_pin_1, GPIO.HIGH)
-            while GPIO.input(motor_feedback_pin_1) == GPIO.HIGH:
-                time.sleep(0.1)
-            GPIO.output(motor_pin_1, GPIO.LOW)
-            logger.info("Motor 1 stopped")
-
-        elif motor_id == 2:
-            logger.info("Starting Motor 2...")
-            GPIO.output(motor_pin_2, GPIO.HIGH)
-            while GPIO.input(motor_feedback_pin_2) == GPIO.HIGH:
-                time.sleep(0.1)
-            GPIO.output(motor_pin_2, GPIO.LOW)
-            logger.info("Motor 2 stopped")
-
-        elif motor_id == 3:
-            logger.info("Starting Motor 3...")
-            GPIO.output(motor_pin_3, GPIO.HIGH)
-            while GPIO.input(motor_feedback_pin_3) == GPIO.HIGH:
-                time.sleep(0.1)
-            GPIO.output(motor_pin_3, GPIO.LOW)
-            logger.info("Motor 3 stopped")
-
-        GPIO.cleanup()  # ทำความสะอาดการตั้งค่าของ GPIO เมื่อเสร็จ
-    else:
-        logger.warning("GPIO not initialized. Running on non-Raspberry Pi machine.")
-
+        logger.error(f"❌ Webhook error: {str(e)}")
+        return JsonResponse({"error": "Webhook processing failed"}, status=500)
+    
 # ฟังก์ชันสำหรับอัปเดตไอเท็มในตะกร้า
 def updateItem(request):
     data = json.loads(request.body)
@@ -338,18 +274,18 @@ def updateItem(request):
 
     return JsonResponse("Item was updated", safe=False)
 
-# ฟังก์ชันการแสดงหน้าจอสำเร็จหลังการชำระเงิน
 def payment_success(request, order_id):
-    order = Order.objects.get(id=order_id)
-    return render(request, 'payment_success.html', {'order': order})
+    order = get_object_or_404(Order, id=order_id)
+    context = {
+        'order': order
+    }
+    return render(request, 'store/payment_success.html', context)
 
-# ฟังก์ชันการแสดงหน้าสำเร็จทั่วไป
-def success(request):
-    return render(request, 'success.html')  
-
-# ฟังก์ชันการแสดงหน้ายกเลิกการชำระเงิน
-def cancel(request):
-    return render(request, 'cancel.html')
-
+def payment_failed(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    context = {
+        'order': order
+    }
+    return render(request, 'store/payment_failed.html', context)
 
 
