@@ -242,7 +242,8 @@ def opn_webhook(request):
         if event_type == "charge.complete":
             from .models import Order
             try:
-                order = Order.objects.get(id=order_id)  # หาคำสั่งซื้อที่มี order_id ตรงกัน
+                # ค้นหาคำสั่งซื้อที่มี order_id ตรงกัน
+                order = Order.objects.get(id=order_id)
 
                 if charge_status == "successful":
                     order.payment_status = "successful"
@@ -270,7 +271,7 @@ def opn_webhook(request):
     except Exception as e:
         logger.error(f"❌ Webhook error: {str(e)}")
         return JsonResponse({"error": "Webhook processing failed"}, status=500)
-    
+
 # ฟังก์ชันสำหรับอัปเดตไอเท็มในตะกร้า
 def updateItem(request):
     data = json.loads(request.body)
