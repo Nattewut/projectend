@@ -230,7 +230,8 @@ def opn_webhook(request):
         logger.info(f"Received data: {data}")  # เพิ่ม log เพื่อเช็คข้อมูลที่ได้รับ
 
         event_type = data.get("key")  # เช่น charge.complete
-        charge = data.get("data", {}).get("object", {})
+        # ปรับการเข้าถึงข้อมูล
+        charge = data.get('data', {}).get('object', {})
         charge_status = charge.get("status")
         metadata = charge.get("metadata", {})
         order_id = metadata.get("orderId")  # ดึง orderId จาก metadata
