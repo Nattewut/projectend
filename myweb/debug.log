@@ -166,3 +166,24 @@ INFO 2025-04-01 01:01:13,046 autoreload Watching for file changes with StatReloa
 ERROR 2025-04-01 01:01:19,680 log Internal Server Error: /webhook/
 ERROR 2025-04-01 01:01:19,681 basehttp "POST /webhook/ HTTP/1.1" 500 38
 INFO 2025-04-01 01:02:29,401 autoreload Watching for file changes with StatReloader
+INFO 2025-04-01 01:39:55,269 autoreload Watching for file changes with StatReloader
+INFO 2025-04-01 01:40:00,786 basehttp "GET / HTTP/1.1" 200 5173
+INFO 2025-04-01 01:40:01,963 basehttp "GET /cart/ HTTP/1.1" 200 4873
+INFO 2025-04-01 01:40:04,530 basehttp "GET /checkout/ HTTP/1.1" 200 9311
+INFO 2025-04-01 01:40:08,070 basehttp "POST /process_order/ HTTP/1.1" 200 276
+INFO 2025-04-01 01:41:05,634 autoreload Watching for file changes with StatReloader
+INFO 2025-04-01 01:41:06,832 basehttp "GET / HTTP/1.1" 200 5173
+INFO 2025-04-01 01:41:08,129 basehttp "GET /cart/ HTTP/1.1" 200 4873
+INFO 2025-04-01 01:41:09,686 basehttp "GET /cart/ HTTP/1.1" 200 4873
+INFO 2025-04-01 01:41:10,121 basehttp "GET /checkout/ HTTP/1.1" 200 9311
+INFO 2025-04-01 01:41:13,681 basehttp "POST /process_order/ HTTP/1.1" 200 276
+INFO 2025-04-01 01:50:59,863 autoreload D:\Desktop\โปรเจค\PROJECTEND ระบบชำระเงินสมบูรแล้วติดปัญหาคุมมอเตอร์ - Copy\myweb\store\views.py changed, reloading.
+INFO 2025-04-01 01:51:00,446 autoreload Watching for file changes with StatReloader
+INFO 2025-04-01 01:51:04,170 autoreload Watching for file changes with StatReloader
+INFO 2025-04-01 01:51:13,769 autoreload Watching for file changes with StatReloader
+INFO 2025-04-01 01:51:15,039 basehttp "GET / HTTP/1.1" 200 5173
+INFO 2025-04-01 01:51:16,099 basehttp "GET /cart/ HTTP/1.1" 200 4873
+INFO 2025-04-01 01:51:16,691 basehttp "GET /checkout/ HTTP/1.1" 200 9311
+INFO 2025-04-01 01:51:20,569 basehttp "POST /process_order/ HTTP/1.1" 200 276
+INFO 2025-04-01 01:55:14,792 autoreload D:\Desktop\โปรเจค\PROJECTEND ระบบชำระเงินสมบูรแล้วติดปัญหาคุมมอเตอร์ - Copy\myweb\store\views.py changed, reloading.
+INFO 2025-04-01 01:55:15,390 autoreload Watching for file changes with StatReloader

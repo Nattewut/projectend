@@ -228,15 +228,39 @@ def opn_webhook(request):
         order_id = metadata.get("orderId")  # ดึง orderId จาก metadata
 
         # ตรวจสอบว่า event_type เป็น charge.complete หรือไม่
-        if event_type == "charge.complete" and charge_status == "successful":
+        if event_type == "charge.complete":
             from .models import Order
             try:
                 order = Order.objects.get(id=order_id)  # หาคำสั่งซื้อที่มี order_id ตรงกัน
-                order.payment_status = "successful"
-                order.complete = True
-                order.save()  # บันทึกคำสั่งซื้อ
-                logger.info(f"✅ Order {order.id} marked as successful")
+
+                # บันทึกเวลาที่ได้รับ webhook
+                webhook_received_time = make_aware(datetime.now())
+
+                # เก็บเวลาเมื่อคำสั่งอยู่ในสถานะ "pending"
+                order.pending_time = webhook_received_time
+                order.save()
+
+                # ตรวจสอบว่าเวลาผ่านไป 3 นาทีแล้วหรือยัง
+                if charge_status == "pending":
+                    time_diff = webhook_received_time - order.pending_time
+                    if time_diff > timedelta(minutes=3):
+                        # เปลี่ยนสถานะเป็น "failed" หลังจาก 3 นาที
+                        order.payment_status = "failed"
+                        order.complete = False
+                        order.save()  # บันทึกคำสั่งซื้อ
+                        logger.info(f"⏳ Order {order.id} marked as failed after 3 minutes.")
+                        return JsonResponse({"status": "failed"})
+
+                # หากชำระเงินสำเร็จ
+                if charge_status == "successful":
+                    order.payment_status = "successful"
+                    order.complete = True
+                    order.save()  # บันทึกคำสั่งซื้อ
+                    logger.info(f"✅ Order {order.id} marked as successful")
+                    return JsonResponse({"status": "ok"})
+
                 return JsonResponse({"status": "ok"})
+
             except Order.DoesNotExist:
                 logger.error(f"❌ Order {order_id} not found.")
                 return JsonResponse({"error": "Order not found"}, status=404)
@@ -247,7 +271,7 @@ def opn_webhook(request):
     except Exception as e:
         logger.error(f"❌ Webhook error: {str(e)}")
         return JsonResponse({"error": "Webhook processing failed"}, status=500)
-    
+
 # ฟังก์ชันสำหรับอัปเดตไอเท็มในตะกร้า
 def updateItem(request):
     data = json.loads(request.body)
