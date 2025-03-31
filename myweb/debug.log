@@ -187,3 +187,9 @@ INFO 2025-04-01 01:51:16,691 basehttp "GET /checkout/ HTTP/1.1" 200 9311
 INFO 2025-04-01 01:51:20,569 basehttp "POST /process_order/ HTTP/1.1" 200 276
 INFO 2025-04-01 01:55:14,792 autoreload D:\Desktop\โปรเจค\PROJECTEND ระบบชำระเงินสมบูรแล้วติดปัญหาคุมมอเตอร์ - Copy\myweb\store\views.py changed, reloading.
 INFO 2025-04-01 01:55:15,390 autoreload Watching for file changes with StatReloader
+INFO 2025-04-01 01:55:18,058 basehttp "GET / HTTP/1.1" 200 5173
+INFO 2025-04-01 01:55:18,995 basehttp "GET /cart/ HTTP/1.1" 200 4873
+INFO 2025-04-01 01:55:19,611 basehttp "GET /checkout/ HTTP/1.1" 200 9311
+INFO 2025-04-01 01:55:25,242 basehttp "POST /process_order/ HTTP/1.1" 200 276
+INFO 2025-04-01 02:13:44,841 autoreload D:\Desktop\โปรเจค\PROJECTEND ระบบชำระเงินสมบูรแล้วติดปัญหาคุมมอเตอร์ - Copy\myweb\store\views.py changed, reloading.
+INFO 2025-04-01 02:13:45,426 autoreload Watching for file changes with StatReloader

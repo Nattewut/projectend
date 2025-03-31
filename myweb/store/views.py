@@ -220,7 +220,13 @@ def opn_webhook(request):
 
     try:
         # ขั้นตอน 1: รับข้อมูลจาก Webhook โดยไม่ตรวจสอบ signature
-        data = json.loads(request.body)
+        # ตรวจสอบว่าข้อมูลใน request body เป็น JSON และแปลงมันเป็น dictionary
+        try:
+            data = json.loads(request.body)
+        except json.JSONDecodeError:
+            logger.error("❌ Failed to decode JSON")
+            return JsonResponse({"error": "Invalid JSON format"}, status=400)
+
         event_type = data.get("key")  # เช่น charge.complete
         charge = data.get("data", {}).get("object", {})
         charge_status = charge.get("status")
@@ -233,25 +239,6 @@ def opn_webhook(request):
             try:
                 order = Order.objects.get(id=order_id)  # หาคำสั่งซื้อที่มี order_id ตรงกัน
 
-                # บันทึกเวลาที่ได้รับ webhook
-                webhook_received_time = make_aware(datetime.now())
-
-                # เก็บเวลาเมื่อคำสั่งอยู่ในสถานะ "pending"
-                order.pending_time = webhook_received_time
-                order.save()
-
-                # ตรวจสอบว่าเวลาผ่านไป 3 นาทีแล้วหรือยัง
-                if charge_status == "pending":
-                    time_diff = webhook_received_time - order.pending_time
-                    if time_diff > timedelta(minutes=3):
-                        # เปลี่ยนสถานะเป็น "failed" หลังจาก 3 นาที
-                        order.payment_status = "failed"
-                        order.complete = False
-                        order.save()  # บันทึกคำสั่งซื้อ
-                        logger.info(f"⏳ Order {order.id} marked as failed after 3 minutes.")
-                        return JsonResponse({"status": "failed"})
-
-                # หากชำระเงินสำเร็จ
                 if charge_status == "successful":
                     order.payment_status = "successful"
                     order.complete = True
@@ -259,7 +246,14 @@ def opn_webhook(request):
                     logger.info(f"✅ Order {order.id} marked as successful")
                     return JsonResponse({"status": "ok"})
 
-                return JsonResponse({"status": "ok"})
+                elif charge_status == "pending":
+                    # กรณีที่คำสั่งยังไม่สำเร็จ
+                    logger.info(f"⚠️ Order {order.id} is still pending")
+                    return JsonResponse({"status": "pending"})
+
+                else:
+                    logger.error(f"❌ Unexpected charge status: {charge_status}")
+                    return JsonResponse({"error": "Unexpected charge status"}, status=400)
 
             except Order.DoesNotExist:
                 logger.error(f"❌ Order {order_id} not found.")
