@@ -227,6 +227,8 @@ def opn_webhook(request):
             logger.error("❌ Failed to decode JSON")
             return JsonResponse({"error": "Invalid JSON format"}, status=400)
 
+        logger.info(f"Received data: {data}")  # เพิ่ม log เพื่อเช็คข้อมูลที่ได้รับ
+
         event_type = data.get("key")  # เช่น charge.complete
         charge = data.get("data", {}).get("object", {})
         charge_status = charge.get("status")

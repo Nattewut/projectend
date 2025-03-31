@@ -193,3 +193,5 @@ INFO 2025-04-01 01:55:19,611 basehttp "GET /checkout/ HTTP/1.1" 200 9311
 INFO 2025-04-01 01:55:25,242 basehttp "POST /process_order/ HTTP/1.1" 200 276
 INFO 2025-04-01 02:13:44,841 autoreload D:\Desktop\โปรเจค\PROJECTEND ระบบชำระเงินสมบูรแล้วติดปัญหาคุมมอเตอร์ - Copy\myweb\store\views.py changed, reloading.
 INFO 2025-04-01 02:13:45,426 autoreload Watching for file changes with StatReloader
+INFO 2025-04-01 02:22:22,755 autoreload D:\Desktop\โปรเจค\PROJECTEND ระบบชำระเงินสมบูรแล้วติดปัญหาคุมมอเตอร์ - Copy\myweb\store\views.py changed, reloading.
+INFO 2025-04-01 02:22:23,327 autoreload Watching for file changes with StatReloader
