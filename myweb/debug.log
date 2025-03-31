@@ -213,3 +213,4 @@ INFO 2025-04-01 03:01:26,671 basehttp "GET / HTTP/1.1" 200 5173
 INFO 2025-04-01 03:01:28,532 basehttp "GET /cart/ HTTP/1.1" 200 4873
 INFO 2025-04-01 03:01:29,420 basehttp "GET /checkout/ HTTP/1.1" 200 9311
 INFO 2025-04-01 03:01:34,474 basehttp "POST /process_order/ HTTP/1.1" 200 276
+INFO 2025-04-01 03:33:19,439 autoreload Watching for file changes with StatReloader
