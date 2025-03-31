@@ -227,14 +227,17 @@ def opn_webhook(request):
             logger.error("❌ Failed to decode JSON")
             return JsonResponse({"error": "Invalid JSON format"}, status=400)
 
-        logger.info(f"Received data: {data}")  # เพิ่ม log เพื่อเช็คข้อมูลที่ได้รับ
-
         event_type = data.get("key")  # เช่น charge.complete
-        # ปรับการเข้าถึงข้อมูล
-        charge = data.get('data', {}).get('object', {})
-        charge_status = charge.get("status")
-        metadata = charge.get("metadata", {})
-        order_id = metadata.get("orderId")  # ดึง orderId จาก metadata
+
+        # ตรวจสอบว่า data['data'] เป็น dict ก่อน
+        if isinstance(data.get('data'), dict):
+            charge = data['data'].get('object', {})
+            charge_status = charge.get('status')
+            metadata = charge.get('metadata', {})
+            order_id = metadata.get("orderId")  # ดึง orderId จาก metadata
+        else:
+            logger.error("❌ Webhook 'data' field is not a dictionary")
+            return JsonResponse({"error": "Malformed data structure"}, status=400)
 
         # ตรวจสอบว่า event_type เป็น charge.complete หรือไม่
         if event_type == "charge.complete":
@@ -268,7 +271,7 @@ def opn_webhook(request):
     except Exception as e:
         logger.error(f"❌ Webhook error: {str(e)}")
         return JsonResponse({"error": "Webhook processing failed"}, status=500)
-
+    
 # ฟังก์ชันสำหรับอัปเดตไอเท็มในตะกร้า
 def updateItem(request):
     data = json.loads(request.body)
