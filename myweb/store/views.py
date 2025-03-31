@@ -220,7 +220,6 @@ def opn_webhook(request):
 
     try:
         # ขั้นตอน 1: รับข้อมูลจาก Webhook โดยไม่ตรวจสอบ signature
-        # ตรวจสอบว่าข้อมูลใน request body เป็น JSON และแปลงมันเป็น dictionary
         try:
             data = json.loads(request.body)
         except json.JSONDecodeError:
@@ -229,15 +228,15 @@ def opn_webhook(request):
 
         event_type = data.get("key")  # เช่น charge.complete
 
-        # ตรวจสอบว่า data['data'] เป็น dict ก่อน
+        # ตรวจสอบว่า 'data' เป็น dictionary ก่อน
         if isinstance(data.get('data'), dict):
             charge = data['data'].get('object', {})
             charge_status = charge.get('status')
             metadata = charge.get('metadata', {})
             order_id = metadata.get("orderId")  # ดึง orderId จาก metadata
         else:
-            logger.error("❌ Webhook 'data' field is not a dictionary")
-            return JsonResponse({"error": "Malformed data structure"}, status=400)
+            logger.error("❌ 'data' is not a dictionary or missing.")
+            return JsonResponse({"error": "'data' is not a dictionary or missing"}, status=400)
 
         # ตรวจสอบว่า event_type เป็น charge.complete หรือไม่
         if event_type == "charge.complete":
