@@ -215,21 +215,26 @@ def opn_webhook(request):
 
         # ตรวจสอบว่าข้อมูลใน 'data' เป็น dictionary หรือไม่
         if isinstance(data, dict) and 'data' in data and isinstance(data['data'], dict):
-            # ตรวจสอบว่า 'data' ภายใน 'data' เป็น dictionary
             event_type = data.get("key")  # เช่น charge.complete
-            charge = data['data'].get('object', {}) if isinstance(data['data'], dict) else {}
-            charge_status = charge.get('status', '') if isinstance(charge, dict) else ''
-            metadata = charge.get('metadata', {}) if isinstance(charge, dict) else {}
+            charge = data['data'].get('object', {})
+            charge_status = charge.get('status', '')  # Default to empty string if not found
+            metadata = charge.get('metadata', {})
             order_id = metadata.get("orderId") if isinstance(metadata, dict) else None
         else:
             logger.error("❌ Invalid data format in webhook, 'data' is not a dictionary.")
             return JsonResponse({"error": "'data' field is missing or not a dictionary"}, status=400)
 
+        # ตรวจสอบว่า order_id มีค่า
+        if not order_id:
+            logger.error("❌ Order ID is missing.")
+            return JsonResponse({"error": "Order ID is missing"}, status=400)
+
         # ตรวจสอบว่า event_type เป็น charge.complete หรือไม่
         if event_type == "charge.complete":
             from .models import Order
             try:
-                order = Order.objects.get(id=order_id)  # ค้นหาคำสั่งซื้อที่มี order_id ตรงกัน
+                # ค้นหาคำสั่งซื้อที่มี order_id ตรงกัน
+                order = Order.objects.get(id=order_id)  
 
                 if charge_status == "successful":
                     order.payment_status = "successful"
@@ -239,7 +244,6 @@ def opn_webhook(request):
                     return JsonResponse({"status": "ok"})
 
                 elif charge_status == "pending":
-                    # กรณีที่คำสั่งยังไม่สำเร็จ
                     logger.info(f"⚠️ Order {order.id} is still pending")
                     return JsonResponse({"status": "pending"})
 
@@ -257,6 +261,7 @@ def opn_webhook(request):
     except Exception as e:
         logger.error(f"❌ Webhook error: {str(e)}")
         return JsonResponse({"error": "Webhook processing failed"}, status=500)
+
 
 # ฟังก์ชันสำหรับอัปเดตไอเท็มในตะกร้า
 def updateItem(request):

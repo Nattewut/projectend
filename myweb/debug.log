@@ -251,3 +251,5 @@ INFO 2025-04-01 17:18:39,087 basehttp "GET /cart/ HTTP/1.1" 200 4873
 INFO 2025-04-01 20:33:51,146 autoreload Watching for file changes with StatReloader
 INFO 2025-04-01 20:33:59,027 autoreload D:\Desktop\PROJECTEND ติดปัญหาแค่ 500\myweb\store\views.py changed, reloading.
 INFO 2025-04-01 20:33:59,484 autoreload Watching for file changes with StatReloader
+INFO 2025-04-01 21:43:44,444 autoreload D:\Desktop\PROJECTEND ติดปัญหาแค่ 500\myweb\store\views.py changed, reloading.
+INFO 2025-04-01 21:43:44,916 autoreload Watching for file changes with StatReloader
