@@ -197,6 +197,7 @@ def create_qr_payment(order):
     except Exception as e:
         logger.error(f"❌ ERROR ใน create_qr_payment: {str(e)}")
         return JsonResponse({"error": str(e)}, status=500)
+    
 @csrf_exempt
 def opn_webhook(request):
     logger.info("📨 Received Webhook")
@@ -256,6 +257,7 @@ def opn_webhook(request):
     except Exception as e:
         logger.error(f"❌ Webhook error: {str(e)}")
         return JsonResponse({"error": "Webhook processing failed"}, status=500)
+
 
 # ฟังก์ชันสำหรับอัปเดตไอเท็มในตะกร้า
 def updateItem(request):
