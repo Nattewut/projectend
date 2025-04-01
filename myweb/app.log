@@ -55,3 +55,11 @@
 2025-04-01 03:01:28,531 - INFO - Cart page rendered with 1 items in the cart
 2025-04-01 03:01:29,418 - INFO - Checkout page rendered with 1 items in the cart
 2025-04-01 03:01:33,448 - INFO - Received data from Checkout: {'form': {'name': '°À', 'email': 'ds@Ds'}}
+2025-04-01 14:46:38,731 - INFO - Store page rendered with 3 products
+2025-04-01 14:46:40,008 - INFO - Cart page rendered with 1 items in the cart
+2025-04-01 14:46:40,889 - INFO - Checkout page rendered with 1 items in the cart
+2025-04-01 14:46:44,231 - INFO - Received data from Checkout: {'form': {'name': 'ew', 'email': 'ew@ew'}}
+2025-04-01 15:06:23,894 - INFO - Store page rendered with 3 products
+2025-04-01 15:06:26,060 - INFO - Cart page rendered with 1 items in the cart
+2025-04-01 15:06:26,874 - INFO - Checkout page rendered with 1 items in the cart
+2025-04-01 15:06:30,137 - INFO - Received data from Checkout: {'form': {'name': '”‰', 'email': 'dws@ds'}}

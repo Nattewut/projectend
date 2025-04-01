@@ -214,3 +214,35 @@ INFO 2025-04-01 03:01:28,532 basehttp "GET /cart/ HTTP/1.1" 200 4873
 INFO 2025-04-01 03:01:29,420 basehttp "GET /checkout/ HTTP/1.1" 200 9311
 INFO 2025-04-01 03:01:34,474 basehttp "POST /process_order/ HTTP/1.1" 200 276
 INFO 2025-04-01 03:33:19,439 autoreload Watching for file changes with StatReloader
+WARNING 2025-04-01 03:33:21,042 log Bad Request: /webhook/
+WARNING 2025-04-01 03:33:21,043 basehttp "POST /webhook/ HTTP/1.1" 400 32
+INFO 2025-04-01 03:47:09,673 autoreload D:\Desktop\โปรเจค\PROJECTEND ระบบชำระเงินสมบูรแล้วติดปัญหาคุมมอเตอร์ - Copy\myweb\store\views.py changed, reloading.
+INFO 2025-04-01 03:47:10,262 autoreload Watching for file changes with StatReloader
+INFO 2025-04-01 14:43:00,369 autoreload Watching for file changes with StatReloader
+INFO 2025-04-01 14:43:47,061 autoreload D:\Desktop\โปรเจค\PROJECTEND ระบบชำระเงินสมบูรแล้วติดปัญหาคุมมอเตอร์ - Copy\myweb\myweb\settings.py changed, reloading.
+INFO 2025-04-01 14:43:47,631 autoreload Watching for file changes with StatReloader
+INFO 2025-04-01 14:44:38,226 autoreload D:\Desktop\โปรเจค\PROJECTEND ระบบชำระเงินสมบูรแล้วติดปัญหาคุมมอเตอร์ - Copy\myweb\myweb\settings.py changed, reloading.
+INFO 2025-04-01 14:44:38,740 autoreload Watching for file changes with StatReloader
+INFO 2025-04-01 14:46:36,609 autoreload D:\Desktop\โปรเจค\PROJECTEND ระบบชำระเงินสมบูรแล้วติดปัญหาคุมมอเตอร์ - Copy\myweb\store\views.py changed, reloading.
+INFO 2025-04-01 14:46:37,166 autoreload Watching for file changes with StatReloader
+INFO 2025-04-01 14:46:38,754 basehttp "GET / HTTP/1.1" 200 5173
+WARNING 2025-04-01 14:46:38,864 log Not Found: /favicon.ico
+WARNING 2025-04-01 14:46:38,865 basehttp "GET /favicon.ico HTTP/1.1" 404 5074
+INFO 2025-04-01 14:46:40,011 basehttp "GET /cart/ HTTP/1.1" 200 4873
+INFO 2025-04-01 14:46:40,891 basehttp "GET /checkout/ HTTP/1.1" 200 9311
+INFO 2025-04-01 14:46:45,265 basehttp "POST /process_order/ HTTP/1.1" 200 276
+INFO 2025-04-01 15:04:51,390 autoreload Watching for file changes with StatReloader
+INFO 2025-04-01 15:06:21,745 autoreload D:\Desktop\โปรเจค\PROJECTEND ระบบชำระเงินสมบูรแล้วติดปัญหาคุมมอเตอร์ - Copy\myweb\store\views.py changed, reloading.
+INFO 2025-04-01 15:06:22,252 autoreload Watching for file changes with StatReloader
+INFO 2025-04-01 15:06:23,914 basehttp "GET / HTTP/1.1" 200 5173
+INFO 2025-04-01 15:06:26,063 basehttp "GET /cart/ HTTP/1.1" 200 4873
+INFO 2025-04-01 15:06:26,876 basehttp "GET /checkout/ HTTP/1.1" 200 9311
+INFO 2025-04-01 15:06:31,038 basehttp "POST /process_order/ HTTP/1.1" 200 276
+INFO 2025-04-01 15:51:50,988 basehttp "GET /payment_success/114/ HTTP/1.1" 200 3698
+INFO 2025-04-01 15:55:03,059 basehttp "GET /payment_success/114/ HTTP/1.1" 200 3698
+INFO 2025-04-01 16:06:32,258 autoreload D:\Desktop\โปรเจค\PROJECTEND ระบบชำระเงินสมบูรแล้วติดปัญหาคุมมอเตอร์ - Copy\myweb\store\views.py changed, reloading.
+INFO 2025-04-01 16:06:32,851 autoreload Watching for file changes with StatReloader
+INFO 2025-04-01 16:06:39,470 autoreload Watching for file changes with StatReloader
+INFO 2025-04-01 16:06:56,368 autoreload Watching for file changes with StatReloader
+INFO 2025-04-01 17:18:35,267 autoreload D:\Desktop\โปรเจค\PROJECTEND ระบบชำระเงินสมบูรแล้วติดปัญหาคุมมอเตอร์ - Copy\myweb\store\views.py changed, reloading.
+INFO 2025-04-01 17:18:35,878 autoreload Watching for file changes with StatReloader

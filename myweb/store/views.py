@@ -219,30 +219,32 @@ def opn_webhook(request):
     logger.info("📨 Received Webhook")
 
     try:
-        # ขั้นตอน 1: รับข้อมูลจาก Webhook โดยไม่ตรวจสอบ signature
+        # รับข้อมูลจาก Webhook โดยไม่ตรวจสอบ signature
         try:
             data = json.loads(request.body)
         except json.JSONDecodeError:
             logger.error("❌ Failed to decode JSON")
             return JsonResponse({"error": "Invalid JSON format"}, status=400)
 
-        event_type = data.get("key")  # เช่น charge.complete
+        # Log ข้อมูลที่ได้รับมาเพื่อการตรวจสอบ
+        logger.info(f"Received Webhook Data: {data}")
 
-        # ตรวจสอบว่า 'data' เป็น dictionary ก่อน
-        if isinstance(data.get('data'), dict):
+        # ตรวจสอบว่าข้อมูลใน 'data' เป็น dictionary หรือไม่
+        if isinstance(data, dict) and 'data' in data and isinstance(data['data'], dict):
+            event_type = data.get("key")  # เช่น charge.complete
             charge = data['data'].get('object', {})
             charge_status = charge.get('status')
             metadata = charge.get('metadata', {})
             order_id = metadata.get("orderId")  # ดึง orderId จาก metadata
         else:
-            logger.error("❌ 'data' is not a dictionary or missing.")
-            return JsonResponse({"error": "'data' is not a dictionary or missing"}, status=400)
+            logger.error("❌ Invalid data format in webhook, 'data' is not a dictionary.")
+            return JsonResponse({"error": "'data' field is missing or not a dictionary"}, status=400)
 
         # ตรวจสอบว่า event_type เป็น charge.complete หรือไม่
         if event_type == "charge.complete":
             from .models import Order
             try:
-                order = Order.objects.get(id=order_id)  # หาคำสั่งซื้อที่มี order_id ตรงกัน
+                order = Order.objects.get(id=order_id)  # ค้นหาคำสั่งซื้อที่มี order_id ตรงกัน
 
                 if charge_status == "successful":
                     order.payment_status = "successful"

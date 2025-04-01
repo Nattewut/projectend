@@ -164,15 +164,10 @@ if not OPN_SECRET_KEY:
 else:
     print(f"✅ โหลด OPN_SECRET_KEY สำเร็จ!")
 
-if not OPN_SECRET_KEY:
+if not OPN_PUBLIC_KEY:
     print("⚠️ OPN_PUBLIC_KEY ยังไม่ได้โหลด ตรวจสอบไฟล์ .env และรีสตาร์ทเซิร์ฟเวอร์")
 else:
     print(f"✅ โหลด OPN_PUBLIC_KEY สำเร็จ!")
-
-if not OPN_WEBHOOK_SECRET:
-    print("⚠️ OPN_WEBHOOK_SECRET ยังไม่ได้โหลด ตรวจสอบไฟล์ .env")
-else:
-    print(f"✅ โหลด OPN_WEBHOOK_SECRET สำเร็จ!")
 
 # Logging configuration
 LOGGING = {
