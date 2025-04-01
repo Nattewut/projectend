@@ -198,22 +198,6 @@ def create_qr_payment(order):
         logger.error(f"❌ ERROR ใน create_qr_payment: {str(e)}")
         return JsonResponse({"error": str(e)}, status=500)
 
-def verify_signature(request):
-    """ ตรวจสอบลายเซ็นจาก Omise Webhook """
-    signature = request.headers.get('X-Opn-Signature')
-    if not signature:
-        logger.warning("Signature missing")
-        return False
-
-    secret_key = settings.OPN_WEBHOOK_SECRET  # ดึงจาก settings หรือ environment variables
-    body = request.body.decode('utf-8')
-    computed_signature = hmac.new(secret_key.encode(), body.encode(), hashlib.sha256).hexdigest()
-
-    if signature != computed_signature:
-        logger.warning(f"Invalid signature: {signature} != {computed_signature}")
-        return False
-    return True
-
 @csrf_exempt
 def opn_webhook(request):
     logger.info("📨 Received Webhook")
@@ -231,11 +215,12 @@ def opn_webhook(request):
 
         # ตรวจสอบว่าข้อมูลใน 'data' เป็น dictionary หรือไม่
         if isinstance(data, dict) and 'data' in data and isinstance(data['data'], dict):
+            # ตรวจสอบว่า 'data' ภายใน 'data' เป็น dictionary
             event_type = data.get("key")  # เช่น charge.complete
-            charge = data['data'].get('object', {})
-            charge_status = charge.get('status')
-            metadata = charge.get('metadata', {})
-            order_id = metadata.get("orderId")  # ดึง orderId จาก metadata
+            charge = data['data'].get('object', {}) if isinstance(data['data'], dict) else {}
+            charge_status = charge.get('status', '') if isinstance(charge, dict) else ''
+            metadata = charge.get('metadata', {}) if isinstance(charge, dict) else {}
+            order_id = metadata.get("orderId") if isinstance(metadata, dict) else None
         else:
             logger.error("❌ Invalid data format in webhook, 'data' is not a dictionary.")
             return JsonResponse({"error": "'data' field is missing or not a dictionary"}, status=400)
