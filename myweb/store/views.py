@@ -213,18 +213,17 @@ def opn_webhook(request):
         # Log ข้อมูลที่ได้รับมาเพื่อการตรวจสอบ
         logger.info(f"Received Webhook Data: {data}")
 
-        # ตรวจสอบว่าข้อมูลใน 'data' เป็น dictionary หรือไม่
+        # ตรวจสอบว่า 'data' เป็น dictionary และมี 'data' ภายใน
         if isinstance(data, dict) and 'data' in data and isinstance(data['data'], dict):
-            event_type = data.get("key")  # เช่น charge.complete
+            event_type = data.get("key")
             charge = data['data'].get('object', {})
-            charge_status = charge.get('status', '')  # Default to empty string if not found
+            charge_status = charge.get('status', '')
             metadata = charge.get('metadata', {})
             order_id = metadata.get("orderId") if isinstance(metadata, dict) else None
         else:
             logger.error("❌ Invalid data format in webhook, 'data' is not a dictionary.")
             return JsonResponse({"error": "'data' field is missing or not a dictionary"}, status=400)
 
-        # ตรวจสอบว่า order_id มีค่า
         if not order_id:
             logger.error("❌ Order ID is missing.")
             return JsonResponse({"error": "Order ID is missing"}, status=400)
@@ -233,20 +232,16 @@ def opn_webhook(request):
         if event_type == "charge.complete":
             from .models import Order
             try:
-                # ค้นหาคำสั่งซื้อที่มี order_id ตรงกัน
-                order = Order.objects.get(id=order_id)  
-
+                order = Order.objects.get(id=order_id)  # ค้นหาคำสั่งซื้อที่มี order_id ตรงกัน
                 if charge_status == "successful":
                     order.payment_status = "successful"
                     order.complete = True
                     order.save()  # บันทึกคำสั่งซื้อ
                     logger.info(f"✅ Order {order.id} marked as successful")
                     return JsonResponse({"status": "ok"})
-
                 elif charge_status == "pending":
                     logger.info(f"⚠️ Order {order.id} is still pending")
                     return JsonResponse({"status": "pending"})
-
                 else:
                     logger.error(f"❌ Unexpected charge status: {charge_status}")
                     return JsonResponse({"error": "Unexpected charge status"}, status=400)
