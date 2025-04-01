@@ -201,19 +201,10 @@ def create_qr_payment(order):
 @csrf_exempt
 def opn_webhook(request):
     logger.info("📨 Received Webhook")
-
     try:
-        # รับข้อมูลจาก Webhook โดยไม่ตรวจสอบ signature
-        try:
-            data = json.loads(request.body)
-        except json.JSONDecodeError:
-            logger.error("❌ Failed to decode JSON")
-            return JsonResponse({"error": "Invalid JSON format"}, status=400)
-
-        # Log ข้อมูลที่ได้รับมาเพื่อการตรวจสอบ
+        data = json.loads(request.body)
         logger.info(f"Received Webhook Data: {data}")
 
-        # ตรวจสอบว่า 'data' เป็น dictionary และมี 'data' ภายใน
         if isinstance(data, dict) and 'data' in data and isinstance(data['data'], dict):
             event_type = data.get("key")
             charge = data['data'].get('object', {})
@@ -224,36 +215,24 @@ def opn_webhook(request):
             logger.error("❌ Invalid data format in webhook, 'data' is not a dictionary.")
             return JsonResponse({"error": "'data' field is missing or not a dictionary"}, status=400)
 
-        # ตรวจสอบว่า order_id มีค่าหรือไม่
         if not order_id:
             logger.error("❌ Order ID is missing.")
             return JsonResponse({"error": "Order ID is missing"}, status=400)
 
-        # ตรวจสอบว่า event_type เป็น charge.complete หรือไม่
         if event_type == "charge.complete":
-            from .models import Order
-            try:
-                order = Order.objects.get(id=order_id)  # ค้นหาคำสั่งซื้อที่มี order_id ตรงกัน
-                if charge_status == "successful":
-                    order.payment_status = "successful"
-                    order.complete = True
-                    order.save()  # บันทึกคำสั่งซื้อ
-                    logger.info(f"✅ Order {order.id} marked as successful")
-                    return JsonResponse({"status": "ok"})
-                elif charge_status == "pending":
-                    logger.info(f"⚠️ Order {order.id} is still pending")
-                    return JsonResponse({"status": "pending"})
-                else:
-                    logger.error(f"❌ Unexpected charge status: {charge_status}")
-                    return JsonResponse({"error": "Unexpected charge status"}, status=400)
-
-            except Order.DoesNotExist:
-                logger.error(f"❌ Order {order_id} not found.")
-                return JsonResponse({"error": "Order not found"}, status=404)
+            order = Order.objects.get(id=order_id)  # ใช้คำสั่งนี้ค้นหาคำสั่งซื้อ
+            if charge_status == "successful":
+                order.payment_status = "successful"
+                order.complete = True
+                order.save()
+                logger.info(f"✅ Order {order.id} marked as successful")
+                return JsonResponse({"status": "ok"})
+            else:
+                logger.error(f"❌ Unexpected charge status: {charge_status}")
+                return JsonResponse({"error": "Unexpected charge status"}, status=400)
         else:
             logger.info(f"📦 Received event: {event_type} with status: {charge_status}")
             return JsonResponse({"status": "ok"})
-
     except Exception as e:
         logger.error(f"❌ Webhook error: {str(e)}")
         return JsonResponse({"error": "Webhook processing failed"}, status=500)
