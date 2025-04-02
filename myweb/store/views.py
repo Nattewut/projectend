@@ -203,45 +203,44 @@ def opn_webhook(request):
     logger.info("📨 Received Webhook")
 
     try:
-        # Step 1: รับข้อมูลจาก Webhook
+        # Step 1: รับข้อมูลจาก Webhook และแปลงจาก JSON string ไปเป็น dict
         try:
-            # พยายามแปลง JSON string จาก request.body เป็น dictionary (dict)
             data = json.loads(request.body)
         except json.JSONDecodeError:
             logger.error("❌ Failed to decode JSON")
             return JsonResponse({"error": "Invalid JSON format"}, status=400)
         
-        # Step 2: Log ข้อมูลที่ได้รับมาเพื่อการตรวจสอบ
+        # Step 2: ตรวจสอบว่า data เป็น dictionary
+        if not isinstance(data, dict):
+            logger.error(f"❌ Received data is not a dictionary: {type(data)}")
+            return JsonResponse({"error": "Received data is not a dictionary"}, status=400)
+
         logger.info(f"Received Webhook Data: {data}")
 
-        # Step 3: ตรวจสอบว่า 'data' เป็น dictionary และมี 'data' ภายใน
-        if isinstance(data, dict) and 'data' in data and isinstance(data['data'], dict):
-            # ดึงค่า event_type และ charge status
-            event_type = data.get("key")
-            charge = data['data'].get('object', {})
-            charge_status = charge.get('status', '')
-            metadata = charge.get('metadata', {})
-            order_id = metadata.get("orderId") if isinstance(metadata, dict) else None
-        else:
-            logger.error("❌ Invalid data format in webhook, 'data' is not a dictionary.")
+        # Step 3: ตรวจสอบว่า 'data' field อยู่ภายใน data และเป็น dictionary
+        if 'data' not in data or not isinstance(data['data'], dict):
+            logger.error("❌ 'data' field is missing or not a dictionary.")
             return JsonResponse({"error": "'data' field is missing or not a dictionary"}, status=400)
 
-        # Step 4: ตรวจสอบว่า order_id มีค่า
+        event_type = data.get("key")
+        charge = data['data'].get('object', {})
+        charge_status = charge.get('status', '')
+        metadata = charge.get('metadata', {})
+        order_id = metadata.get("orderId") if isinstance(metadata, dict) else None
+
         if not order_id:
             logger.error("❌ Order ID is missing.")
             return JsonResponse({"error": "Order ID is missing"}, status=400)
 
-        # Step 5: ตรวจสอบว่า event_type เป็น charge.complete
+        # Step 4: Handle 'charge.complete' event
         if event_type == "charge.complete":
             from .models import Order
             try:
-                # ค้นหาคำสั่งซื้อที่ตรงกับ order_id
-                order = Order.objects.get(id=order_id)
+                order = Order.objects.get(id=order_id)  # ค้นหาคำสั่งซื้อที่ตรงกับ order_id
                 if charge_status == "successful":
-                    # อัปเดตสถานะการชำระเงินเป็น successful
                     order.payment_status = "successful"
                     order.complete = True
-                    order.save()  # บันทึกการเปลี่ยนแปลง
+                    order.save()
                     logger.info(f"✅ Order {order.id} marked as successful")
                     return JsonResponse({"status": "ok"})
                 elif charge_status == "pending":
@@ -255,14 +254,13 @@ def opn_webhook(request):
                 logger.error(f"❌ Order {order_id} not found.")
                 return JsonResponse({"error": "Order not found"}, status=404)
         else:
-            # กรณีที่ event ไม่ใช่ charge.complete
             logger.info(f"📦 Received event: {event_type} with status: {charge_status}")
             return JsonResponse({"status": "ok"})
 
     except Exception as e:
-        # ข้อผิดพลาดในการประมวลผล
         logger.error(f"❌ Webhook error: {str(e)}")
         return JsonResponse({"error": "Webhook processing failed"}, status=500)
+
 
 # ฟังก์ชันสำหรับอัปเดตไอเท็มในตะกร้า
 def updateItem(request):
