@@ -197,22 +197,28 @@ def create_qr_payment(order):
     except Exception as e:
         logger.error(f"❌ ERROR ใน create_qr_payment: {str(e)}")
         return JsonResponse({"error": str(e)}, status=500)
-    
-import json
 
 @csrf_exempt
 def opn_webhook(request):
     logger.info("📨 Received Webhook")
     try:
-        data = json.loads(request.body)
-        logger.info(f"Received Webhook Data: {data}")
+        # Step 1: Log ข้อมูลที่ได้รับจาก Webhook
+        logger.info(f"Received Webhook Raw Data: {request.body}")
+
+        # Step 2: พยายามแปลง JSON string จาก request.body เป็น dictionary (dict)
+        try:
+            data = json.loads(request.body)
+        except json.JSONDecodeError:
+            logger.error("❌ Failed to decode JSON")
+            return JsonResponse({"error": "Invalid JSON format"}, status=400)
         
-        # ตรวจสอบว่า data ที่ได้รับเป็น dict หรือไม่
+        # Step 3: ตรวจสอบว่า data ที่ได้รับเป็น dict หรือไม่
         if not isinstance(data, dict):
             logger.error("❌ Data is not a dictionary after parsing JSON.")
             return JsonResponse({"error": "Invalid data format, expected a dictionary."}, status=400)
 
-        if 'data' in data and isinstance(data['data'], dict):
+        # Step 4: ตรวจสอบว่า 'data' มีใน dictionary และเป็น dict
+        if isinstance(data, dict) and 'data' in data and isinstance(data['data'], dict):
             event_type = data.get("key")
             charge = data['data'].get('object', {})
             charge_status = charge.get('status', '')
@@ -222,10 +228,12 @@ def opn_webhook(request):
             logger.error("❌ Invalid data format in webhook, 'data' is not a dictionary.")
             return JsonResponse({"error": "'data' field is missing or not a dictionary"}, status=400)
 
+        # Step 5: ตรวจสอบว่า order_id มีค่า
         if not order_id:
             logger.error("❌ Order ID is missing.")
             return JsonResponse({"error": "Order ID is missing"}, status=400)
 
+        # Step 6: ตรวจสอบว่า event_type เป็น charge.complete
         if event_type == "charge.complete":
             order = Order.objects.get(id=order_id)  # ใช้คำสั่งนี้ค้นหาคำสั่งซื้อ
             if charge_status == "successful":
@@ -238,15 +246,15 @@ def opn_webhook(request):
                 logger.error(f"❌ Unexpected charge status: {charge_status}")
                 return JsonResponse({"error": "Unexpected charge status"}, status=400)
         else:
+            # กรณีที่ event ไม่ใช่ charge.complete
             logger.info(f"📦 Received event: {event_type} with status: {charge_status}")
             return JsonResponse({"status": "ok"})
 
-    except json.JSONDecodeError:
-        logger.error("❌ Failed to decode JSON")
-        return JsonResponse({"error": "Invalid JSON format"}, status=400)
     except Exception as e:
+        # ข้อผิดพลาดในการประมวลผล
         logger.error(f"❌ Webhook error: {str(e)}")
         return JsonResponse({"error": "Webhook processing failed"}, status=500)
+
 
 # ฟังก์ชันสำหรับอัปเดตไอเท็มในตะกร้า
 def updateItem(request):
