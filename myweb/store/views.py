@@ -133,9 +133,7 @@ def create_qr_payment(order):
         logger.error(f"❌ ERROR ใน create_qr_payment: {str(e)}")
         return JsonResponse({"error": str(e)}, status=500)
 
-import json
-from django.http import JsonResponse
-
+@csrf_exempt  # เพิ่ม decorator นี้เพื่อยกเลิกการตรวจสอบ CSRF
 def opn_webhook(request):
     try:
         # ตรวจสอบว่า Webhook ใช้ method POST และ Content-Type เป็น application/json
