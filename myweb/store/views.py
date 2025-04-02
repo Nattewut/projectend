@@ -133,65 +133,49 @@ def create_qr_payment(order):
         logger.error(f"❌ ERROR ใน create_qr_payment: {str(e)}")
         return JsonResponse({"error": str(e)}, status=500)
 
-@csrf_exempt
+import json
+from django.http import JsonResponse
+
 def opn_webhook(request):
-    logger.info("📨 Webhook received")
-
     try:
-        raw = request.body.decode('utf-8')
-        logger.info(f"📦 Raw data: {raw}")
-        data = json.loads(raw)
+        # ตรวจสอบว่า Webhook ใช้ method POST และ Content-Type เป็น application/json
+        if request.method == 'POST' and request.content_type == 'application/json':
+            # อ่านข้อมูล raw ที่ได้รับจาก body ของ request
+            raw_data = request.body.decode('utf-8')
+            print(f"Raw data received: {raw_data}")  # Log raw data ที่ได้รับ
 
-        # ตรวจสอบว่า structure ถูกต้องไหม
-        if not isinstance(data, dict) or "data" not in data or not isinstance(data["data"], dict):
-            logger.error("❌ Webhook format invalid")
-            return JsonResponse({"error": "Invalid format"}, status=400)
+            try:
+                # แปลง JSON string เป็น dictionary
+                data = json.loads(raw_data)
+                print(f"Parsed data: {data}")  # Log ข้อมูลที่แปลงแล้วเป็น dict
+            except json.JSONDecodeError as e:
+                print(f"JSON Decode Error: {e}")  # ถ้าไม่สามารถแปลง JSON ได้
+                return JsonResponse({'error': 'Invalid JSON format'}, status=400)
 
-        event_type = data.get("key")
-        charge = data["data"].get("object", {})
-        charge_id = charge.get("id")
-        charge_status = charge.get("status")
+            # ตรวจสอบว่า 'data' มี 'object' และ 'id' หรือไม่
+            if 'data' in data and 'object' in data['data']:
+                charge = data['data']['object']
+                # ตรวจสอบว่า 'charge' เป็น dict และมี 'id'
+                if isinstance(charge, dict):
+                    charge_id = charge.get("id")
+                    print(f"Charge ID: {charge_id}")  # Log charge ID
 
-        logger.info(f"🔍 Event: {event_type} | Status: {charge_status} | Charge ID: {charge_id}")
-
-        # ตรวจสอบกับ Omise API อีกครั้ง
-        if charge_id:
-            confirm_url = f"https://api.omise.co/charges/{charge_id}"
-            auth = (settings.OPN_SECRET_KEY, '')
-            confirm_resp = requests.get(confirm_url, auth=auth)
-
-            if confirm_resp.status_code == 200:
-                confirmed_data = confirm_resp.json()
-                confirmed_status = confirmed_data.get("status")
-                metadata = confirmed_data.get("metadata", {})
-                order_id = metadata.get("orderId")
-
-                logger.info(f"✅ Confirmed charge status: {confirmed_status} for order ID: {order_id}")
-
-                if event_type == "charge.complete" and confirmed_status == "successful":
-                    try:
-                        order = Order.objects.get(id=order_id)
-                        order.payment_status = "successful"
-                        order.complete = True
-                        order.save()
-                        logger.info(f"🎉 Order {order.id} marked as complete")
-                        return JsonResponse({"status": "ok"})
-                    except Order.DoesNotExist:
-                        logger.error(f"❌ Order not found: {order_id}")
-                        return JsonResponse({"error": "Order not found"}, status=404)
+                    # ทำงานต่อไป เช่น บันทึกข้อมูลลงในฐานข้อมูล
+                    return JsonResponse({'message': 'Webhook processed successfully'}, status=200)
                 else:
-                    logger.warning(f"⚠️ Event not handled or charge not successful")
-                    return JsonResponse({"status": "ignored"})
+                    print("Error: 'charge' is not a dictionary")
+                    return JsonResponse({'error': "'charge' is not a valid dictionary"}, status=400)
             else:
-                logger.error(f"❌ Failed to confirm charge with Omise: {confirm_resp.text}")
-                return JsonResponse({"error": "Failed to confirm charge"}, status=502)
+                print("Error: 'data' or 'object' key missing in the payload")
+                return JsonResponse({'error': "'data' or 'object' key missing in the payload"}, status=400)
 
-        logger.error("❌ Charge ID missing in webhook data")
-        return JsonResponse({"error": "Missing charge ID"}, status=400)
+        else:
+            print("Error: Invalid request method or content type")
+            return JsonResponse({'error': 'Invalid request method or content type'}, status=400)
 
     except Exception as e:
-        logger.exception(f"💥 Webhook handler error: {str(e)}")
-        return JsonResponse({"error": "Webhook processing failed"}, status=500)
+        print(f"Error processing webhook: {e}")  # Log error ที่เกิดขึ้น
+        return JsonResponse({'error': 'Internal Server Error'}, status=500)
 
 
 def updateItem(request):
