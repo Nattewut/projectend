@@ -112,7 +112,7 @@ def create_qr_payment(order):
             "return_uri": f"{get_base_url()}/payment_success/{order.id}/"
         }
 
-        logger.info(f"🔍 ส่งข้อมูลไปที่ Opn API: {payload}")
+        logger.info(f"🔍 ส่งข้อมูไปที่ Opn API: {payload}")
         response = requests.post(url, json=payload, headers=headers)
         data = response.json()
         logger.info(f"🔍 ตอบกลับจาก Opn API: {data}")
@@ -138,7 +138,7 @@ def create_qr_payment(order):
             })
 
         logger.warning("Cannot create QR Code")
-        return JsonResponse({"error": "ไม่สามารถสร้าง QR Code ได้"}, status=422)
+        return JsonResponse({"error": "ไม่สามารถ้าง QR Code ได้"}, status=422)
 
     except Exception as e:
         logger.error(f"❌ ERROR ใน create_qr_payment: {str(e)}")
@@ -153,12 +153,14 @@ def opn_webhook(request):
         data = json.loads(raw)
         logger.info(f"Webhook Data successfully parsed: {data}")
 
-        if not isinstance(data, dict) or 'data' not in data or not isinstance(data['data'], dict):
-            logger.error("❌ Invalid data format in webhook")
-            return JsonResponse({"error": "Invalid data format"}, status=400)
+        charge_data = data.get('data')
+        if isinstance(charge_data, dict):
+            charge = charge_data.get('object', {})
+        else:
+            logger.error(f"❌ Webhook error: Expected dict in data['data'], got {type(charge_data)}")
+            return JsonResponse({"error": "Invalid format in data['data']"}, status=400)
 
         event_type = data.get("key")
-        charge = data['data'].get('object', {})
         charge_status = charge.get('status', '')
         metadata = charge.get('metadata', {})
         order_id = metadata.get("orderId") if isinstance(metadata, dict) else None

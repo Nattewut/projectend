@@ -69,3 +69,7 @@
 2025-04-02 12:07:17,018 - INFO - Cart page rendered with 1 items in the cart
 2025-04-02 12:07:17,691 - INFO - Checkout page rendered with 1 items in the cart
 2025-04-02 12:07:21,112 - INFO - Received data from Checkout: {'form': {'name': '°À', 'email': 'ds@dsd'}}
+2025-04-02 13:58:31,996 - INFO - Store page rendered with 3 products
+2025-04-02 13:58:33,212 - INFO - Cart page rendered with 1 items in the cart
+2025-04-02 13:58:34,156 - INFO - Checkout page rendered with 1 items in the cart
+2025-04-02 13:58:37,611 - INFO - Received data from Checkout: {'form': {'name': '”‰', 'email': 'ds@ds'}}
