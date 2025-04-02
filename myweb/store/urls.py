@@ -14,8 +14,9 @@ urlpatterns = [
     path('create_qr_payment/<int:order_id>/', views.create_qr_payment, name="create_qr_payment"),
 
     # ✅ เพิ่ม Webhook สำหรับ Opn Payments
-    path('webhook/opn/', views.opn_webhook, name="opn_webhook"),
     path('webhook/', views.opn_webhook, name='webhook'),
+    path('webhook/opn/', views.opn_webhook, name='opn_webhook'),
+
     # ✅ URL สำหรับแสดงผลหลังชำระเงิน
     path('payment_failed/<int:order_id>/', views.payment_failed, name='payment_failed'),
     path('payment_success/<int:order_id>/', views.payment_success, name='payment_success'),

@@ -8,9 +8,10 @@ import base64
 from django.views.decorators.csrf import csrf_exempt
 import os
 import logging
-
 from .models import *
 from .utils import cookieCart, cartData, guestOrder
+from .models import Order
+from .utils import get_base_url
 
 # ตั้งค่า logger
 logger = logging.getLogger(__name__)
@@ -26,8 +27,6 @@ console_handler = logging.StreamHandler()
 console_handler.setLevel(logging.INFO)
 console_handler.setFormatter(formatter)
 logger.addHandler(console_handler)
-
-MODE = os.getenv('MODE', 'TEST')
 
 def get_base_url():
     return "https://gnat-crucial-partly.ngrok-free.app"
@@ -109,24 +108,14 @@ def create_qr_payment(order):
             "currency": "thb",
             "source": {"type": "promptpay"},
             "description": f"Order {order.id}",
-            "return_uri": f"{get_base_url()}/payment_success/{order.id}/"
+            "return_uri": f"{get_base_url()}/payment_success/{order.id}/",
+            "metadata": { "orderId": order.id }  # 👈 สำคัญสุดสำหรับ Webhook
         }
 
-        logger.info(f"🔍 ส่งข้อมูไปที่ Opn API: {payload}")
+        logger.info(f"🔍 ส่งข้อมูลไปที่ Opn API: {payload}")
         response = requests.post(url, json=payload, headers=headers)
         data = response.json()
         logger.info(f"🔍 ตอบกลับจาก Opn API: {data}")
-
-        if MODE == 'TEST' and "source" not in data:
-            data = {
-                "source": {
-                    "scannable_code": {
-                        "image": {
-                            "download_uri": "https://some/fake/qr-code-image.png"
-                        }
-                    }
-                }
-            }
 
         if "source" in data and "scannable_code" in data["source"]:
             qr_url = data["source"]["scannable_code"]["image"]["download_uri"]
@@ -137,8 +126,8 @@ def create_qr_payment(order):
                 "amount": order.get_cart_total
             })
 
-        logger.warning("Cannot create QR Code")
-        return JsonResponse({"error": "ไม่สามารถ้าง QR Code ได้"}, status=422)
+        logger.warning("❌ ไม่สามารถสร้าง QR Code ได้")
+        return JsonResponse({"error": "ไม่สามารถสร้าง QR Code ได้"}, status=422)
 
     except Exception as e:
         logger.error(f"❌ ERROR ใน create_qr_payment: {str(e)}")
@@ -146,58 +135,62 @@ def create_qr_payment(order):
 
 @csrf_exempt
 def opn_webhook(request):
-    logger.info("📨 Received Webhook")
+    logger.info("📨 Webhook received")
+
     try:
         raw = request.body.decode('utf-8')
-        logger.info(f"Received Webhook Raw Data: {raw}")
-
+        logger.info(f"📦 Raw data: {raw}")
         data = json.loads(raw)
-        logger.info(f"Webhook Data successfully parsed: {data}")
 
-        # 🔧 FIX: แก้กรณีที่ data['data'] เป็น string แทนที่จะเป็น dict
-        if isinstance(data.get("data"), str):
-            try:
-                data["data"] = json.loads(data["data"])
-                logger.info("✅ Parsed nested JSON in data['data']")
-            except json.JSONDecodeError as e:
-                logger.error(f"❌ Failed to decode nested JSON: {str(e)}")
-                return JsonResponse({"error": "Invalid nested JSON in data['data']"}, status=400)
-
-        if not isinstance(data, dict) or 'data' not in data or not isinstance(data['data'], dict):
-            logger.error("❌ Invalid data format in webhook")
-            return JsonResponse({"error": "Invalid data format"}, status=400)
+        # ตรวจสอบว่า structure ถูกต้องไหม
+        if not isinstance(data, dict) or "data" not in data or not isinstance(data["data"], dict):
+            logger.error("❌ Webhook format invalid")
+            return JsonResponse({"error": "Invalid format"}, status=400)
 
         event_type = data.get("key")
-        charge = data['data'].get('object', {})
-        charge_status = charge.get('status', '')
-        metadata = charge.get('metadata', {})
-        order_id = metadata.get("orderId") if isinstance(metadata, dict) else None
+        charge = data["data"].get("object", {})
+        charge_id = charge.get("id")
+        charge_status = charge.get("status")
 
-        if not order_id:
-            logger.error("❌ Order ID is missing.")
-            return JsonResponse({"error": "Order ID is missing"}, status=400)
+        logger.info(f"🔍 Event: {event_type} | Status: {charge_status} | Charge ID: {charge_id}")
 
-        if event_type == "charge.complete":
-            try:
-                order = Order.objects.get(id=order_id)
-                if charge_status == "successful":
-                    order.payment_status = "successful"
-                    order.complete = True
-                    order.save()
-                    logger.info(f"✅ Order {order.id} marked as successful")
-                    return JsonResponse({"status": "ok"})
+        # ตรวจสอบกับ Omise API อีกครั้ง
+        if charge_id:
+            confirm_url = f"https://api.omise.co/charges/{charge_id}"
+            auth = (settings.OPN_SECRET_KEY, '')
+            confirm_resp = requests.get(confirm_url, auth=auth)
+
+            if confirm_resp.status_code == 200:
+                confirmed_data = confirm_resp.json()
+                confirmed_status = confirmed_data.get("status")
+                metadata = confirmed_data.get("metadata", {})
+                order_id = metadata.get("orderId")
+
+                logger.info(f"✅ Confirmed charge status: {confirmed_status} for order ID: {order_id}")
+
+                if event_type == "charge.complete" and confirmed_status == "successful":
+                    try:
+                        order = Order.objects.get(id=order_id)
+                        order.payment_status = "successful"
+                        order.complete = True
+                        order.save()
+                        logger.info(f"🎉 Order {order.id} marked as complete")
+                        return JsonResponse({"status": "ok"})
+                    except Order.DoesNotExist:
+                        logger.error(f"❌ Order not found: {order_id}")
+                        return JsonResponse({"error": "Order not found"}, status=404)
                 else:
-                    logger.warning(f"❌ Unexpected charge status: {charge_status}")
-                    return JsonResponse({"error": "Unexpected charge status"}, status=400)
-            except Order.DoesNotExist:
-                logger.error(f"❌ Order {order_id} not found.")
-                return JsonResponse({"error": "Order not found"}, status=404)
-        else:
-            logger.info(f"📦 Received event: {event_type} with status: {charge_status}")
-            return JsonResponse({"status": "ok"})
+                    logger.warning(f"⚠️ Event not handled or charge not successful")
+                    return JsonResponse({"status": "ignored"})
+            else:
+                logger.error(f"❌ Failed to confirm charge with Omise: {confirm_resp.text}")
+                return JsonResponse({"error": "Failed to confirm charge"}, status=502)
+
+        logger.error("❌ Charge ID missing in webhook data")
+        return JsonResponse({"error": "Missing charge ID"}, status=400)
 
     except Exception as e:
-        logger.error(f"❌ Webhook error: {str(e)}")
+        logger.exception(f"💥 Webhook handler error: {str(e)}")
         return JsonResponse({"error": "Webhook processing failed"}, status=500)
 
 

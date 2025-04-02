@@ -297,3 +297,54 @@ INFO 2025-04-02 14:22:54,875 autoreload D:\Desktop\PROJECTEND ติดปัญหาแค่ 500\my
 INFO 2025-04-02 14:22:55,355 autoreload Watching for file changes with StatReloader
 INFO 2025-04-02 14:34:02,262 autoreload D:\Desktop\PROJECTEND ติดปัญหาแค่ 500\myweb\store\views.py changed, reloading.
 INFO 2025-04-02 14:34:02,761 autoreload Watching for file changes with StatReloader
+INFO 2025-04-02 19:57:43,656 autoreload D:\Desktop\PROJECTEND ติดปัญหาแค่ 500\myweb\myweb\settings.py changed, reloading.
+INFO 2025-04-02 19:58:07,500 autoreload Watching for file changes with StatReloader
+INFO 2025-04-02 19:59:30,905 autoreload D:\Desktop\PROJECTEND ติดปัญหาแค่ 500\myweb\store\views.py changed, reloading.
+INFO 2025-04-02 19:59:31,360 autoreload Watching for file changes with StatReloader
+INFO 2025-04-02 20:07:46,635 autoreload D:\Desktop\PROJECTEND ติดปัญหาแค่ 500\myweb\store\views.py changed, reloading.
+INFO 2025-04-02 20:07:47,091 autoreload Watching for file changes with StatReloader
+INFO 2025-04-02 20:08:49,624 basehttp "GET / HTTP/1.1" 200 5173
+INFO 2025-04-02 20:09:08,623 basehttp "GET /cart/ HTTP/1.1" 200 4873
+INFO 2025-04-02 20:09:08,814 basehttp "GET /static/css/main.css HTTP/1.1" 200 3856
+INFO 2025-04-02 20:09:08,820 basehttp "GET /static/images/cart.png HTTP/1.1" 200 92001
+INFO 2025-04-02 20:09:08,824 basehttp "GET /static/images/arrow-up.png HTTP/1.1" 200 18590
+INFO 2025-04-02 20:09:08,828 basehttp "GET /static/images/arrow-down.png HTTP/1.1" 200 25650
+INFO 2025-04-02 20:09:08,834 basehttp "GET /images/poster_TUOkDrn.jpg HTTP/1.1" 200 22934
+INFO 2025-04-02 20:09:08,964 basehttp "GET /static/js/cart.js HTTP/1.1" 200 1757
+INFO 2025-04-02 20:09:10,761 basehttp "GET /checkout/ HTTP/1.1" 200 9311
+INFO 2025-04-02 20:09:10,818 basehttp "GET /static/css/main.css HTTP/1.1" 200 3856
+INFO 2025-04-02 20:09:10,846 basehttp "GET /images/poster_TUOkDrn.jpg HTTP/1.1" 200 22934
+INFO 2025-04-02 20:09:10,847 basehttp "GET /static/images/cart.png HTTP/1.1" 200 92001
+INFO 2025-04-02 20:09:10,874 basehttp "GET /static/js/cart.js HTTP/1.1" 200 1757
+INFO 2025-04-02 20:09:16,073 basehttp "POST /process_order/ HTTP/1.1" 200 276
+INFO 2025-04-02 20:09:43,431 autoreload Watching for file changes with StatReloader
+INFO 2025-04-02 20:09:54,785 basehttp "POST /process_order/ HTTP/1.1" 200 276
+INFO 2025-04-02 21:37:31,100 autoreload D:\Desktop\PROJECTEND ติดปัญหาแค่ 500\myweb\store\views.py changed, reloading.
+INFO 2025-04-02 21:37:31,608 autoreload Watching for file changes with StatReloader
+INFO 2025-04-02 21:37:40,441 autoreload Watching for file changes with StatReloader
+INFO 2025-04-02 22:31:38,802 autoreload D:\Desktop\PROJECTEND ติดปัญหาแค่ 500\myweb\store\views.py changed, reloading.
+INFO 2025-04-02 22:31:39,227 autoreload Watching for file changes with StatReloader
+INFO 2025-04-02 22:54:40,491 autoreload D:\Desktop\PROJECTEND ติดปัญหาแค่ 500\myweb\store\utils.py changed, reloading.
+INFO 2025-04-02 22:54:40,961 autoreload Watching for file changes with StatReloader
+INFO 2025-04-02 22:55:10,178 autoreload D:\Desktop\PROJECTEND ติดปัญหาแค่ 500\myweb\store\utils.py changed, reloading.
+INFO 2025-04-02 22:55:10,613 autoreload Watching for file changes with StatReloader
+INFO 2025-04-02 23:03:54,750 autoreload D:\Desktop\PROJECTEND ติดปัญหาแค่ 500\myweb\myweb\settings.py changed, reloading.
+INFO 2025-04-02 23:03:55,215 autoreload Watching for file changes with StatReloader
+INFO 2025-04-02 23:04:22,387 autoreload D:\Desktop\PROJECTEND ติดปัญหาแค่ 500\myweb\store\utils.py changed, reloading.
+INFO 2025-04-02 23:04:22,821 autoreload Watching for file changes with StatReloader
+INFO 2025-04-02 23:04:24,464 basehttp "GET / HTTP/1.1" 200 5173
+INFO 2025-04-02 23:04:25,436 basehttp "GET /cart/ HTTP/1.1" 200 4873
+INFO 2025-04-02 23:04:26,324 basehttp "GET /checkout/ HTTP/1.1" 200 9311
+INFO 2025-04-02 23:04:30,431 basehttp "POST /process_order/ HTTP/1.1" 200 276
+INFO 2025-04-02 23:15:20,446 autoreload Watching for file changes with StatReloader
+INFO 2025-04-02 23:15:25,124 basehttp "POST /process_order/ HTTP/1.1" 200 276
+INFO 2025-04-02 23:31:57,759 autoreload D:\Desktop\PROJECTEND ติดปัญหาแค่ 500\myweb\store\views.py changed, reloading.
+INFO 2025-04-02 23:31:58,224 autoreload Watching for file changes with StatReloader
+INFO 2025-04-02 23:32:00,198 basehttp "GET / HTTP/1.1" 200 5173
+INFO 2025-04-02 23:32:03,956 basehttp "GET / HTTP/1.1" 200 5173
+INFO 2025-04-02 23:32:05,497 basehttp "GET /cart/ HTTP/1.1" 200 4873
+INFO 2025-04-02 23:32:06,743 basehttp "GET /cart/ HTTP/1.1" 200 4873
+INFO 2025-04-02 23:32:07,307 basehttp "GET /checkout/ HTTP/1.1" 200 9311
+INFO 2025-04-02 23:32:11,751 basehttp "POST /process_order/ HTTP/1.1" 200 276
+INFO 2025-04-02 23:40:34,446 autoreload D:\Desktop\PROJECTEND ติดปัญหาแค่ 500\myweb\store\urls.py changed, reloading.
+INFO 2025-04-02 23:40:34,905 autoreload Watching for file changes with StatReloader
