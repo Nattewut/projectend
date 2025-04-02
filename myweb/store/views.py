@@ -150,17 +150,25 @@ def opn_webhook(request):
     try:
         raw = request.body.decode('utf-8')
         logger.info(f"Received Webhook Raw Data: {raw}")
+
         data = json.loads(raw)
         logger.info(f"Webhook Data successfully parsed: {data}")
 
-        charge_data = data.get('data')
-        if isinstance(charge_data, dict):
-            charge = charge_data.get('object', {})
-        else:
-            logger.error(f"❌ Webhook error: Expected dict in data['data'], got {type(charge_data)}")
-            return JsonResponse({"error": "Invalid format in data['data']"}, status=400)
+        # 🔧 FIX: แก้กรณีที่ data['data'] เป็น string แทนที่จะเป็น dict
+        if isinstance(data.get("data"), str):
+            try:
+                data["data"] = json.loads(data["data"])
+                logger.info("✅ Parsed nested JSON in data['data']")
+            except json.JSONDecodeError as e:
+                logger.error(f"❌ Failed to decode nested JSON: {str(e)}")
+                return JsonResponse({"error": "Invalid nested JSON in data['data']"}, status=400)
+
+        if not isinstance(data, dict) or 'data' not in data or not isinstance(data['data'], dict):
+            logger.error("❌ Invalid data format in webhook")
+            return JsonResponse({"error": "Invalid data format"}, status=400)
 
         event_type = data.get("key")
+        charge = data['data'].get('object', {})
         charge_status = charge.get('status', '')
         metadata = charge.get('metadata', {})
         order_id = metadata.get("orderId") if isinstance(metadata, dict) else None
@@ -191,6 +199,7 @@ def opn_webhook(request):
     except Exception as e:
         logger.error(f"❌ Webhook error: {str(e)}")
         return JsonResponse({"error": "Webhook processing failed"}, status=500)
+
 
 def updateItem(request):
     data = json.loads(request.body)
