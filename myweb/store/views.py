@@ -210,14 +210,16 @@ def opn_webhook(request):
         # Step 2: ถ้า request.body เป็น bytes, ให้แปลงเป็น string ก่อน
         if isinstance(request.body, bytes):
             request_body_str = request.body.decode('utf-8')  # แปลงจาก bytes เป็น string
+            logger.info(f"Decoded Webhook Data: {request_body_str}")
         else:
             request_body_str = request.body
 
         # Step 3: พยายามแปลง JSON string จาก request_body_str เป็น dictionary (dict)
         try:
             data = json.loads(request_body_str)
-        except json.JSONDecodeError:
-            logger.error("❌ Failed to decode JSON")
+            logger.info(f"Webhook Data successfully parsed: {data}")
+        except json.JSONDecodeError as e:
+            logger.error(f"❌ Failed to decode JSON: {str(e)}")
             return JsonResponse({"error": "Invalid JSON format"}, status=400)
         
         # Step 4: ตรวจสอบว่า data ที่ได้รับเป็น dict หรือไม่
