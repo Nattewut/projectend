@@ -16,7 +16,7 @@ from dotenv import load_dotenv  # ✅ เพิ่ม dotenv สำหรับ�
 # ✅ แก้ไขให้ใช้ BASE_DIR
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_URL = "https://gnat-crucial-partly.ngrok-free.app"
-
+OMISE_API_VERSION = '2019-05-29'
 
 # ✅ โหลดค่าจากไฟล์ .env (ถ้ามี)
 dotenv_path = os.path.join(BASE_DIR, ".env")

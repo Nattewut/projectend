@@ -133,6 +133,10 @@ def create_qr_payment(order):
         logger.error(f"❌ ERROR ใน create_qr_payment: {str(e)}")
         return JsonResponse({"error": str(e)}, status=500)
 
+import json
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
 @csrf_exempt  # เพิ่ม decorator นี้เพื่อยกเลิกการตรวจสอบ CSRF
 def opn_webhook(request):
     try:
@@ -164,20 +168,27 @@ def opn_webhook(request):
             # ตรวจสอบว่า 'data' มี 'object' และ 'id' หรือไม่
             if 'data' in data and 'object' in data['data']:
                 charge = data['data']['object']
-                
+
                 # ตรวจสอบว่า 'charge' เป็น dict และมี 'id'
                 if isinstance(charge, dict):
                     charge_id = charge.get("id")
+                    if not charge_id:
+                        print("Error: 'id' is missing in 'charge' object")
+                        return JsonResponse({'error': "'id' is missing in 'charge' object"}, status=400)
                     print(f"Charge ID: {charge_id}")  # Log charge ID
 
                     # ทำงานต่อไป เช่น บันทึกข้อมูลลงในฐานข้อมูล
                     return JsonResponse({'message': 'Webhook processed successfully'}, status=200)
+
                 elif isinstance(charge, str):
                     print(f"Warning: 'charge' is a string, attempting to decode it...")
                     try:
                         # หาก 'charge' เป็น string, พยายามแปลงกลับเป็น dictionary
                         charge = json.loads(charge)
                         charge_id = charge.get("id")
+                        if not charge_id:
+                            print("Error: 'id' is missing in 'charge' object")
+                            return JsonResponse({'error': "'id' is missing in 'charge' object"}, status=400)
                         print(f"Decoded charge ID: {charge_id}")  # Log decoded charge ID
 
                         # ทำงานต่อไป เช่น บันทึกข้อมูลลงในฐานข้อมูล
