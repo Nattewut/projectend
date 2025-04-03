@@ -153,6 +153,7 @@ def opn_webhook(request):
             # ตรวจสอบว่า 'data' มี 'object' และ 'id' หรือไม่
             if 'data' in data and 'object' in data['data']:
                 charge = data['data']['object']
+                
                 # ตรวจสอบว่า 'charge' เป็น dict และมี 'id'
                 if isinstance(charge, dict):
                     charge_id = charge.get("id")
@@ -161,7 +162,7 @@ def opn_webhook(request):
                     # ทำงานต่อไป เช่น บันทึกข้อมูลลงในฐานข้อมูล
                     return JsonResponse({'message': 'Webhook processed successfully'}, status=200)
                 else:
-                    print("Error: 'charge' is not a dictionary")
+                    print(f"Error: 'charge' is not a dictionary, found type: {type(charge)}")
                     return JsonResponse({'error': "'charge' is not a valid dictionary"}, status=400)
             else:
                 print("Error: 'data' or 'object' key missing in the payload")
