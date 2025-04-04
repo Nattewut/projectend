@@ -152,41 +152,42 @@ def opn_webhook(request):
                 print(f"JSON Decode Error: {e}")  # ถ้าไม่สามารถแปลง JSON ได้
                 return JsonResponse({'error': 'Invalid JSON format'}, status=400)
 
-            # ลบการตรวจสอบ 'version' ออก
+            # ตรวจสอบเวอร์ชันข้อมูลที่ได้รับ
+            if 'version' not in data:
+                print("Error: 'version' key missing in the payload")
+                return JsonResponse({'error': "'version' key missing in the payload"}, status=400)
+
+            # ตัวอย่างการตรวจสอบเวอร์ชัน หากต้องการรองรับเวอร์ชันที่เฉพาะเจาะจง
+            supported_version = '1.0'  # ตั้งค่าเวอร์ชันที่รองรับ
+            if data['version'] != supported_version:
+                print(f"Error: Unsupported version {data['version']}")
+                return JsonResponse({'error': f"Unsupported version {data['version']}"}, status=400)
+
             # ตรวจสอบว่า 'data' มี 'object' และ 'id' หรือไม่
             if 'data' in data and 'object' in data['data']:
                 charge = data['data']['object']
 
-                # ตรวจสอบว่า 'charge' เป็น dict และมี 'id'
-                if isinstance(charge, dict):
-                    charge_id = charge.get("id")
-                    if not charge_id:
-                        print("Error: 'id' is missing in 'charge' object")
-                        return JsonResponse({'error': "'id' is missing in 'charge' object"}, status=400)
-                    print(f"Charge ID: {charge_id}")  # Log charge ID
-
-                    # ทำงานต่อไป เช่น บันทึกข้อมูลลงในฐานข้อมูล
-                    return JsonResponse({'message': 'Webhook processed successfully'}, status=200)
-
-                elif isinstance(charge, str):
+                # ตรวจสอบว่า 'charge' เป็น string หรือ dictionary
+                if isinstance(charge, str):
                     print(f"Warning: 'charge' is a string, attempting to decode it...")
                     try:
                         # หาก 'charge' เป็น string, พยายามแปลงกลับเป็น dictionary
                         charge = json.loads(charge)
-                        charge_id = charge.get("id")
-                        if not charge_id:
-                            print("Error: 'id' is missing in 'charge' object")
-                            return JsonResponse({'error': "'id' is missing in 'charge' object"}, status=400)
-                        print(f"Decoded charge ID: {charge_id}")  # Log decoded charge ID
-
-                        # ทำงานต่อไป เช่น บันทึกข้อมูลลงในฐานข้อมูล
-                        return JsonResponse({'message': 'Webhook processed successfully'}, status=200)
+                        print(f"Decoded charge: {charge}")  # Log ข้อมูลที่แปลงแล้ว
                     except json.JSONDecodeError as e:
                         print(f"Error: Failed to decode charge string: {e}")
-                        return JsonResponse({'error': 'Charge string could not be decoded'}, status=400)
+                        return JsonResponse({'error': 'Failed to decode charge string'}, status=400)
+                
+                if isinstance(charge, dict) and 'id' in charge:
+                    charge_id = charge['id']
+                    print(f"Charge ID: {charge_id}")  # Log charge ID
+
+                    # ทำงานต่อไป เช่น บันทึกข้อมูลลงในฐานข้อมูล
+                    return JsonResponse({'message': 'Webhook processed successfully'}, status=200)
                 else:
-                    print(f"Error: 'charge' is neither a dictionary nor a string, found type: {type(charge)}")
-                    return JsonResponse({'error': "'charge' is not a valid dictionary or string"}, status=400)
+                    print(f"Error: 'charge' is not a valid dictionary or missing 'id'")
+                    return JsonResponse({'error': "'charge' is not a valid dictionary or missing 'id'"}, status=400)
+
             else:
                 print("Error: 'data' or 'object' key missing in the payload")
                 return JsonResponse({'error': "'data' or 'object' key missing in the payload"}, status=400)
@@ -198,6 +199,7 @@ def opn_webhook(request):
     except Exception as e:
         print(f"Error processing webhook: {e}")  # Log error ที่เกิดขึ้น
         return JsonResponse({'error': 'Internal Server Error'}, status=500)
+
 
 def updateItem(request):
     data = json.loads(request.body)

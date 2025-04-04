@@ -416,3 +416,5 @@ INFO 2025-04-05 01:26:07,442 basehttp "GET /checkout/ HTTP/1.1" 200 9311
 INFO 2025-04-05 01:26:13,833 basehttp "POST /process_order/ HTTP/1.1" 200 276
 INFO 2025-04-05 01:35:43,493 autoreload D:\Desktop\PROJECTEND ติดปัญหาแค่ 500 ไม่มีเวอชั้น\myweb\store\views.py changed, reloading.
 INFO 2025-04-05 01:35:43,982 autoreload Watching for file changes with StatReloader
+INFO 2025-04-05 01:48:03,994 autoreload D:\Desktop\PROJECTEND ติดปัญหาแค่ 500 ไม่มีเวอชั้น\myweb\store\views.py changed, reloading.
+INFO 2025-04-05 01:48:04,462 autoreload Watching for file changes with StatReloader
