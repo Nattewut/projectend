@@ -159,18 +159,19 @@ def opn_webhook(request):
                     order = Order.objects.get(id=order_id)
 
                     # Only update the order status if it's 'pending'
-                    if order.status == 'pending' and order.charge_id == charge_id:
-                        order.status = payment_data.get('status')
+                    if order.payment_status == 'pending' and order.charge_id == charge_id:
+                        # Update payment status
+                        order.payment_status = payment_data.get('status')
                         order.save()
 
                         # If status is not successful, restore stock (modify according to your business logic)
                         if payment_data.get('status') != 'successful':
                             # Add stock back to products (modify logic as necessary)
-                            for product in order.products.all():
+                            for product in order.orderitem_set.all():  # Assuming orderitem_set exists
                                 product.remain_quantity += product.quantity
                                 product.save()
 
-                        logger.info(f"Updated order {order_id} with status: {order.status}")
+                        logger.info(f"Updated order {order_id} with status: {order.payment_status}")
 
                 except Order.DoesNotExist:
                     logger.error(f"Order with id {order_id} not found.")
@@ -188,6 +189,7 @@ def opn_webhook(request):
     except Exception as e:
         logger.error(f"Error processing webhook: {e}")
         return JsonResponse({"message": "Error processing webhook."}, status=500)
+
 
 def updateItem(request):
     data = json.loads(request.body)
