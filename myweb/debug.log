@@ -369,3 +369,29 @@ INFO 2025-04-03 20:38:06,069 autoreload D:\Desktop\PROJECTEND ติดปัญหาแค่ 500\my
 INFO 2025-04-03 20:38:06,555 autoreload Watching for file changes with StatReloader
 INFO 2025-04-03 22:05:57,915 autoreload D:\Desktop\PROJECTEND ติดปัญหาแค่ 500\myweb\store\views.py changed, reloading.
 INFO 2025-04-03 22:05:58,476 autoreload Watching for file changes with StatReloader
+INFO 2025-04-04 20:52:05,704 autoreload Watching for file changes with StatReloader
+INFO 2025-04-04 20:52:07,073 basehttp "GET / HTTP/1.1" 200 5173
+INFO 2025-04-04 20:52:08,038 basehttp "GET /cart/ HTTP/1.1" 200 4873
+INFO 2025-04-04 20:52:08,786 basehttp "GET /checkout/ HTTP/1.1" 200 9311
+INFO 2025-04-04 20:52:12,573 basehttp "POST /process_order/ HTTP/1.1" 200 276
+INFO 2025-04-04 23:57:55,570 autoreload Watching for file changes with StatReloader
+INFO 2025-04-04 23:57:56,953 basehttp "GET / HTTP/1.1" 200 5173
+INFO 2025-04-04 23:57:57,871 basehttp "GET /cart/ HTTP/1.1" 200 4873
+INFO 2025-04-04 23:57:58,537 basehttp "GET /checkout/ HTTP/1.1" 200 9311
+INFO 2025-04-04 23:58:02,562 basehttp "POST /process_order/ HTTP/1.1" 200 276
+INFO 2025-04-05 00:07:08,979 autoreload Watching for file changes with StatReloader
+INFO 2025-04-05 00:07:10,329 basehttp "GET / HTTP/1.1" 200 5173
+INFO 2025-04-05 00:07:11,347 basehttp "GET /cart/ HTTP/1.1" 200 4873
+INFO 2025-04-05 00:07:11,946 basehttp "GET /checkout/ HTTP/1.1" 200 9311
+INFO 2025-04-05 00:07:15,784 basehttp "POST /process_order/ HTTP/1.1" 200 276
+INFO 2025-04-05 00:12:39,872 autoreload D:\Desktop\PROJECTEND ติดปัญหาแค่ 500 ไม่มีเวอชั้น\myweb\store\views.py changed, reloading.
+INFO 2025-04-05 00:12:40,339 autoreload Watching for file changes with StatReloader
+INFO 2025-04-05 00:13:47,432 autoreload D:\Desktop\PROJECTEND ติดปัญหาแค่ 500 ไม่มีเวอชั้น\myweb\store\views.py changed, reloading.
+INFO 2025-04-05 00:13:47,898 autoreload Watching for file changes with StatReloader
+INFO 2025-04-05 00:14:46,819 autoreload D:\Desktop\PROJECTEND ติดปัญหาแค่ 500 ไม่มีเวอชั้น\myweb\store\views.py changed, reloading.
+INFO 2025-04-05 00:14:47,301 autoreload Watching for file changes with StatReloader
+INFO 2025-04-05 00:15:04,360 basehttp "GET / HTTP/1.1" 200 5173
+INFO 2025-04-05 00:15:05,206 basehttp "GET /cart/ HTTP/1.1" 200 4873
+INFO 2025-04-05 00:15:07,170 basehttp "GET /checkout/ HTTP/1.1" 200 9311
+INFO 2025-04-05 00:15:11,388 basehttp "POST /process_order/ HTTP/1.1" 200 276
+INFO 2025-04-05 00:16:47,883 autoreload Watching for file changes with StatReloader

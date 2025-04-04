@@ -14,10 +14,11 @@ from .models import Order
 from .utils import get_base_url
 
 # ตั้งค่า logger
+# logger setup with UTF-8 encoding
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-file_handler = logging.FileHandler('app.log')
+file_handler = logging.FileHandler('app.log', encoding='utf-8')  # ใช้ UTF-8 แทน cp874
 file_handler.setLevel(logging.INFO)
 formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 file_handler.setFormatter(formatter)
@@ -77,7 +78,7 @@ def processOrder(request):
             return JsonResponse({"error": "Missing required fields (name or email)"}, status=422)
 
         total = sum(item.product.price * item.quantity for item in order.orderitem_set.all())
-        logger.info(f"🛒 Order Total: {total}")
+        logger.info(f"Order Total: {total}")  
 
         if total <= 0:
             logger.warning("Invalid total amount")
@@ -132,10 +133,6 @@ def create_qr_payment(order):
     except Exception as e:
         logger.error(f"❌ ERROR ใน create_qr_payment: {str(e)}")
         return JsonResponse({"error": str(e)}, status=500)
-
-import json
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt  # เพิ่ม decorator นี้เพื่อยกเลิกการตรวจสอบ CSRF
 def opn_webhook(request):
