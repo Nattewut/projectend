@@ -137,53 +137,57 @@ def create_qr_payment(order):
 
 @csrf_exempt
 def opn_webhook(request):
-    if request.method == "POST":
-        try:
-            # ตรวจสอบว่า header มีการส่ง Omise-Version มาหรือไม่
-            api_version = request.headers.get('Omise-Version', None)
-            if api_version != OMISE_API_VERSION:
-                logger.warning(f"Invalid Omise API version: {api_version}. Expected version: {OMISE_API_VERSION}")
-                return JsonResponse({"error": "Invalid Omise API version"}, status=400)
-            
-            # อ่านข้อมูล JSON ที่ส่งมาใน body
-            payload = json.loads(request.body.decode('utf-8'))
-            # log ข้อมูลที่ได้รับเพื่อดูโครงสร้าง
-            logger.info(f"Received Webhook: {payload}")
-            
-            # ตรวจสอบว่าเป็น key charge.complete
-            if payload['key'] == 'charge.complete':
-                charge_data = payload['data']
-                charge_id = charge_data['id']
-                order_id = charge_data['metadata']['orderId']
-                status = charge_data['status']
+    try:
+        # Only handle POST requests
+        if request.method == 'POST':
+            # Parse the incoming JSON data
+            body = json.loads(request.body)
+            logger.info("Received webhook: %s", body)
 
-                # ดึงข้อมูล order ที่มี orderId ที่ตรงกับข้อมูลจาก metadata
-                order = Order.objects.filter(order_id=order_id, status='pending').first()
+            # Check if this is the 'charge.complete' event
+            if body.get('key') == 'charge.complete':
+                payment_data = body.get('data')
+                charge_id = payment_data.get('id')
+                order_id = payment_data.get('metadata', {}).get('orderId')
 
-                if order:
-                    # ถ้าเจอ order และสถานะเป็น pending ให้ทำการอัปเดตสถานะ
-                    order.status = status
-                    order.save()
+                # Log for debugging
+                logger.info(f"Received charge.complete for charge_id: {charge_id}, order_id: {order_id}")
 
-                    # ถ้าสถานะไม่ใช่ successful คืนสต็อกสินค้า
-                    if status != 'successful':
-                        restore_stock(order)
+                # Assuming you have an 'Order' model to fetch order data (change to your model as needed)
+                try:
+                    # Fetch order from the database (replace with your actual model and lookup)
+                    order = Order.objects.get(id=order_id)
 
-                    return JsonResponse({"status": "success"}, status=200)
-                else:
-                    logger.warning(f"Order not found or status is not 'pending': {order_id}")
-                    return JsonResponse({"error": "Order not found or not pending"}, status=400)
+                    # Only update the order status if it's 'pending'
+                    if order.status == 'pending' and order.charge_id == charge_id:
+                        order.status = payment_data.get('status')
+                        order.save()
+
+                        # If status is not successful, restore stock (modify according to your business logic)
+                        if payment_data.get('status') != 'successful':
+                            # Add stock back to products (modify logic as necessary)
+                            for product in order.products.all():
+                                product.remain_quantity += product.quantity
+                                product.save()
+
+                        logger.info(f"Updated order {order_id} with status: {order.status}")
+
+                except Order.DoesNotExist:
+                    logger.error(f"Order with id {order_id} not found.")
+
+                # Respond with success
+                return JsonResponse({"message": "Webhook processed successfully."}, status=200)
 
             else:
-                logger.warning(f"Invalid event key: {payload['key']}")
-                return JsonResponse({"error": "Invalid event key"}, status=400)
+                logger.warning(f"Unexpected event type: {body.get('key')}")
+                return JsonResponse({"message": "Invalid event type."}, status=400)
 
-        except Exception as e:
-            logger.error(f"Error processing webhook: {str(e)}")
-            return JsonResponse({"error": "Internal server error"}, status=500)
-    else:
-        return JsonResponse({"error": "Invalid request method"}, status=405)
+        else:
+            return JsonResponse({"message": "Invalid HTTP method."}, status=405)
 
+    except Exception as e:
+        logger.error(f"Error processing webhook: {e}")
+        return JsonResponse({"message": "Error processing webhook."}, status=500)
 
 def updateItem(request):
     data = json.loads(request.body)
