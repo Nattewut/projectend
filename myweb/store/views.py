@@ -135,9 +135,6 @@ def create_qr_payment(order):
         logger.error(f"❌ ERROR ใน create_qr_payment: {str(e)}")
         return JsonResponse({"error": str(e)}, status=500)
 
-# เพิ่มการตรวจสอบเวอร์ชัน Omise
-OMISE_API_VERSION = '2019-05-29'  # ระบุเวอร์ชันที่เราต้องการตรวจสอบ
-
 @csrf_exempt
 def opn_webhook(request):
     if request.method == "POST":
