@@ -444,3 +444,7 @@ INFO 2025-04-05 03:49:43,206 autoreload D:\Desktop\PROJECTEND ติดปัญหาแค่ 500 ไม
 INFO 2025-04-05 03:49:43,665 autoreload Watching for file changes with StatReloader
 INFO 2025-04-05 04:09:59,469 autoreload D:\Desktop\PROJECTEND ติดปัญหาแค่ 500 ไม่มีเวอชั้น\myweb\store\views.py changed, reloading.
 INFO 2025-04-05 04:09:59,962 autoreload Watching for file changes with StatReloader
+INFO 2025-04-05 04:34:18,115 autoreload D:\Desktop\PROJECTEND ติดปัญหาแค่ 500 ไม่มีเวอชั้น\myweb\store\views.py changed, reloading.
+INFO 2025-04-05 04:34:18,569 autoreload Watching for file changes with StatReloader
+INFO 2025-04-05 04:34:45,806 autoreload D:\Desktop\PROJECTEND ติดปัญหาแค่ 500 ไม่มีเวอชั้น\myweb\store\urls.py changed, reloading.
+INFO 2025-04-05 04:34:46,298 autoreload Watching for file changes with StatReloader

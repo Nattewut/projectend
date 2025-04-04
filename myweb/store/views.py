@@ -235,12 +235,13 @@ def updateItem(request):
     return JsonResponse("Item was updated", safe=False)
 
 def payment_success(request, order_id):
+    # ดึงข้อมูล order จากฐานข้อมูล
     order = get_object_or_404(Order, id=order_id)
-    return render(request, 'store/payment_success.html', {'order': order})
+    return render(request, 'payment_success.html', {'order': order})
 
 def payment_failed(request, order_id):
+    # ดึงข้อมูล order จากฐานข้อมูล
     order = get_object_or_404(Order, id=order_id)
-    return render(request, 'store/payment_failed.html', {'order': order})
-
+    return render(request, 'payment_failed.html', {'order': order})
 
 

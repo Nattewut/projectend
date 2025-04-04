@@ -6,4 +6,11 @@
 <p>หมายเลขคำสั่งซื้อ: {{ order.id }}</p>
 <p>สถานะการชำระเงิน: {{ order.payment_status }}</p>
 <a href="/">กลับสู่หน้าร้าน</a>
+
+<script>
+    setTimeout(function() {
+        window.location.href = "{{ return_uri }}";  // ทำการ redirect ไปยัง URL ที่ต้องการ
+    }, 3000);  // รอ 3 วินาที ให้ผู้ใช้เห็นข้อความก่อนที่จะไปหน้าอื่น
+</script>
+
 {% endblock %}

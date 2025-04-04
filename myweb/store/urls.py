@@ -17,7 +17,8 @@ urlpatterns = [
     path('webhook/', views.opn_webhook, name='webhook'),
     path('webhook/opn/', views.opn_webhook, name='opn_webhook'),
 
-    # ✅ URL สำหรับแสดงผลหลังชำระเงิน
-    path('payment_failed/<int:order_id>/', views.payment_failed, name='payment_failed'),
+    # ใน urls.py
     path('payment_success/<int:order_id>/', views.payment_success, name='payment_success'),
+    path('payment_failed/<int:order_id>/', views.payment_failed, name='payment_failed'),
+
 ]
