@@ -135,74 +135,57 @@ def create_qr_payment(order):
         logger.error(f"❌ ERROR ใน create_qr_payment: {str(e)}")
         return JsonResponse({"error": str(e)}, status=500)
 
+# เพิ่มการตรวจสอบเวอร์ชัน Omise
+OMISE_API_VERSION = '2019-05-29'  # ระบุเวอร์ชันที่เราต้องการตรวจสอบ
+
 @csrf_exempt
 def opn_webhook(request):
-    try:
-        # ตรวจสอบว่า Webhook ใช้ method POST และ Content-Type เป็น application/json
-        if request.method == 'POST' and request.content_type == 'application/json':
-            # อ่านข้อมูล raw ที่ได้รับจาก body ของ request
-            raw_data = request.body.decode('utf-8')
-            print(f"Raw data received: {raw_data}")  # Log raw data ที่ได้รับ
+    if request.method == "POST":
+        try:
+            # ตรวจสอบว่า header มีการส่ง Omise-Version มาหรือไม่
+            api_version = request.headers.get('Omise-Version', None)
+            if api_version != OMISE_API_VERSION:
+                logger.warning(f"Invalid Omise API version: {api_version}. Expected version: {OMISE_API_VERSION}")
+                return JsonResponse({"error": "Invalid Omise API version"}, status=400)
+            
+            # อ่านข้อมูล JSON ที่ส่งมาใน body
+            payload = json.loads(request.body.decode('utf-8'))
+            # log ข้อมูลที่ได้รับเพื่อดูโครงสร้าง
+            logger.info(f"Received Webhook: {payload}")
+            
+            # ตรวจสอบว่าเป็น key charge.complete
+            if payload['key'] == 'charge.complete':
+                charge_data = payload['data']
+                charge_id = charge_data['id']
+                order_id = charge_data['metadata']['orderId']
+                status = charge_data['status']
 
-            try:
-                # แปลง JSON string เป็น dictionary
-                data = json.loads(raw_data)
-                print(f"Parsed data: {data}")  # Log ข้อมูลที่แปลงแล้วเป็น dict
-            except json.JSONDecodeError as e:
-                print(f"JSON Decode Error: {e}")  # ถ้าไม่สามารถแปลง JSON ได้
-                return JsonResponse({'error': 'Invalid JSON format'}, status=400)
+                # ดึงข้อมูล order ที่มี orderId ที่ตรงกับข้อมูลจาก metadata
+                order = Order.objects.filter(order_id=order_id, status='pending').first()
 
-            # ใส่ key 'version' ที่ขาดหายไปใน payload ที่ได้รับ
-            if 'version' not in data:
-                print("Adding version key to the payload")
-                data['version'] = '2019-05-29'  # เวอร์ชันที่ต้องการใช้งาน
+                if order:
+                    # ถ้าเจอ order และสถานะเป็น pending ให้ทำการอัปเดตสถานะ
+                    order.status = status
+                    order.save()
 
-            # ตรวจสอบเวอร์ชันข้อมูลที่ได้รับ
-            supported_version = '2019-05-29'  # เวอร์ชันที่รองรับ
-            if data['version'] != supported_version:
-                print(f"Error: Unsupported version {data['version']}")
-                return JsonResponse({'error': f"Unsupported version {data['version']}"}, status=400)
+                    # ถ้าสถานะไม่ใช่ successful คืนสต็อกสินค้า
+                    if status != 'successful':
+                        restore_stock(order)
 
-            # ตรวจสอบว่า 'data' มี 'object' และ 'id' หรือไม่
-            if 'data' in data and 'object' in data['data']:
-                charge = data['data']['object']
-
-                # ตรวจสอบว่า 'charge' เป็น string หรือ dictionary
-                if isinstance(charge, str):
-                    print(f"Warning: 'charge' is a string, attempting to decode it...")
-                    if charge.strip():  # ตรวจสอบว่า 'charge' ไม่ใช่ค่าว่าง
-                        try:
-                            # หาก 'charge' เป็น string, พยายามแปลงกลับเป็น dictionary
-                            charge = json.loads(charge)
-                            print(f"Decoded charge: {charge}")  # Log ข้อมูลที่แปลงแล้ว
-                        except json.JSONDecodeError as e:
-                            print(f"Error: Failed to decode charge string: {e}")
-                            return JsonResponse({'error': 'Failed to decode charge string'}, status=400)
-                    else:
-                        print(f"Error: 'charge' is an empty string.")
-                        return JsonResponse({'error': "'charge' is an empty string."}, status=400)
-
-                if isinstance(charge, dict) and 'id' in charge:
-                    charge_id = charge['id']
-                    print(f"Charge ID: {charge_id}")  # Log charge ID
-
-                    # ทำงานต่อไป เช่น บันทึกข้อมูลลงในฐานข้อมูล
-                    return JsonResponse({'message': 'Webhook processed successfully'}, status=200)
+                    return JsonResponse({"status": "success"}, status=200)
                 else:
-                    print(f"Error: 'charge' is not a valid dictionary or missing 'id'")
-                    return JsonResponse({'error': "'charge' is not a valid dictionary or missing 'id'"}, status=400)
+                    logger.warning(f"Order not found or status is not 'pending': {order_id}")
+                    return JsonResponse({"error": "Order not found or not pending"}, status=400)
 
             else:
-                print("Error: 'data' or 'object' key missing in the payload")
-                return JsonResponse({'error': "'data' or 'object' key missing in the payload"}, status=400)
+                logger.warning(f"Invalid event key: {payload['key']}")
+                return JsonResponse({"error": "Invalid event key"}, status=400)
 
-        else:
-            print("Error: Invalid request method or content type")
-            return JsonResponse({'error': 'Invalid request method or content type'}, status=400)
-
-    except Exception as e:
-        print(f"Error processing webhook: {e}")  # Log error ที่เกิดขึ้น
-        return JsonResponse({'error': 'Internal Server Error'}, status=500)
+        except Exception as e:
+            logger.error(f"Error processing webhook: {str(e)}")
+            return JsonResponse({"error": "Internal server error"}, status=500)
+    else:
+        return JsonResponse({"error": "Invalid request method"}, status=405)
 
 
 def updateItem(request):
