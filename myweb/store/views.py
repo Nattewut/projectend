@@ -170,14 +170,18 @@ def opn_webhook(request):
                 # ตรวจสอบว่า 'charge' เป็น string หรือ dictionary
                 if isinstance(charge, str):
                     print(f"Warning: 'charge' is a string, attempting to decode it...")
-                    try:
-                        # หาก 'charge' เป็น string, พยายามแปลงกลับเป็น dictionary
-                        charge = json.loads(charge)
-                        print(f"Decoded charge: {charge}")  # Log ข้อมูลที่แปลงแล้ว
-                    except json.JSONDecodeError as e:
-                        print(f"Error: Failed to decode charge string: {e}")
-                        return JsonResponse({'error': 'Failed to decode charge string'}, status=400)
-                
+                    if charge.strip():  # ตรวจสอบว่า 'charge' ไม่ใช่ค่าว่าง
+                        try:
+                            # หาก 'charge' เป็น string, พยายามแปลงกลับเป็น dictionary
+                            charge = json.loads(charge)
+                            print(f"Decoded charge: {charge}")  # Log ข้อมูลที่แปลงแล้ว
+                        except json.JSONDecodeError as e:
+                            print(f"Error: Failed to decode charge string: {e}")
+                            return JsonResponse({'error': 'Failed to decode charge string'}, status=400)
+                    else:
+                        print(f"Error: 'charge' is an empty string.")
+                        return JsonResponse({'error': "'charge' is an empty string."}, status=400)
+
                 if isinstance(charge, dict) and 'id' in charge:
                     charge_id = charge['id']
                     print(f"Charge ID: {charge_id}")  # Log charge ID
