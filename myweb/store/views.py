@@ -152,13 +152,13 @@ def opn_webhook(request):
                 print(f"JSON Decode Error: {e}")  # ถ้าไม่สามารถแปลง JSON ได้
                 return JsonResponse({'error': 'Invalid JSON format'}, status=400)
 
-            # ตรวจสอบเวอร์ชันข้อมูลที่ได้รับ
+            # ใส่ key 'version' ที่ขาดหายไปใน payload ที่ได้รับ
             if 'version' not in data:
-                print("Error: 'version' key missing in the payload")
-                return JsonResponse({'error': "'version' key missing in the payload"}, status=400)
+                print("Adding version key to the payload")
+                data['version'] = '2019-05-29'  # เวอร์ชันที่ต้องการใช้งาน
 
-            # ตัวอย่างการตรวจสอบเวอร์ชัน หากต้องการรองรับเวอร์ชันที่เฉพาะเจาะจง
-            supported_version = '1.0'  # ตั้งค่าเวอร์ชันที่รองรับ
+            # ตรวจสอบเวอร์ชันข้อมูลที่ได้รับ
+            supported_version = '2019-05-29'  # เวอร์ชันที่รองรับ
             if data['version'] != supported_version:
                 print(f"Error: Unsupported version {data['version']}")
                 return JsonResponse({'error': f"Unsupported version {data['version']}"}, status=400)
@@ -199,7 +199,6 @@ def opn_webhook(request):
     except Exception as e:
         print(f"Error processing webhook: {e}")  # Log error ที่เกิดขึ้น
         return JsonResponse({'error': 'Internal Server Error'}, status=500)
-
 
 def updateItem(request):
     data = json.loads(request.body)
