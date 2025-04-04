@@ -154,8 +154,27 @@ def opn_webhook(request):
             body = json.loads(request.body)
             logger.info("Received webhook: %s", body)
 
-            # Check if this is the 'charge.complete' event
-            if body.get('key') == 'charge.complete':
+            # Handle charge.create event
+            if body.get('key') == 'charge.create':
+                payment_data = body.get('data')
+                charge_id = payment_data.get('id')
+                order_id = payment_data.get('metadata', {}).get('orderId')
+
+                # Log for debugging
+                logger.info(f"Received charge.create for charge_id: {charge_id}, order_id: {order_id}")
+
+                try:
+                    order = Order.objects.get(id=order_id)
+                    if order.payment_status == 'pending' and order.charge_id == charge_id:
+                        order.payment_status = 'created'  # Or whatever status you need
+                        order.save()
+                        logger.info(f"Updated order {order_id} with status: {order.payment_status}")
+
+                except Order.DoesNotExist:
+                    logger.error(f"Order with id {order_id} not found.")
+
+            # Handle charge.complete event
+            elif body.get('key') == 'charge.complete':
                 payment_data = body.get('data')
                 charge_id = payment_data.get('id')
                 order_id = payment_data.get('metadata', {}).get('orderId')
@@ -163,35 +182,22 @@ def opn_webhook(request):
                 # Log for debugging
                 logger.info(f"Received charge.complete for charge_id: {charge_id}, order_id: {order_id}")
 
-                # Assuming you have an 'Order' model to fetch order data (change to your model as needed)
                 try:
-                    # Fetch order from the database (replace with your actual model and lookup)
                     order = Order.objects.get(id=order_id)
-
-                    # Only update the order status if it's 'pending'
                     if order.payment_status == 'pending' and order.charge_id == charge_id:
-                        # Update payment status
                         order.payment_status = payment_data.get('status')
                         order.save()
-
-                        # If status is not successful, restore stock (modify according to your business logic)
-                        if payment_data.get('status') != 'successful':
-                            # Add stock back to products (modify logic as necessary)
-                            for product in order.orderitem_set.all():  # Assuming orderitem_set exists
-                                product.remain_quantity += product.quantity
-                                product.save()
-
                         logger.info(f"Updated order {order_id} with status: {order.payment_status}")
 
                 except Order.DoesNotExist:
                     logger.error(f"Order with id {order_id} not found.")
 
-                # Respond with success
-                return JsonResponse({"message": "Webhook processed successfully."}, status=200)
-
             else:
                 logger.warning(f"Unexpected event type: {body.get('key')}")
                 return JsonResponse({"message": "Invalid event type."}, status=400)
+
+            # Respond with success
+            return JsonResponse({"message": "Webhook processed successfully."}, status=200)
 
         else:
             return JsonResponse({"message": "Invalid HTTP method."}, status=405)
@@ -199,7 +205,6 @@ def opn_webhook(request):
     except Exception as e:
         logger.error(f"Error processing webhook: {e}")
         return JsonResponse({"message": "Error processing webhook."}, status=500)
-
 
 def updateItem(request):
     data = json.loads(request.body)
