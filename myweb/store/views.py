@@ -204,6 +204,7 @@ def opn_webhook(request):
         print(f"Error processing webhook: {e}")  # Log error ที่เกิดขึ้น
         return JsonResponse({'error': 'Internal Server Error'}, status=500)
 
+
 def updateItem(request):
     data = json.loads(request.body)
     productId = data.get('productId')
