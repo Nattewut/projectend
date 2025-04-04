@@ -135,7 +135,7 @@ def create_qr_payment(order):
         logger.error(f"❌ ERROR ใน create_qr_payment: {str(e)}")
         return JsonResponse({"error": str(e)}, status=500)
 
-@csrf_exempt  # เพิ่ม decorator นี้เพื่อยกเลิกการตรวจสอบ CSRF
+@csrf_exempt
 def opn_webhook(request):
     try:
         # ตรวจสอบว่า Webhook ใช้ method POST และ Content-Type เป็น application/json
