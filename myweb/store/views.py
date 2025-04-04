@@ -235,13 +235,39 @@ def updateItem(request):
     return JsonResponse("Item was updated", safe=False)
 
 def payment_success(request, order_id):
-    # ดึงข้อมูล order จากฐานข้อมูล
-    order = get_object_or_404(Order, id=order_id)
-    return render(request, 'payment_success.html', {'order': order})
-
+    try:
+        # ดึงข้อมูลคำสั่งซื้อจากฐานข้อมูล
+        order = Order.objects.get(id=order_id)
+        
+        # คำนวณ URL ที่จะ redirect ไป
+        return_uri = f"{get_base_url()}/payment_success/{order.id}/"
+        
+        # เพิ่ม print เพื่อดูว่า return_uri เป็นอะไร
+        print(f"Payment Success - Redirecting to: {return_uri}")
+        
+        # ส่งข้อมูลไปยัง template
+        return render(request, 'payment_success.html', {'order': order, 'return_uri': return_uri})
+    
+    except Order.DoesNotExist:
+        # ถ้าไม่พบคำสั่งซื้อ
+        return JsonResponse({"error": "Order not found"}, status=404)
+    
 def payment_failed(request, order_id):
-    # ดึงข้อมูล order จากฐานข้อมูล
-    order = get_object_or_404(Order, id=order_id)
-    return render(request, 'payment_failed.html', {'order': order})
+    try:
+        # ดึงข้อมูลคำสั่งซื้อจากฐานข้อมูล
+        order = Order.objects.get(id=order_id)
+        
+        # คำนวณ URL ที่จะ redirect ไป
+        return_uri = f"{get_base_url()}/payment_failed/{order.id}/"
+        
+        # เพิ่ม print เพื่อดูว่า return_uri เป็นอะไร
+        print(f"Payment Failed - Redirecting to: {return_uri}")
+        
+        # ส่งข้อมูลไปยัง template
+        return render(request, 'payment_failed.html', {'order': order, 'return_uri': return_uri})
+    
+    except Order.DoesNotExist:
+        # ถ้าไม่พบคำสั่งซื้อ
+        return JsonResponse({"error": "Order not found"}, status=404)
 
 

@@ -7,10 +7,12 @@
 <p>สถานะการชำระเงิน: {{ order.payment_status }}</p>
 <a href="/">กลับสู่หน้าร้าน</a>
 
-<script>
-    setTimeout(function() {
-        window.location.href = "{{ return_uri }}";  // ทำการ redirect ไปยัง URL ที่ต้องการ
-    }, 3000);  // รอ 3 วินาที ให้ผู้ใช้เห็นข้อความก่อนที่จะไปหน้าอื่น
-</script>
+<!-- เพิ่ม print เพื่อดูค่า return_uri ที่ใช้ในการ redirect -->
+<p>กำลังไปที่: <strong>{{ return_uri }}</strong></p>
 
+<script>
+    // แสดงการ redirect ไปยัง URL ที่ต้องการ
+    console.log("Redirecting to:", "{{ return_uri }}");
+    window.location.href = "{{ return_uri }}"; 
+</script>
 {% endblock %}
