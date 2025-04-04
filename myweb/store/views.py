@@ -95,7 +95,11 @@ def processOrder(request):
 
 def create_qr_payment(order):
     try:
+        # ตรวจสอบ amount ที่คำนวณแล้ว
         amount = int(order.get_cart_total * 100)
+        logger.info(f"Amount in cents: {amount}")
+
+        # URL สำหรับการสร้าง charge ผ่าน Opn API
         url = "https://api.omise.co/charges"
         auth_token = base64.b64encode(f"{settings.OPN_SECRET_KEY}:".encode()).decode()
 
@@ -104,12 +108,16 @@ def create_qr_payment(order):
             "Content-Type": "application/json"
         }
 
+        # ตรวจสอบ URL ที่จะใช้เป็น return_uri
+        return_uri = f"{get_base_url()}/payment_success/{order.id}/"
+        logger.info(f"Return URI: {return_uri}")
+
         payload = {
             "amount": amount,
             "currency": "thb",
             "source": {"type": "promptpay"},
             "description": f"Order {order.id}",
-            "return_uri": f"{get_base_url()}/payment_success/{order.id}/",
+            "return_uri": return_uri,
             "metadata": { "orderId": order.id }, 
             "version": "2019-05-29"
         }
@@ -119,6 +127,7 @@ def create_qr_payment(order):
         data = response.json()
         logger.info(f"🔍 ตอบกลับจาก Opn API: {data}")
 
+        # ตรวจสอบว่าได้รับข้อมูล scannable_code หรือไม่
         if "source" in data and "scannable_code" in data["source"]:
             qr_url = data["source"]["scannable_code"]["image"]["download_uri"]
             return JsonResponse({
@@ -128,13 +137,14 @@ def create_qr_payment(order):
                 "amount": order.get_cart_total
             })
 
-        logger.warning("❌ ไม่สามารถสร้าง QR Code ได้")
+        # หากไม่มี scannable_code ใน response
+        logger.warning(f"❌ QR Code not found in the response data: {data}")
         return JsonResponse({"error": "ไม่สามารถสร้าง QR Code ได้"}, status=422)
 
     except Exception as e:
         logger.error(f"❌ ERROR ใน create_qr_payment: {str(e)}")
-        return JsonResponse({"error": str(e)}, status=500)
-
+        return JsonResponse({"error": f"Error: {str(e)}"}, status=500)
+    
 @csrf_exempt
 def opn_webhook(request):
     try:
