@@ -109,7 +109,12 @@ def create_qr_payment(order):
         }
 
         # ตรวจสอบ URL ที่จะใช้เป็น return_uri
-        return_uri = f"{get_base_url()}/payment_success/{order.id}/"
+        # เช็คสถานะการชำระเงิน ว่าจะเป็น payment_success หรือ payment_failed
+        if order.payment_status == "failed":
+            return_uri = f"{get_base_url()}/payment_failed/{order.id}/"
+        else:
+            return_uri = f"{get_base_url()}/payment_success/{order.id}/"
+        
         logger.info(f"Return URI: {return_uri}")
 
         payload = {
@@ -118,7 +123,7 @@ def create_qr_payment(order):
             "source": {"type": "promptpay"},
             "description": f"Order {order.id}",
             "return_uri": return_uri,
-            "metadata": { "orderId": order.id }, 
+            "metadata": { "orderId": order.id },
             "version": "2019-05-29"
         }
 
@@ -144,7 +149,7 @@ def create_qr_payment(order):
     except Exception as e:
         logger.error(f"❌ ERROR ใน create_qr_payment: {str(e)}")
         return JsonResponse({"error": f"Error: {str(e)}"}, status=500)
-    
+
 @csrf_exempt
 def opn_webhook(request):
     try:
