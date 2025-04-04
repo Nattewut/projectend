@@ -395,3 +395,24 @@ INFO 2025-04-05 00:15:05,206 basehttp "GET /cart/ HTTP/1.1" 200 4873
 INFO 2025-04-05 00:15:07,170 basehttp "GET /checkout/ HTTP/1.1" 200 9311
 INFO 2025-04-05 00:15:11,388 basehttp "POST /process_order/ HTTP/1.1" 200 276
 INFO 2025-04-05 00:16:47,883 autoreload Watching for file changes with StatReloader
+INFO 2025-04-05 00:16:50,785 basehttp "GET /checkout/ HTTP/1.1" 200 9311
+INFO 2025-04-05 00:16:58,163 basehttp "POST /process_order/ HTTP/1.1" 200 276
+INFO 2025-04-05 00:51:05,047 autoreload Watching for file changes with StatReloader
+INFO 2025-04-05 00:51:06,375 basehttp "GET / HTTP/1.1" 200 5173
+INFO 2025-04-05 00:51:07,406 basehttp "GET /cart/ HTTP/1.1" 200 4873
+INFO 2025-04-05 00:51:08,334 basehttp "GET /checkout/ HTTP/1.1" 200 9311
+INFO 2025-04-05 00:51:12,105 basehttp "POST /process_order/ HTTP/1.1" 200 276
+INFO 2025-04-05 01:24:31,584 autoreload D:\Desktop\PROJECTEND ติดปัญหาแค่ 500 ไม่มีเวอชั้น\myweb\store\views.py changed, reloading.
+INFO 2025-04-05 01:24:32,104 autoreload Watching for file changes with StatReloader
+INFO 2025-04-05 01:24:42,432 autoreload D:\Desktop\PROJECTEND ติดปัญหาแค่ 500 ไม่มีเวอชั้น\myweb\store\views.py changed, reloading.
+INFO 2025-04-05 01:24:42,848 autoreload Watching for file changes with StatReloader
+INFO 2025-04-05 01:24:47,610 autoreload D:\Desktop\PROJECTEND ติดปัญหาแค่ 500 ไม่มีเวอชั้น\myweb\store\views.py changed, reloading.
+INFO 2025-04-05 01:24:48,070 autoreload Watching for file changes with StatReloader
+INFO 2025-04-05 01:26:02,503 autoreload D:\Desktop\PROJECTEND ติดปัญหาแค่ 500 ไม่มีเวอชั้น\myweb\store\views.py changed, reloading.
+INFO 2025-04-05 01:26:02,935 autoreload Watching for file changes with StatReloader
+INFO 2025-04-05 01:26:05,740 basehttp "GET / HTTP/1.1" 200 5173
+INFO 2025-04-05 01:26:06,788 basehttp "GET /cart/ HTTP/1.1" 200 4873
+INFO 2025-04-05 01:26:07,442 basehttp "GET /checkout/ HTTP/1.1" 200 9311
+INFO 2025-04-05 01:26:13,833 basehttp "POST /process_order/ HTTP/1.1" 200 276
+INFO 2025-04-05 01:35:43,493 autoreload D:\Desktop\PROJECTEND ติดปัญหาแค่ 500 ไม่มีเวอชั้น\myweb\store\views.py changed, reloading.
+INFO 2025-04-05 01:35:43,982 autoreload Watching for file changes with StatReloader

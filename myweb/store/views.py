@@ -110,7 +110,8 @@ def create_qr_payment(order):
             "source": {"type": "promptpay"},
             "description": f"Order {order.id}",
             "return_uri": f"{get_base_url()}/payment_success/{order.id}/",
-            "metadata": { "orderId": order.id }  # 👈 สำคัญสุดสำหรับ Webhook
+            "metadata": { "orderId": order.id }, 
+            "version": "2019-05-29"
         }
 
         logger.info(f"🔍 ส่งข้อมูลไปที่ Opn API: {payload}")
@@ -151,17 +152,7 @@ def opn_webhook(request):
                 print(f"JSON Decode Error: {e}")  # ถ้าไม่สามารถแปลง JSON ได้
                 return JsonResponse({'error': 'Invalid JSON format'}, status=400)
 
-            # ตรวจสอบเวอร์ชันข้อมูลที่ได้รับ
-            if 'version' not in data:
-                print("Error: 'version' key missing in the payload")
-                return JsonResponse({'error': "'version' key missing in the payload"}, status=400)
-
-            # ตัวอย่างการตรวจสอบเวอร์ชัน หากต้องการรองรับเวอร์ชันที่เฉพาะเจาะจง
-            supported_version = '1.0'  # ตั้งค่าเวอร์ชันที่รองรับ
-            if data['version'] != supported_version:
-                print(f"Error: Unsupported version {data['version']}")
-                return JsonResponse({'error': f"Unsupported version {data['version']}"}, status=400)
-
+            # ลบการตรวจสอบ 'version' ออก
             # ตรวจสอบว่า 'data' มี 'object' และ 'id' หรือไม่
             if 'data' in data and 'object' in data['data']:
                 charge = data['data']['object']
