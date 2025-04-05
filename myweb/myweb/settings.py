@@ -71,7 +71,7 @@ ROOT_URLCONF = 'myweb.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'store', 'templates')],  # ใช้ os.path.join แทน /
+        'DIRS': [os.path.join(BASE_DIR, 'store', 'templates', 'store')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

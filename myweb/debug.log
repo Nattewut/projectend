@@ -454,3 +454,14 @@ INFO 2025-04-05 13:52:33,942 autoreload D:\Desktop\PROJECTEND ติดปัญหาแค่ 500 ไม
 INFO 2025-04-05 13:52:34,517 autoreload Watching for file changes with StatReloader
 INFO 2025-04-05 18:27:50,447 autoreload D:\Desktop\PROJECTEND ติดปัญหาแค่ 500 ไม่มีเวอชั้น\myweb\myweb\settings.py changed, reloading.
 INFO 2025-04-05 18:55:04,047 autoreload Watching for file changes with StatReloader
+INFO 2025-04-05 18:55:10,986 basehttp "GET / HTTP/1.1" 200 5173
+INFO 2025-04-05 18:55:11,018 basehttp "GET /static/images/cart.png HTTP/1.1" 304 0
+INFO 2025-04-05 18:55:11,022 basehttp "GET /images/poster_TUOkDrn.jpg HTTP/1.1" 304 0
+INFO 2025-04-05 18:55:11,025 basehttp "GET /static/js/cart.js HTTP/1.1" 304 0
+INFO 2025-04-05 18:55:12,173 basehttp "GET /cart/ HTTP/1.1" 200 4873
+INFO 2025-04-05 18:55:12,216 basehttp "GET /static/images/arrow-up.png HTTP/1.1" 304 0
+INFO 2025-04-05 18:55:12,216 basehttp "GET /static/images/arrow-down.png HTTP/1.1" 304 0
+INFO 2025-04-05 18:55:13,066 basehttp "GET /checkout/ HTTP/1.1" 200 9311
+INFO 2025-04-05 18:55:17,535 basehttp "POST /process_order/ HTTP/1.1" 200 276
+INFO 2025-04-05 20:47:08,246 autoreload D:\Desktop\PROJECTEND ติดปัญหาแค่ 500 ไม่มีเวอชั้น\myweb\myweb\settings.py changed, reloading.
+INFO 2025-04-05 20:47:08,949 autoreload Watching for file changes with StatReloader
