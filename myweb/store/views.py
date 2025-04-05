@@ -234,27 +234,25 @@ def updateItem(request):
 
     return JsonResponse("Item was updated", safe=False)
 
+# views.py
 def payment_success(request, order_id):
-    # พิมพ์การทำงาน
-    print(f"Starting payment success processing for order {order_id}")
     logger.info(f"Starting payment success processing for order {order_id}")
     
-    # ดึงข้อมูล order จากฐานข้อมูล
+    # ดึงข้อมูลคำสั่งซื้อ
     order = get_object_or_404(Order, id=order_id)
-    print(f"Order retrieved: {order.id}, Payment status: {order.payment_status}")
     logger.info(f"Order retrieved: {order.id}, Payment status: {order.payment_status}")
     
-    # แสดงหน้าชำระเงินสำเร็จ
-    return render(request, 'payment_success.html', {'order': order})
+    # ตรวจสอบสถานะการชำระเงิน
+    if order.payment_status == 'successful':
+        return render(request, 'payment_success.html', {'order': order})
+    else:
+        return redirect('payment_failed', order_id=order.id)
 
 def payment_failed(request, order_id):
-    # พิมพ์การทำงาน
-    print(f"Starting payment failure processing for order {order_id}")
     logger.info(f"Starting payment failure processing for order {order_id}")
     
-    # ดึงข้อมูล order จากฐานข้อมูล
+    # ดึงข้อมูลคำสั่งซื้อ
     order = get_object_or_404(Order, id=order_id)
-    print(f"Order retrieved: {order.id}, Payment status: {order.payment_status}")
     logger.info(f"Order retrieved: {order.id}, Payment status: {order.payment_status}")
     
     # แสดงหน้าชำระเงินไม่สำเร็จ
