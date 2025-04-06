@@ -444,3 +444,9 @@ INFO 2025-04-05 03:49:43,206 autoreload D:\Desktop\PROJECTEND ติดปัญหาแค่ 500 ไม
 INFO 2025-04-05 03:49:43,665 autoreload Watching for file changes with StatReloader
 INFO 2025-04-05 04:09:59,469 autoreload D:\Desktop\PROJECTEND ติดปัญหาแค่ 500 ไม่มีเวอชั้น\myweb\store\views.py changed, reloading.
 INFO 2025-04-05 04:09:59,962 autoreload Watching for file changes with StatReloader
+INFO 2025-04-06 20:20:10,270 autoreload Watching for file changes with StatReloader
+INFO 2025-04-06 20:20:13,198 basehttp "GET / HTTP/1.1" 200 5173
+INFO 2025-04-06 20:20:14,238 basehttp "GET /cart/ HTTP/1.1" 200 4873
+INFO 2025-04-06 20:20:15,627 basehttp "GET /cart/ HTTP/1.1" 200 4873
+INFO 2025-04-06 20:20:16,406 basehttp "GET /checkout/ HTTP/1.1" 200 9311
+INFO 2025-04-06 20:20:20,571 basehttp "POST /process_order/ HTTP/1.1" 200 276
