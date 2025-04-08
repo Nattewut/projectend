@@ -147,14 +147,24 @@
                     qrImage.src = data.qr_code_url;
                     paymentAmount.textContent = data.amount + " บาท";
                     modal.style.display = "flex";
+
+                    // ตรวจสอบสถานะการชำระเงิน
+                    if (data.payment_status === 'successful') {
+                        // ทำการ redirect ไปที่หน้าสำเร็จ
+                        window.location.href = "/payment_success/" + data.order_id;  
+                    } else {
+                        // หรือไปที่หน้าล้มเหลว
+                        window.location.href = "/payment_failed/" + data.order_id;  
+                    }
                 } else {
-                    alert("เกิดข้อผิดพลาด: " + data.error);
+                    alert("เกิดข้อผิดพลาด: " + data.error); // แสดงข้อความเมื่อเกิดข้อผิดพลาด
                 }
             })
             .catch(error => {
                 console.error("❌ Error:", error);
-                alert("เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง");
+                alert("เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง");  // จัดการข้อผิดพลาดของการ fetch
             });
+
         }
     
         closeBtn.onclick = function() {

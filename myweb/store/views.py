@@ -67,16 +67,20 @@ def processOrder(request):
         data = json.loads(request.body)
         logger.info(f"Received data from Checkout: {data}")
 
+        # ตรวจสอบการสร้างคำสั่งซื้อ
         if request.user.is_authenticated:
             customer = request.user.customer
-            order, _ = Order.objects.get_or_create(customer=customer, complete=False)
+            order, created = Order.objects.get_or_create(customer=customer, complete=False)
+            logger.info(f"Order fetched: {order.id}, New Order: {created}")
         else:
             customer, order = guestOrder(request, data)
 
+        # ตรวจสอบว่า name และ email มีอยู่ในข้อมูลหรือไม่
         if "name" not in data.get("form", {}) or "email" not in data.get("form", {}):
             logger.warning("Missing required fields (name or email)")
             return JsonResponse({"error": "Missing required fields (name or email)"}, status=422)
 
+        # คำนวณยอดรวมจากรายการในคำสั่งซื้อ
         total = sum(item.product.price * item.quantity for item in order.orderitem_set.all())
         logger.info(f"Order Total: {total}")  
 
@@ -84,22 +88,36 @@ def processOrder(request):
             logger.warning("Invalid total amount")
             return JsonResponse({'error': 'Invalid total amount'}, status=422)
 
+        # ตั้งค่า transaction_id และสถานะคำสั่งซื้อ
         order.transaction_id = transaction_id
         order.complete = False
         order.save()
 
+        logger.info(f"Order {order.id} is now created with transaction ID: {transaction_id}")
+        
+        # สร้าง QR Code สำหรับการชำระเงิน
         return create_qr_payment(order)
+
     except Exception as e:
         logger.error(f"❌ ERROR in processOrder: {str(e)}")
         return JsonResponse({'error': str(e)}, status=500)
 
+import requests
+import base64
+import datetime
+from django.http import JsonResponse
+from django.conf import settings
+import logging
+
+logger = logging.getLogger(__name__)
+
 def create_qr_payment(order):
     try:
-        # ตรวจสอบ amount ที่คำนวณแล้ว
-        amount = int(order.get_cart_total * 100)
+        # คำนวณจำนวนเงิน (เป็นสตางค์)
+        amount = int(order.get_cart_total() * 100)  # เรียก method get_cart_total() แทน
         logger.info(f"Amount in cents: {amount}")
 
-        # URL สำหรับการสร้าง charge ผ่าน Opn API
+        # URL สำหรับการสร้าง charge ผ่าน Omise API
         url = "https://api.omise.co/charges"
         auth_token = base64.b64encode(f"{settings.OPN_SECRET_KEY}:".encode()).decode()
 
@@ -109,7 +127,6 @@ def create_qr_payment(order):
         }
 
         # ตรวจสอบ URL ที่จะใช้เป็น return_uri
-        # เช็คสถานะการชำระเงิน ว่าจะเป็น payment_success หรือ payment_failed
         if order.payment_status == "failed":
             return_uri = f"{get_base_url()}/payment_failed/{order.id}/"
         else:
@@ -120,17 +137,17 @@ def create_qr_payment(order):
         payload = {
             "amount": amount,
             "currency": "thb",
-            "source": {"type": "promptpay"},
+            "source": {"type": "installment_kbank"},  # เปลี่ยนประเภทเป็นแบบผ่อนชำระที่ต้องการ
             "description": f"Order {order.id}",
             "return_uri": return_uri,
-            "metadata": { "orderId": order.id },
+            "metadata": {"orderId": order.id},
             "version": "2019-05-29"
         }
 
-        logger.info(f"🔍 ส่งข้อมูลไปที่ Opn API: {payload}")
+        logger.info(f"🔍 ส่งข้อมูลไปที่ Omise API: {payload}")
         response = requests.post(url, json=payload, headers=headers)
         data = response.json()
-        logger.info(f"🔍 ตอบกลับจาก Opn API: {data}")
+        logger.info(f"🔍 ตอบกลับจาก Omise API: {data}")
 
         # ตรวจสอบว่าได้รับข้อมูล scannable_code หรือไม่
         if "source" in data and "scannable_code" in data["source"]:
@@ -139,12 +156,17 @@ def create_qr_payment(order):
                 "message": "ชำระเงินสำเร็จ",
                 "qr_code_url": qr_url,
                 "order_id": order.id,
-                "amount": order.get_cart_total
+                "amount": order.get_cart_total()  # เรียก method get_cart_total() แทน
             })
 
         # หากไม่มี scannable_code ใน response
         logger.warning(f"❌ QR Code not found in the response data: {data}")
         return JsonResponse({"error": "ไม่สามารถสร้าง QR Code ได้"}, status=422)
+
+    except requests.exceptions.RequestException as e:
+        # จัดการข้อผิดพลาดจากการเชื่อมต่อ
+        logger.error(f"❌ Network error: {str(e)}")
+        return JsonResponse({"error": "Error connecting to the payment gateway. Please try again."}, status=500)
 
     except Exception as e:
         logger.error(f"❌ ERROR ใน create_qr_payment: {str(e)}")
