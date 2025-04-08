@@ -450,3 +450,12 @@ INFO 2025-04-06 20:20:14,238 basehttp "GET /cart/ HTTP/1.1" 200 4873
 INFO 2025-04-06 20:20:15,627 basehttp "GET /cart/ HTTP/1.1" 200 4873
 INFO 2025-04-06 20:20:16,406 basehttp "GET /checkout/ HTTP/1.1" 200 9311
 INFO 2025-04-06 20:20:20,571 basehttp "POST /process_order/ HTTP/1.1" 200 276
+INFO 2025-04-08 07:19:58,219 autoreload Watching for file changes with StatReloader
+INFO 2025-04-08 07:20:03,883 basehttp "GET / HTTP/1.1" 200 5173
+INFO 2025-04-08 07:20:05,433 basehttp "GET /cart/ HTTP/1.1" 200 5490
+INFO 2025-04-08 07:20:06,256 basehttp "GET /checkout/ HTTP/1.1" 200 9639
+INFO 2025-04-08 07:20:11,225 basehttp "POST /process_order/ HTTP/1.1" 200 276
+INFO 2025-04-08 07:32:25,443 autoreload D:\Desktop\PROJECTEND ไม่ไปหน้าชำระเงินสำเร็จ - Copy (2)\myweb\store\views.py changed, reloading.
+INFO 2025-04-08 07:32:25,905 autoreload Watching for file changes with StatReloader
+INFO 2025-04-08 07:58:14,805 autoreload D:\Desktop\PROJECTEND ไม่ไปหน้าชำระเงินสำเร็จ - Copy (2)\myweb\store\views.py changed, reloading.
+INFO 2025-04-08 07:58:15,315 autoreload Watching for file changes with StatReloader

@@ -165,26 +165,24 @@ def opn_webhook(request):
                 charge_id = payment_data.get('id')
                 order_id = payment_data.get('metadata', {}).get('orderId')
 
-                # Log for debugging
                 logger.info(f"Received charge.create for charge_id: {charge_id}, order_id: {order_id}")
 
                 try:
                     order = Order.objects.get(id=order_id)
                     if order.payment_status == 'pending' and order.charge_id == charge_id:
-                        order.payment_status = 'created'  # Or whatever status you need
+                        order.payment_status = 'created'  # Update to created or your custom status
                         order.save()
                         logger.info(f"Updated order {order_id} with status: {order.payment_status}")
 
                 except Order.DoesNotExist:
                     logger.error(f"Order with id {order_id} not found.")
 
-            # Handle charge.complete event
+            # Handle charge.complete event (payment complete)
             elif body.get('key') == 'charge.complete':
                 payment_data = body.get('data')
                 charge_id = payment_data.get('id')
                 order_id = payment_data.get('metadata', {}).get('orderId')
 
-                # Log for debugging
                 logger.info(f"Received charge.complete for charge_id: {charge_id}, order_id: {order_id}")
 
                 try:
@@ -193,6 +191,14 @@ def opn_webhook(request):
                         order.payment_status = payment_data.get('status')
                         order.save()
                         logger.info(f"Updated order {order_id} with status: {order.payment_status}")
+
+                        # Redirect based on the payment status
+                        if order.payment_status == 'successful':
+                            logger.info(f"Redirecting to payment success page for order {order.id}")
+                            return redirect(f"{get_base_url()}/payment_success/{order.id}/")
+                        else:
+                            logger.info(f"Redirecting to payment failed page for order {order.id}")
+                            return redirect(f"{get_base_url()}/payment_failed/{order.id}/")
 
                 except Order.DoesNotExist:
                     logger.error(f"Order with id {order_id} not found.")
