@@ -252,6 +252,25 @@ def updateItem(request):
 
 def payment_success(request, order_id):
     order = get_object_or_404(Order, id=order_id)
+
+    # คำนวณจำนวนรอบที่มอเตอร์ต้องหมุน
+    motor_rounds = 0
+    for item in order.orderitem_set.all():
+        motor_rounds += item.quantity  # จำนวนสินค้าที่ซื้อจะถูกนับเป็นจำนวนรอบของมอเตอร์
+
+    # ส่งคำสั่งไปยัง Raspberry Pi
+    for item in order.orderitem_set.all():
+        motor_id = item.product.motor_control_id  # หา motor_control_id จากสินค้า
+        
+        raspberry_pi_url = 'http://172.20.10.3:5000/control_motor/'  # IP ของ Raspberry Pi
+        response = requests.post(raspberry_pi_url, json={'motor_id': motor_id, 'motor_rounds': motor_rounds})
+
+        # ตรวจสอบผลลัพธ์จาก Raspberry Pi
+        if response.status_code == 200:
+            print(f"Motor {motor_id} is controlled successfully.")
+        else:
+            print(f"Error controlling motor {motor_id}.")
+
     return render(request, 'store/payment_success.html', {'order': order})
 
 def payment_failed(request, order_id):
