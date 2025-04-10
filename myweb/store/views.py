@@ -262,7 +262,7 @@ def payment_success(request, order_id):
     for item in order.orderitem_set.all():
         motor_id = item.product.motor_control_id  # หา motor_control_id จากสินค้า
         
-        raspberry_pi_url = 'http://172.20.10.3:5000/control_motor/'  # IP ของ Raspberry Pi
+        raspberry_pi_url = 'http://172.20.10.3:80/control_motor/'  # IP ของ Raspberry Pi
         response = requests.post(raspberry_pi_url, json={'motor_id': motor_id, 'motor_rounds': motor_rounds})
 
         # ตรวจสอบผลลัพธ์จาก Raspberry Pi
