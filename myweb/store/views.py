@@ -234,13 +234,57 @@ def updateItem(request):
 
     return JsonResponse("Item was updated", safe=False)
 
-def payment_success(request, order_id):
+def get_motor_data_from_order(order_id):
+    # ดึงข้อมูลคำสั่งซื้อจากฐานข้อมูล
     order = get_object_or_404(Order, id=order_id)
+    motor_data = []
+    
+    # ดึงข้อมูลมอเตอร์จากทุกๆ OrderItem (สินค้าทุกตัวในคำสั่งซื้อ)
+    for item in order.orderitem_set.all():
+        # ใช้ข้อมูลมอเตอร์จากแต่ละสินค้า
+        motor_data.append({
+            'motor_id': item.product.motor.id,  # ใช้ motor.id จากสินค้า
+            'motor_rounds': item.quantity  # ใช้จำนวนสินค้าที่ซื้อเป็นจำนวนรอบ
+        })
+    
+    return motor_data
+
+# ฟังก์ชันส่งคำขอไปที่ Flask API เพื่อควบคุมมอเตอร์
+def send_motor_control_request(order_id):
+    motor_data = get_motor_data_from_order(order_id)  # ดึงข้อมูลมอเตอร์จากคำสั่งซื้อ
+    raspberry_pi_ip = "http://172.20.10.2:5000/control_motor/"  # IP ของ Raspberry Pi ที่รัน Flask API
+
+    # ส่งคำขอไปยัง Flask API สำหรับแต่ละมอเตอร์ที่ได้รับจากคำสั่งซื้อ
+    for motor in motor_data:
+        response = requests.post(raspberry_pi_ip, json=motor)  # ส่งข้อมูลไปที่ Flask API
+        
+        # ตรวจสอบการตอบกลับจาก Flask API
+        if response.status_code == 200:
+            print(f"มอเตอร์ {motor['motor_id']} ได้รับคำสั่งและทำงานเสร็จแล้ว")
+        else:
+            print(f"เกิดข้อผิดพลาดในการควบคุมมอเตอร์ {motor['motor_id']}: {response.status_code}")
+
+# ฟังก์ชันที่ใช้หลังจากการชำระเงินสำเร็จ
+def payment_success(request, order_id):
+    order = get_object_or_404(Order, id=order_id)  # ดึงข้อมูลคำสั่งซื้อจากฐานข้อมูล
+
+    # ส่งคำขอควบคุมมอเตอร์ไปยัง Raspberry Pi หลังจากการแสดงหน้า "ชำระเงินสำเร็จ"
+    send_motor_control_request(order_id)
+
+    # ส่งข้อมูลคำสั่งซื้อไปยังหน้า payment_success.html
     return render(request, 'store/payment_success.html', {'order': order})
+
 
 def payment_failed(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     return render(request, 'store/payment_failed.html', {'order': order})
+
+
+
+
+
+
+
 
 
 

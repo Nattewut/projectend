@@ -68,10 +68,15 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'myweb.urls'
 
+from pathlib import Path
+
+# BASE_DIR ถูกกำหนดให้เป็น Path ของโฟลเดอร์โปรเจค
+BASE_DIR = Path(__file__).resolve().parent.parent
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],  # ตอนนี้สามารถใช้ / ได้กับ Path objects
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

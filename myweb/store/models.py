@@ -10,18 +10,23 @@ class Customer(models.Model):
 
     def __str__(self):
         return self.name
+    
+class Motor(models.Model):
+    name = models.CharField(max_length=200)
+    description = models.TextField(null=True, blank=True)
 
+    def __str__(self):
+        return self.name
 
+# โมเดลสำหรับสินค้า
 class Product(models.Model):
     name = models.CharField(max_length=200)
-    price = models.FloatField(null=False)  # ปรับให้ไม่มี null เพื่อให้ชัดเจน
-    digital = models.BooleanField(default=False, null=True, blank=True)
-    image = models.ImageField(null=True, blank=True)
-    motor_control_id = models.IntegerField(
-        choices=[(1, 'Motor 1'), (2, 'Motor 2'), (3, 'Motor 3')],
-        default=1
-    )  # เชื่อมโยงมอเตอร์กับสินค้า
-    
+    price = models.FloatField(null=False)  # ราคาของสินค้า
+    image = models.ImageField(null=True, blank=True)  # รูปภาพของสินค้า
+    digital = models.BooleanField(default=False, null=True, blank=True)  # สินค้าแบบดิจิทัลหรือไม่
+    motor = models.ForeignKey(Motor, on_delete=models.SET_NULL, null=True, blank=True)  # การเชื่อมโยงกับมอเตอร์
+    motor_rounds = models.IntegerField(default=1)  # จำนวนรอบที่มอเตอร์ต้องหมุน
+
     def __str__(self):
         return self.name
 
@@ -32,7 +37,7 @@ class Product(models.Model):
         except:
             url = ''
         return url
-
+    
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
     date_ordered = models.DateTimeField(auto_now_add=True)
@@ -70,6 +75,7 @@ class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
     quantity = models.IntegerField(default=0, null=True, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
+    motor_rounds = models.IntegerField(default=1)  # เพิ่มฟิลด์จำนวนรอบที่มอเตอร์ต้องหมุน
 
     @property
     def get_total(self):

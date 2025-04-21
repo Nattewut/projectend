@@ -450,3 +450,477 @@ INFO 2025-04-06 20:20:14,238 basehttp "GET /cart/ HTTP/1.1" 200 4873
 INFO 2025-04-06 20:20:15,627 basehttp "GET /cart/ HTTP/1.1" 200 4873
 INFO 2025-04-06 20:20:16,406 basehttp "GET /checkout/ HTTP/1.1" 200 9311
 INFO 2025-04-06 20:20:20,571 basehttp "POST /process_order/ HTTP/1.1" 200 276
+INFO 2025-04-21 16:40:00,158 autoreload Watching for file changes with StatReloader
+INFO 2025-04-21 16:40:01,967 basehttp "GET / HTTP/1.1" 200 5173
+INFO 2025-04-21 16:40:03,889 basehttp "GET /cart/ HTTP/1.1" 200 6117
+INFO 2025-04-21 16:40:04,576 basehttp "GET /checkout/ HTTP/1.1" 200 9977
+INFO 2025-04-21 16:40:08,360 basehttp "POST /process_order/ HTTP/1.1" 200 276
+INFO 2025-04-21 17:02:07,081 autoreload Watching for file changes with StatReloader
+INFO 2025-04-21 17:02:11,794 basehttp "GET / HTTP/1.1" 200 5170
+INFO 2025-04-21 17:02:13,456 basehttp "GET /cart/ HTTP/1.1" 200 4254
+INFO 2025-04-21 17:02:14,174 basehttp "GET /checkout/ HTTP/1.1" 200 8980
+INFO 2025-04-21 17:03:47,143 autoreload D:\Desktop\PROJECTEND ไม่ไปหน้าชำระเงินสำเร็จ - Copy (2) - Copy - Copy - Copy\myweb\store\models.py changed, reloading.
+INFO 2025-04-21 17:03:47,678 autoreload Watching for file changes with StatReloader
+INFO 2025-04-21 17:18:33,093 autoreload Watching for file changes with StatReloader
+INFO 2025-04-21 17:18:34,485 basehttp "GET / HTTP/1.1" 200 5173
+INFO 2025-04-21 17:18:38,602 basehttp "GET /cart/ HTTP/1.1" 200 6117
+INFO 2025-04-21 17:18:39,527 basehttp "GET /checkout/ HTTP/1.1" 200 9977
+INFO 2025-04-21 17:18:44,450 basehttp "POST /process_order/ HTTP/1.1" 200 276
+INFO 2025-04-21 17:59:56,726 autoreload Watching for file changes with StatReloader
+INFO 2025-04-21 17:59:58,145 basehttp "GET / HTTP/1.1" 200 5174
+INFO 2025-04-21 17:59:59,806 basehttp "GET /cart/ HTTP/1.1" 200 6118
+INFO 2025-04-21 18:00:00,487 basehttp "GET /checkout/ HTTP/1.1" 200 9978
+ERROR 2025-04-21 18:00:08,580 log Internal Server Error: /process_order/
+ERROR 2025-04-21 18:00:08,581 basehttp "POST /process_order/ HTTP/1.1" 500 50
+INFO 2025-04-21 18:00:27,077 autoreload D:\Desktop\PROJECTEND ไม่ไปหน้าชำระเงินสำเร็จ - Copy (2) - Copy - Copy - Copy\myweb\store\views.py changed, reloading.
+INFO 2025-04-21 18:00:27,540 autoreload Watching for file changes with StatReloader
+INFO 2025-04-21 18:00:29,501 basehttp "GET / HTTP/1.1" 200 5174
+INFO 2025-04-21 18:00:31,897 basehttp "GET /cart/ HTTP/1.1" 200 6118
+INFO 2025-04-21 18:00:33,806 basehttp "GET /checkout/ HTTP/1.1" 200 9978
+INFO 2025-04-21 18:00:39,693 basehttp "POST /process_order/ HTTP/1.1" 200 276
+INFO 2025-04-21 18:08:39,823 basehttp "GET / HTTP/1.1" 200 5174
+INFO 2025-04-21 18:08:44,461 basehttp "GET /cart/ HTTP/1.1" 200 6118
+INFO 2025-04-21 18:08:45,988 basehttp "GET /checkout/ HTTP/1.1" 200 9978
+INFO 2025-04-21 18:11:20,072 autoreload Watching for file changes with StatReloader
+INFO 2025-04-21 18:11:22,130 basehttp "GET / HTTP/1.1" 200 5174
+INFO 2025-04-21 18:11:23,927 basehttp "GET /cart/ HTTP/1.1" 200 6118
+INFO 2025-04-21 18:11:24,543 basehttp "GET /checkout/ HTTP/1.1" 200 9978
+INFO 2025-04-21 18:11:32,655 basehttp "POST /process_order/ HTTP/1.1" 200 276
+INFO 2025-04-21 18:14:51,824 autoreload D:\Desktop\PROJECTEND ไม่ไปหน้าชำระเงินสำเร็จ - Copy (2) - Copy - Copy - Copy\myweb\store\views.py changed, reloading.
+INFO 2025-04-21 18:14:52,319 autoreload Watching for file changes with StatReloader
+INFO 2025-04-21 18:14:55,840 basehttp "GET / HTTP/1.1" 200 5174
+INFO 2025-04-21 18:14:57,390 basehttp "GET /cart/ HTTP/1.1" 200 6118
+INFO 2025-04-21 18:14:58,101 basehttp "GET /checkout/ HTTP/1.1" 200 9978
+INFO 2025-04-21 18:15:02,730 basehttp "POST /process_order/ HTTP/1.1" 200 276
+INFO 2025-04-21 18:27:42,129 autoreload D:\Desktop\PROJECTEND ไม่ไปหน้าชำระเงินสำเร็จ - Copy (2) - Copy - Copy - Copy\myweb\store\views.py changed, reloading.
+INFO 2025-04-21 18:27:42,627 autoreload Watching for file changes with StatReloader
+INFO 2025-04-21 18:27:50,793 basehttp "GET / HTTP/1.1" 200 5174
+INFO 2025-04-21 18:27:52,847 basehttp "GET /cart/ HTTP/1.1" 200 6118
+INFO 2025-04-21 18:27:53,638 basehttp "GET /checkout/ HTTP/1.1" 200 9978
+INFO 2025-04-21 18:28:00,417 basehttp "POST /process_order/ HTTP/1.1" 200 276
+INFO 2025-04-21 18:35:18,577 autoreload D:\Desktop\PROJECTEND ไม่ไปหน้าชำระเงินสำเร็จ - Copy (2) - Copy - Copy - Copy\myweb\store\models.py changed, reloading.
+INFO 2025-04-21 18:35:19,075 autoreload Watching for file changes with StatReloader
+ERROR 2025-04-21 18:35:22,611 log Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: store_product.motor_rounds
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Desktop\PROJECTEND ไม่ไปหน้าชำระเงินสำเร็จ - Copy (2) - Copy - Copy - Copy\myweb\store\views.py", line 39, in store
+    logger.info(f"Store page rendered with {len(products)} products")
+                                            ~~~^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 382, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: store_product.motor_rounds
+ERROR 2025-04-21 18:35:22,618 basehttp "GET / HTTP/1.1" 500 132222
+INFO 2025-04-21 18:36:04,864 autoreload D:\Desktop\PROJECTEND ไม่ไปหน้าชำระเงินสำเร็จ - Copy (2) - Copy - Copy - Copy\myweb\store\models.py changed, reloading.
+INFO 2025-04-21 18:36:05,369 autoreload Watching for file changes with StatReloader
+INFO 2025-04-21 18:36:06,642 basehttp "GET / HTTP/1.1" 200 5174
+INFO 2025-04-21 18:36:54,498 basehttp "GET / HTTP/1.1" 200 5174
+INFO 2025-04-21 18:48:26,140 autoreload D:\Desktop\PROJECTEND ไม่ไปหน้าชำระเงินสำเร็จ - Copy (2) - Copy - Copy - Copy\myweb\store\models.py changed, reloading.
+INFO 2025-04-21 18:48:26,667 autoreload Watching for file changes with StatReloader
+ERROR 2025-04-21 18:48:28,033 log Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: store_product.motor_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Desktop\PROJECTEND ไม่ไปหน้าชำระเงินสำเร็จ - Copy (2) - Copy - Copy - Copy\myweb\store\views.py", line 39, in store
+    logger.info(f"Store page rendered with {len(products)} products")
+                                            ~~~^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 382, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: store_product.motor_id
+ERROR 2025-04-21 18:48:28,040 basehttp "GET / HTTP/1.1" 500 131508
+INFO 2025-04-21 18:49:50,798 autoreload Watching for file changes with StatReloader
+ERROR 2025-04-21 18:49:53,237 log Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: store_product.motor_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Desktop\PROJECTEND ไม่ไปหน้าชำระเงินสำเร็จ - Copy (2) - Copy - Copy - Copy\myweb\store\views.py", line 39, in store
+    logger.info(f"Store page rendered with {len(products)} products")
+                                            ~~~^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 382, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: store_product.motor_id
+ERROR 2025-04-21 18:49:53,244 basehttp "GET / HTTP/1.1" 500 131508
+INFO 2025-04-21 18:50:28,860 autoreload Watching for file changes with StatReloader
+INFO 2025-04-21 18:50:30,308 basehttp "GET / HTTP/1.1" 200 5174
+INFO 2025-04-21 18:50:32,925 basehttp "GET /cart/ HTTP/1.1" 200 6118
+INFO 2025-04-21 18:50:33,757 basehttp "GET /checkout/ HTTP/1.1" 200 9978
+INFO 2025-04-21 18:50:40,793 basehttp "POST /process_order/ HTTP/1.1" 200 276
+INFO 2025-04-21 18:55:47,647 autoreload D:\Desktop\PROJECTEND ไม่ไปหน้าชำระเงินสำเร็จ - Copy (2) - Copy - Copy - Copy\myweb\store\models.py changed, reloading.
+INFO 2025-04-21 18:55:48,236 autoreload Watching for file changes with StatReloader
+INFO 2025-04-21 18:58:34,857 basehttp "GET / HTTP/1.1" 200 5174
+INFO 2025-04-21 19:56:06,075 autoreload D:\Desktop\PROJECTEND ไม่ไปหน้าชำระเงินสำเร็จ - Copy (2) - Copy - Copy - Copy\myweb\store\models.py changed, reloading.
+INFO 2025-04-21 19:56:06,607 autoreload Watching for file changes with StatReloader
+INFO 2025-04-21 19:59:08,196 autoreload D:\Desktop\PROJECTEND ไม่ไปหน้าชำระเงินสำเร็จ - Copy (2) - Copy - Copy - Copy\myweb\store\views.py changed, reloading.
+INFO 2025-04-21 19:59:08,673 autoreload Watching for file changes with StatReloader
+ERROR 2025-04-21 20:10:31,849 log Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: store_product.motor_rounds
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Desktop\PROJECTEND ไม่ไปหน้าชำระเงินสำเร็จ - Copy (2) - Copy - Copy - Copy\myweb\store\views.py", line 39, in store
+    logger.info(f"Store page rendered with {len(products)} products")
+                                            ~~~^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 382, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: store_product.motor_rounds
+ERROR 2025-04-21 20:10:31,860 basehttp "GET / HTTP/1.1" 500 132150
+INFO 2025-04-21 20:12:00,923 autoreload Watching for file changes with StatReloader
+INFO 2025-04-21 20:12:02,293 basehttp "GET / HTTP/1.1" 200 5174
+INFO 2025-04-21 20:36:36,947 autoreload Watching for file changes with StatReloader
+INFO 2025-04-21 20:36:38,472 basehttp "GET / HTTP/1.1" 200 5174
+INFO 2025-04-21 20:36:43,156 basehttp "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-04-21 20:36:43,182 basehttp "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4288
+INFO 2025-04-21 20:36:46,903 basehttp "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+INFO 2025-04-21 20:36:46,921 basehttp "GET /admin/ HTTP/1.1" 200 13221
+INFO 2025-04-21 20:36:47,044 basehttp "GET /static/admin/css/dashboard.css HTTP/1.1" 304 0
+INFO 2025-04-21 20:36:47,045 basehttp "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 304 0
+INFO 2025-04-21 20:36:47,045 basehttp "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 304 0
+INFO 2025-04-21 20:36:47,046 basehttp "GET /static/admin/img/icon-deletelink.svg HTTP/1.1" 304 0
+INFO 2025-04-21 20:36:52,029 basehttp "GET /admin/store/product/ HTTP/1.1" 200 11868
+INFO 2025-04-21 20:36:52,061 basehttp "GET /static/admin/css/changelists.css HTTP/1.1" 304 0
+INFO 2025-04-21 20:36:52,088 basehttp "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 304 0
+INFO 2025-04-21 20:36:52,089 basehttp "GET /static/admin/js/jquery.init.js HTTP/1.1" 304 0
+INFO 2025-04-21 20:36:52,089 basehttp "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 304 0
+INFO 2025-04-21 20:36:52,090 basehttp "GET /static/admin/js/core.js HTTP/1.1" 304 0
+INFO 2025-04-21 20:36:52,091 basehttp "GET /static/admin/js/actions.js HTTP/1.1" 304 0
+INFO 2025-04-21 20:36:52,092 basehttp "GET /static/admin/js/urlify.js HTTP/1.1" 304 0
+INFO 2025-04-21 20:36:52,093 basehttp "GET /static/admin/js/prepopulate.js HTTP/1.1" 304 0
+INFO 2025-04-21 20:36:52,095 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-21 20:36:52,110 basehttp "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 304 0
+INFO 2025-04-21 20:36:52,120 basehttp "GET /static/admin/js/filters.js HTTP/1.1" 304 0
+INFO 2025-04-21 20:36:52,146 basehttp "GET /static/admin/img/tooltag-add.svg HTTP/1.1" 304 0
+INFO 2025-04-21 20:36:56,915 basehttp "GET /admin/store/product/6/change/ HTTP/1.1" 200 14619
+INFO 2025-04-21 20:36:56,939 basehttp "GET /static/admin/css/forms.css HTTP/1.1" 304 0
+INFO 2025-04-21 20:36:56,939 basehttp "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 304 0
+INFO 2025-04-21 20:36:56,942 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-21 20:36:56,998 basehttp "GET /static/admin/js/change_form.js HTTP/1.1" 304 0
+INFO 2025-04-21 20:36:56,999 basehttp "GET /static/admin/css/widgets.css HTTP/1.1" 304 0
+INFO 2025-04-21 20:37:03,208 basehttp "GET /admin/store/product/ HTTP/1.1" 200 11868
+INFO 2025-04-21 20:37:04,411 basehttp "GET /admin/store/product/4/change/ HTTP/1.1" 200 14644
+INFO 2025-04-21 20:37:04,436 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-21 20:37:06,332 basehttp "GET /admin/store/product/ HTTP/1.1" 200 11868
+INFO 2025-04-21 20:37:07,439 basehttp "GET /admin/store/product/3/change/ HTTP/1.1" 200 14614
+INFO 2025-04-21 20:37:07,465 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-21 20:50:55,851 autoreload D:\Desktop\PROJECTEND ไม่ไปหน้าชำระเงินสำเร็จ - Copy (2) - Copy - Copy - Copy\myweb\store\admin.py changed, reloading.
+INFO 2025-04-21 20:50:56,355 autoreload Watching for file changes with StatReloader
+INFO 2025-04-21 20:50:58,896 basehttp "GET / HTTP/1.1" 200 5164
+INFO 2025-04-21 20:51:07,146 basehttp "GET / HTTP/1.1" 200 5164
+INFO 2025-04-21 20:51:10,412 basehttp "GET /admin/ HTTP/1.1" 200 13835
+INFO 2025-04-21 20:51:13,136 basehttp "GET /admin/store/product/ HTTP/1.1" 200 13355
+INFO 2025-04-21 20:51:13,194 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-21 20:51:13,272 basehttp "GET /static/admin/img/search.svg HTTP/1.1" 200 458
+INFO 2025-04-21 20:51:15,380 basehttp "GET /admin/store/product/6/change/ HTTP/1.1" 200 16264
+INFO 2025-04-21 20:51:15,407 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-21 20:51:15,466 basehttp "GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 200 581
+INFO 2025-04-21 20:51:17,674 basehttp "GET /admin/store/motor/add/?_to_field=id&_popup=1 HTTP/1.1" 200 5058
+INFO 2025-04-21 20:51:17,699 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-21 20:51:27,422 basehttp "POST /admin/store/motor/add/?_to_field=id&_popup=1 HTTP/1.1" 200 339
+INFO 2025-04-21 20:51:27,434 basehttp "GET /static/admin/js/popup_response.js HTTP/1.1" 200 532
+INFO 2025-04-21 20:51:30,767 basehttp "GET /admin/store/motor/add/?_to_field=id&_popup=1 HTTP/1.1" 200 5058
+INFO 2025-04-21 20:51:30,791 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-21 20:51:33,915 basehttp "POST /admin/store/motor/add/?_to_field=id&_popup=1 HTTP/1.1" 200 339
+INFO 2025-04-21 20:51:36,272 basehttp "GET /admin/store/motor/add/?_to_field=id&_popup=1 HTTP/1.1" 200 5058
+INFO 2025-04-21 20:51:36,297 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-21 20:51:38,388 basehttp "POST /admin/store/motor/add/?_to_field=id&_popup=1 HTTP/1.1" 200 339
+INFO 2025-04-21 20:52:05,987 basehttp "GET /admin/store/product/ HTTP/1.1" 200 13355
+INFO 2025-04-21 20:52:06,015 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-21 20:52:07,419 basehttp "GET /admin/store/product/4/change/ HTTP/1.1" 200 16385
+INFO 2025-04-21 20:52:07,444 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-21 20:52:11,605 basehttp "GET /admin/store/order/ HTTP/1.1" 200 37551
+INFO 2025-04-21 20:52:11,634 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-21 20:52:12,562 basehttp "GET /admin/store/product/ HTTP/1.1" 200 13355
+INFO 2025-04-21 20:52:12,592 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-21 20:52:15,649 basehttp "GET /admin/store/product/6/change/ HTTP/1.1" 200 16360
+INFO 2025-04-21 20:52:15,676 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-21 20:52:17,843 basehttp "POST /admin/store/product/6/change/ HTTP/1.1" 302 0
+INFO 2025-04-21 20:52:17,857 basehttp "GET /admin/store/product/ HTTP/1.1" 200 13556
+INFO 2025-04-21 20:52:17,948 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-21 20:52:18,000 basehttp "GET /static/admin/img/icon-yes.svg HTTP/1.1" 200 436
+INFO 2025-04-21 20:52:19,915 basehttp "GET /admin/store/product/4/change/ HTTP/1.1" 200 16385
+INFO 2025-04-21 20:52:19,943 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-21 20:52:22,153 basehttp "POST /admin/store/product/4/change/ HTTP/1.1" 302 0
+INFO 2025-04-21 20:52:22,170 basehttp "GET /admin/store/product/ HTTP/1.1" 200 13560
+INFO 2025-04-21 20:52:22,279 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-21 20:52:24,043 basehttp "GET /admin/store/product/3/change/ HTTP/1.1" 200 16355
+INFO 2025-04-21 20:52:24,069 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-21 20:52:27,441 basehttp "POST /admin/store/product/3/change/ HTTP/1.1" 302 0
+INFO 2025-04-21 20:52:27,457 basehttp "GET /admin/store/product/ HTTP/1.1" 200 13555
+INFO 2025-04-21 20:52:27,567 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-21 20:57:10,392 basehttp "GET /admin/store/product/ HTTP/1.1" 200 13355
+INFO 2025-04-21 20:57:10,418 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-21 20:57:12,036 basehttp "GET /admin/store/product/ HTTP/1.1" 200 13355
+INFO 2025-04-21 20:57:12,058 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-21 20:57:13,264 basehttp "GET /admin/ HTTP/1.1" 200 13793
+INFO 2025-04-21 20:57:15,015 basehttp "GET /admin/ HTTP/1.1" 200 13793
+INFO 2025-04-21 20:57:17,262 basehttp "GET / HTTP/1.1" 200 5164
+INFO 2025-04-21 20:57:19,753 basehttp "POST /update_item/ HTTP/1.1" 200 18
+INFO 2025-04-21 20:57:19,771 basehttp "GET / HTTP/1.1" 200 5164
+INFO 2025-04-21 20:57:20,183 basehttp "POST /update_item/ HTTP/1.1" 200 18
+INFO 2025-04-21 20:57:20,203 basehttp "GET / HTTP/1.1" 200 5164
+INFO 2025-04-21 20:57:21,081 basehttp "GET /cart/ HTTP/1.1" 200 4873
+INFO 2025-04-21 20:57:22,098 basehttp "GET /checkout/ HTTP/1.1" 200 9311
+INFO 2025-04-21 20:57:30,476 basehttp "POST /process_order/ HTTP/1.1" 200 275
+INFO 2025-04-21 20:59:32,721 basehttp "GET /admin/ HTTP/1.1" 200 13793
+INFO 2025-04-21 20:59:34,712 basehttp "GET /admin/store/product/ HTTP/1.1" 200 13355
+INFO 2025-04-21 20:59:34,747 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-21 21:09:25,096 autoreload D:\Desktop\PROJECTEND ไม่ไปหน้าชำระเงินสำเร็จ - Copy (2) - Copy - Copy - Copy\myweb\myweb\settings.py changed, reloading.
+INFO 2025-04-21 21:10:21,852 autoreload Watching for file changes with StatReloader
+INFO 2025-04-21 21:10:29,846 basehttp "GET / HTTP/1.1" 200 5164
+INFO 2025-04-21 21:12:56,891 basehttp "GET / HTTP/1.1" 200 5164
+INFO 2025-04-21 21:12:58,619 basehttp "GET /cart/ HTTP/1.1" 200 4873
+INFO 2025-04-21 21:12:59,532 basehttp "GET /checkout/ HTTP/1.1" 200 9311
+INFO 2025-04-21 21:13:05,703 basehttp "POST /process_order/ HTTP/1.1" 200 275
+INFO 2025-04-21 21:17:10,979 autoreload D:\Desktop\PROJECTEND ไม่ไปหน้าชำระเงินสำเร็จ - Copy (2) - Copy - Copy - Copy\myweb\store\models.py changed, reloading.
+INFO 2025-04-21 21:17:11,513 autoreload Watching for file changes with StatReloader
+ERROR 2025-04-21 21:17:13,306 log Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: store_orderitem.motor_rounds
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Desktop\PROJECTEND ไม่ไปหน้าชำระเงินสำเร็จ - Copy (2) - Copy - Copy - Copy\myweb\store\views.py", line 36, in store
+    data = cartData(request)
+  File "D:\Desktop\PROJECTEND ไม่ไปหน้าชำระเงินสำเร็จ - Copy (2) - Copy - Copy - Copy\myweb\store\utils.py", line 58, in cartData
+    cartItems = order.get_cart_items
+                ^^^^^^^^^^^^^^^^^^^^
+  File "D:\Desktop\PROJECTEND ไม่ไปหน้าชำระเงินสำเร็จ - Copy (2) - Copy - Copy - Copy\myweb\store\models.py", line 70, in get_cart_items
+    total = sum([item.quantity for item in orderitems])
+                                           ^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 400, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: store_orderitem.motor_rounds
+ERROR 2025-04-21 21:17:13,314 basehttp "GET / HTTP/1.1" 500 140818
+INFO 2025-04-21 21:17:50,412 autoreload Watching for file changes with StatReloader
+INFO 2025-04-21 21:17:51,907 basehttp "GET / HTTP/1.1" 200 5164
