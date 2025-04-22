@@ -252,18 +252,26 @@ def get_motor_data_from_order(order_id):
 # ฟังก์ชันส่งคำขอไปที่ Flask API เพื่อควบคุมมอเตอร์
 def send_motor_control_request(order_id):
     motor_data = get_motor_data_from_order(order_id)  # ดึงข้อมูลมอเตอร์จากคำสั่งซื้อ
-    raspberry_pi_ip = "http://172.20.10.2:5000/control_motor/"  # IP ของ Raspberry Pi ที่รัน Flask API
+    raspberry_pi_ip = "http://172.20.10.3:5000/control_motor/"  # IP ของ Raspberry Pi ที่รัน Flask API
 
     # ส่งคำขอไปยัง Flask API สำหรับแต่ละมอเตอร์ที่ได้รับจากคำสั่งซื้อ
     for motor in motor_data:
-        response = requests.post(raspberry_pi_ip, json=motor)  # ส่งข้อมูลไปที่ Flask API
-        
+        # พิมพ์ข้อมูลที่ส่งไปที่ Flask API
+        print(f"กำลังส่งคำขอไปที่ Raspberry Pi: {motor}")  # log การส่งคำขอ
+
+        # ส่งข้อมูลไปยัง Flask API
+        response = requests.post(raspberry_pi_ip, json=motor)
+
         # ตรวจสอบการตอบกลับจาก Flask API
         if response.status_code == 200:
             print(f"มอเตอร์ {motor['motor_id']} ได้รับคำสั่งและทำงานเสร็จแล้ว")
         else:
+            # แสดงสถานะข้อผิดพลาดจากการตอบกลับ
             print(f"เกิดข้อผิดพลาดในการควบคุมมอเตอร์ {motor['motor_id']}: {response.status_code}")
 
+            # พิมพ์ข้อความตอบกลับจาก Flask API
+            print(f"ข้อความตอบกลับจาก Flask API: {response.text}")
+            
 # ฟังก์ชันที่ใช้หลังจากการชำระเงินสำเร็จ
 def payment_success(request, order_id):
     order = get_object_or_404(Order, id=order_id)  # ดึงข้อมูลคำสั่งซื้อจากฐานข้อมูล
