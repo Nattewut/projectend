@@ -14,7 +14,6 @@ from .models import Order
 from .utils import get_base_url
 
 # ตั้งค่า logger
-# logger setup with UTF-8 encoding
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
@@ -95,11 +94,9 @@ def processOrder(request):
 
 def create_qr_payment(order):
     try:
-        # ตรวจสอบ amount ที่คำนวณแล้ว
         amount = int(order.get_cart_total * 100)
         logger.info(f"Amount in cents: {amount}")
 
-        # URL สำหรับการสร้าง charge ผ่าน Opn API
         url = "https://api.omise.co/charges"
         auth_token = base64.b64encode(f"{settings.OPN_SECRET_KEY}:".encode()).decode()
 
@@ -108,8 +105,6 @@ def create_qr_payment(order):
             "Content-Type": "application/json"
         }
 
-        # ตรวจสอบ URL ที่จะใช้เป็น return_uri
-        # เช็คสถานะการชำระเงิน ว่าจะเป็น payment_success หรือ payment_failed
         if order.payment_status == "failed":
             return_uri = f"{get_base_url()}/payment_failed/{order.id}/"
         else:
@@ -132,7 +127,6 @@ def create_qr_payment(order):
         data = response.json()
         logger.info(f"🔍 ตอบกลับจาก Opn API: {data}")
 
-        # ตรวจสอบว่าได้รับข้อมูล scannable_code หรือไม่
         if "source" in data and "scannable_code" in data["source"]:
             qr_url = data["source"]["scannable_code"]["image"]["download_uri"]
             return JsonResponse({
@@ -142,7 +136,6 @@ def create_qr_payment(order):
                 "amount": order.get_cart_total
             })
 
-        # หากไม่มี scannable_code ใน response
         logger.warning(f"❌ QR Code not found in the response data: {data}")
         return JsonResponse({"error": "ไม่สามารถสร้าง QR Code ได้"}, status=422)
 
@@ -153,38 +146,32 @@ def create_qr_payment(order):
 @csrf_exempt
 def opn_webhook(request):
     try:
-        # Only handle POST requests
         if request.method == 'POST':
-            # Parse the incoming JSON data
             body = json.loads(request.body)
             logger.info("Received webhook: %s", body)
 
-            # Handle charge.create event
             if body.get('key') == 'charge.create':
                 payment_data = body.get('data')
                 charge_id = payment_data.get('id')
                 order_id = payment_data.get('metadata', {}).get('orderId')
 
-                # Log for debugging
                 logger.info(f"Received charge.create for charge_id: {charge_id}, order_id: {order_id}")
 
                 try:
                     order = Order.objects.get(id=order_id)
                     if order.payment_status == 'pending' and order.charge_id == charge_id:
-                        order.payment_status = 'created'  # Or whatever status you need
+                        order.payment_status = 'created'
                         order.save()
                         logger.info(f"Updated order {order_id} with status: {order.payment_status}")
 
                 except Order.DoesNotExist:
                     logger.error(f"Order with id {order_id} not found.")
 
-            # Handle charge.complete event
             elif body.get('key') == 'charge.complete':
                 payment_data = body.get('data')
                 charge_id = payment_data.get('id')
                 order_id = payment_data.get('metadata', {}).get('orderId')
 
-                # Log for debugging
                 logger.info(f"Received charge.complete for charge_id: {charge_id}, order_id: {order_id}")
 
                 try:
@@ -194,6 +181,9 @@ def opn_webhook(request):
                         order.save()
                         logger.info(f"Updated order {order_id} with status: {order.payment_status}")
 
+                        # เรียกฟังก์ชันควบคุมมอเตอร์เมื่อการชำระเงินสำเร็จ
+                        send_motor_control_request(order_id)
+
                 except Order.DoesNotExist:
                     logger.error(f"Order with id {order_id} not found.")
 
@@ -201,7 +191,6 @@ def opn_webhook(request):
                 logger.warning(f"Unexpected event type: {body.get('key')}")
                 return JsonResponse({"message": "Invalid event type."}, status=400)
 
-            # Respond with success
             return JsonResponse({"message": "Webhook processed successfully."}, status=200)
 
         else:
@@ -239,9 +228,7 @@ def get_motor_data_from_order(order_id):
     order = get_object_or_404(Order, id=order_id)
     motor_data = []
     
-    # ดึงข้อมูลมอเตอร์จากทุกๆ OrderItem (สินค้าทุกตัวในคำสั่งซื้อ)
     for item in order.orderitem_set.all():
-        # ใช้ข้อมูลมอเตอร์จากแต่ละสินค้า
         motor_data.append({
             'motor_id': item.product.motor.id,  # ใช้ motor.id จากสินค้า
             'motor_rounds': item.quantity  # ใช้จำนวนสินค้าที่ซื้อเป็นจำนวนรอบ
@@ -249,44 +236,30 @@ def get_motor_data_from_order(order_id):
     
     return motor_data
 
-# ฟังก์ชันส่งคำขอไปที่ Flask API เพื่อควบคุมมอเตอร์
 def send_motor_control_request(order_id):
     motor_data = get_motor_data_from_order(order_id)  # ดึงข้อมูลมอเตอร์จากคำสั่งซื้อ
     raspberry_pi_ip = "http://172.20.10.3:5000/control_motor/"  # IP ของ Raspberry Pi ที่รัน Flask API
 
     # ส่งคำขอไปยัง Flask API สำหรับแต่ละมอเตอร์ที่ได้รับจากคำสั่งซื้อ
     for motor in motor_data:
-        # พิมพ์ข้อมูลที่ส่งไปที่ Flask API
-        print(f"กำลังส่งคำขอไปที่ Raspberry Pi: {motor}")  # log การส่งคำขอ
-
-        # ส่งข้อมูลไปยัง Flask API
-        response = requests.post(raspberry_pi_ip, json=motor)
-
-        # ตรวจสอบการตอบกลับจาก Flask API
-        if response.status_code == 200:
-            print(f"มอเตอร์ {motor['motor_id']} ได้รับคำสั่งและทำงานเสร็จแล้ว")
-        else:
-            # แสดงสถานะข้อผิดพลาดจากการตอบกลับ
-            print(f"เกิดข้อผิดพลาดในการควบคุมมอเตอร์ {motor['motor_id']}: {response.status_code}")
-
-            # พิมพ์ข้อความตอบกลับจาก Flask API
-            print(f"ข้อความตอบกลับจาก Flask API: {response.text}")
+        logger.info(f"กำลังส่งคำขอไปที่ Raspberry Pi: {motor}")
+        
+        try:
+            response = requests.post(raspberry_pi_ip, json=motor)
+            response.raise_for_status()  # ตรวจสอบว่าคำขอสำเร็จหรือไม่
+            logger.info(f"มอเตอร์ {motor['motor_id']} ได้รับคำสั่งและทำงานเสร็จแล้ว")
+        except requests.exceptions.RequestException as e:
+            logger.error(f"เกิดข้อผิดพลาดในการควบคุมมอเตอร์ {motor['motor_id']}: {e}")
+            print(f"ข้อผิดพลาดในการควบคุมมอเตอร์ {motor['motor_id']}: {e}")
             
-# ฟังก์ชันที่ใช้หลังจากการชำระเงินสำเร็จ
 def payment_success(request, order_id):
-    order = get_object_or_404(Order, id=order_id)  # ดึงข้อมูลคำสั่งซื้อจากฐานข้อมูล
-
-    # ส่งคำขอควบคุมมอเตอร์ไปยัง Raspberry Pi หลังจากการแสดงหน้า "ชำระเงินสำเร็จ"
+    order = get_object_or_404(Order, id=order_id)
     send_motor_control_request(order_id)
-
-    # ส่งข้อมูลคำสั่งซื้อไปยังหน้า payment_success.html
     return render(request, 'store/payment_success.html', {'order': order})
-
 
 def payment_failed(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     return render(request, 'store/payment_failed.html', {'order': order})
-
 
 
 

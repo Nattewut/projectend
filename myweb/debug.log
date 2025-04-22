@@ -926,3 +926,4 @@ INFO 2025-04-21 21:17:50,412 autoreload Watching for file changes with StatReloa
 INFO 2025-04-21 21:17:51,907 basehttp "GET / HTTP/1.1" 200 5164
 INFO 2025-04-21 21:43:38,498 autoreload D:\Desktop\PROJECTEND ไม่ไปหน้าชำระเงินสำเร็จ - Copy (2) - Copy - Copy - Copy\myweb\store\views.py changed, reloading.
 INFO 2025-04-21 21:43:38,998 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 19:53:32,859 autoreload Watching for file changes with StatReloader
