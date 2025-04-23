@@ -94,9 +94,11 @@ def processOrder(request):
 
 def create_qr_payment(order):
     try:
+        # คำนวณจำนวนเงินที่ต้องการชำระในหน่วยสตางค์
         amount = int(order.get_cart_total * 100)
         logger.info(f"Amount in cents: {amount}")
 
+        # URL สำหรับการสร้าง charge ผ่าน Opn API
         url = "https://api.omise.co/charges"
         auth_token = base64.b64encode(f"{settings.OPN_SECRET_KEY}:".encode()).decode()
 
@@ -105,6 +107,7 @@ def create_qr_payment(order):
             "Content-Type": "application/json"
         }
 
+        # กำหนด return_uri ว่าจะไปที่หน้าไหนหลังจากชำระเงินสำเร็จหรือไม่สำเร็จ
         if order.payment_status == "failed":
             return_uri = f"{get_base_url()}/payment_failed/{order.id}/"
         else:
@@ -112,21 +115,33 @@ def create_qr_payment(order):
         
         logger.info(f"Return URI: {return_uri}")
 
+        # ดึงข้อมูลมอเตอร์จากคำสั่งซื้อ
+        motor_data = [
+            {"motor_id": item.product.motor.id, "motor_rounds": item.quantity}
+            for item in order.orderitem_set.all() if item.product.motor
+        ]
+
+        # ข้อมูลที่ต้องส่งไปยัง Opn API
         payload = {
             "amount": amount,
             "currency": "thb",
             "source": {"type": "promptpay"},
             "description": f"Order {order.id}",
             "return_uri": return_uri,
-            "metadata": { "orderId": order.id },
+            "metadata": { 
+                "orderId": order.id,
+                "motor_data": motor_data  # เพิ่มข้อมูลมอเตอร์ใน metadata
+            },
             "version": "2019-05-29"
         }
 
+        # ส่งข้อมูลไปที่ Opn API
         logger.info(f"🔍 ส่งข้อมูลไปที่ Opn API: {payload}")
         response = requests.post(url, json=payload, headers=headers)
         data = response.json()
         logger.info(f"🔍 ตอบกลับจาก Opn API: {data}")
 
+        # ตรวจสอบว่าได้รับข้อมูล scannable_code หรือไม่
         if "source" in data and "scannable_code" in data["source"]:
             qr_url = data["source"]["scannable_code"]["image"]["download_uri"]
             return JsonResponse({
