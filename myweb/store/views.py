@@ -181,7 +181,8 @@ def opn_webhook(request):
                         order.save()
                         logger.info(f"Updated order {order_id} with status: {order.payment_status}")
 
-                        # เรียกฟังก์ชันควบคุมมอเตอร์เมื่อการชำระเงินสำเร็จ
+                        # เรียกฟังก์ชันควบคุมมอเตอร์เมื่อการชำระเงินสำเร็
+                        logger.info(f"Calling motor control for order {order_id} after payment success.")
                         send_motor_control_request(order_id)
 
                 except Order.DoesNotExist:
@@ -245,7 +246,9 @@ def send_motor_control_request(order_id):
         logger.info(f"กำลังส่งคำขอไปที่ Raspberry Pi: {motor}")
         
         try:
+            logger.info(f"Sending motor control request for order {order_id} to Raspberry Pi")
             response = requests.post(raspberry_pi_ip, json=motor)
+            logger.info(f"Response from Raspberry Pi: {response.status_code} - {response.text}")
             response.raise_for_status()  # ตรวจสอบว่าคำขอสำเร็จหรือไม่
             logger.info(f"มอเตอร์ {motor['motor_id']} ได้รับคำสั่งและทำงานเสร็จแล้ว")
         except requests.exceptions.RequestException as e:

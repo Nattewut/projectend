@@ -927,3 +927,21 @@ INFO 2025-04-21 21:17:51,907 basehttp "GET / HTTP/1.1" 200 5164
 INFO 2025-04-21 21:43:38,498 autoreload D:\Desktop\PROJECTEND ไม่ไปหน้าชำระเงินสำเร็จ - Copy (2) - Copy - Copy - Copy\myweb\store\views.py changed, reloading.
 INFO 2025-04-21 21:43:38,998 autoreload Watching for file changes with StatReloader
 INFO 2025-04-22 19:53:32,859 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 19:53:34,491 basehttp "GET / HTTP/1.1" 200 5164
+WARNING 2025-04-22 19:53:34,645 log Not Found: /favicon.ico
+WARNING 2025-04-22 19:53:34,645 basehttp "GET /favicon.ico HTTP/1.1" 404 5074
+INFO 2025-04-22 19:53:37,532 basehttp "GET /admin/ HTTP/1.1" 200 13793
+INFO 2025-04-22 19:53:42,363 basehttp "GET /admin/store/product/ HTTP/1.1" 200 13355
+INFO 2025-04-22 19:53:42,406 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-22 19:59:36,844 basehttp "GET / HTTP/1.1" 200 5164
+INFO 2025-04-22 19:59:41,197 basehttp "POST /update_item/ HTTP/1.1" 200 18
+INFO 2025-04-22 19:59:41,214 basehttp "GET / HTTP/1.1" 200 5164
+INFO 2025-04-22 19:59:42,090 basehttp "GET /cart/ HTTP/1.1" 200 5490
+INFO 2025-04-22 19:59:43,108 basehttp "GET /checkout/ HTTP/1.1" 200 9639
+INFO 2025-04-22 19:59:50,091 basehttp "POST /process_order/ HTTP/1.1" 200 275
+INFO 2025-04-23 15:26:20,455 autoreload D:\Desktop\งานเหลือแค่ทดลอง\myweb\store\views.py changed, reloading.
+INFO 2025-04-23 15:26:21,042 autoreload Watching for file changes with StatReloader
+INFO 2025-04-23 15:27:10,729 autoreload D:\Desktop\งานเหลือแค่ทดลอง\myweb\store\views.py changed, reloading.
+INFO 2025-04-23 15:27:11,288 autoreload Watching for file changes with StatReloader
+INFO 2025-04-23 15:27:15,888 basehttp "GET / HTTP/1.1" 200 5164
+INFO 2025-04-23 15:27:17,056 basehttp "GET /cart/ HTTP/1.1" 200 5490
