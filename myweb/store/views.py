@@ -12,6 +12,8 @@ from .models import *
 from .utils import cookieCart, cartData, guestOrder
 from .models import Order
 from .utils import get_base_url
+import queue
+import threading
 
 # ตั้งค่า logger
 logger = logging.getLogger(__name__)
@@ -242,6 +244,10 @@ def opn_webhook(request):
 
 from django.views.decorators.http import require_GET
 
+import threading
+
+motor_lock = threading.Lock()
+
 @require_GET
 def check_payment_status(request):
     order_id = request.GET.get('order_id')
@@ -276,29 +282,72 @@ def send_motor_control_request(order_id):
 
     logger.info(f"กำลังส่งคำขอไปที่ Raspberry Pi: {payload}")
 
-    try:
-        response = requests.post(raspberry_pi_url, json=payload)
-        logger.info(f"Response from Raspberry Pi: {response.status_code} - {response.text}")
-        response.raise_for_status()
-        logger.info(f"✅ มอเตอร์ทั้งหมดควบคุมเสร็จสิ้นสำหรับ order {order_id}")
+    # ใช้ Lock เพื่อป้องกันการทำงานพร้อมกัน
+    with motor_lock:
+        try:
+            response = requests.post(raspberry_pi_url, json=payload)
+            logger.info(f"Response from Raspberry Pi: {response.status_code} - {response.text}")
+            response.raise_for_status()
+            logger.info(f"✅ มอเตอร์ทั้งหมดควบคุมเสร็จสิ้นสำหรับ order {order_id}")
+        except requests.exceptions.RequestException as e:
+            logger.error(f"❌ เกิดข้อผิดพลาดในการควบคุมมอเตอร์สำหรับ order {order_id}: {e}")
 
-    except requests.exceptions.RequestException as e:
-        logger.error(f"❌ เกิดข้อผิดพลาดในการควบคุมมอเตอร์สำหรับ order {order_id}: {e}")
-
-            
 def payment_success(request, order_id):
     logger.info(f"🔁 payment_success view ถูกเรียกด้วย order_id: {order_id}")
     order = get_object_or_404(Order, id=order_id)
-    send_motor_control_request(order_id)
+
+    # ตรวจสอบสถานะการชำระเงินก่อนส่งคำขอควบคุมมอเตอร์
+    if order.payment_status == 'successful':
+        # เพิ่มคำขอควบคุมมอเตอร์เข้าไปในคิว
+        add_motor_request(order_id)
+    else:
+        logger.warning(f"❌ Payment failed for Order #{order_id}, motor will not be controlled.")
+
     return render(request, 'store/payment_success.html', {'order': order})
 
 def payment_failed(request, order_id):
-    logger.info(f"🔁 payment_Failed view ถูกเรียกด้วย order_id: {order_id}")
+    logger.info(f"🔁 payment_failed view ถูกเรียกด้วย order_id: {order_id}")
     order = get_object_or_404(Order, id=order_id)
     return render(request, 'store/payment_failed.html', {'order': order})
 
+# คิวสำหรับเก็บคำขอควบคุมมอเตอร์
+motor_queue = queue.Queue()
 
+# ตัวแปร Lock เพื่อป้องกันการทำงานพร้อมกัน
+motor_lock = threading.Lock()
 
+def process_motor_request(order_id):
+    """
+    ฟังก์ชันนี้จะควบคุมมอเตอร์สำหรับออเดอร์หนึ่งๆ
+    """
+    logger.info(f"กำลังควบคุมมอเตอร์สำหรับออเดอร์ {order_id}...")
+    time.sleep(5)  # จำลองการควบคุมมอเตอร์ที่ใช้เวลา
+    logger.info(f"ควบคุมมอเตอร์เสร็จสิ้นสำหรับออเดอร์ {order_id}")
+
+def motor_controller():
+    """
+    ฟังก์ชันนี้จะทำงานตลอดเวลาเพื่อตรวจสอบคำขอในคิว
+    """
+    while True:
+        # รอคำขอจากคิว
+        order_id = motor_queue.get()  # รอให้มีคำขอมา
+        if order_id is None:  # ถ้าเจอ None ให้หยุดทำงาน
+            break
+        # ใช้ Lock เพื่อควบคุมการทำงานให้ทำทีละคำขอ
+        with motor_lock:
+            process_motor_request(order_id)
+        motor_queue.task_done()  # แจ้งว่าเสร็จสิ้นการทำงาน
+
+def add_motor_request(order_id):
+    """
+    ฟังก์ชันนี้จะเพิ่มคำขอควบคุมมอเตอร์เข้าสู่คิว
+    """
+    motor_queue.put(order_id)
+    logger.info(f"เพิ่มคำขอควบคุมมอเตอร์สำหรับออเดอร์ {order_id} เข้าคิว")
+
+# สร้างและเริ่มต้น Thread สำหรับการควบคุมมอเตอร์
+motor_thread = threading.Thread(target=motor_controller)
+motor_thread.start()
 
 
 

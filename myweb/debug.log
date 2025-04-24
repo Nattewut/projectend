@@ -1358,3 +1358,44 @@ INFO 2025-04-24 22:54:29,044 basehttp "GET /check_payment_status/?order_id=43 HT
 INFO 2025-04-24 22:54:32,045 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
 INFO 2025-04-24 22:54:35,042 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
 INFO 2025-04-24 22:54:47,053 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:06:19,921 autoreload Watching for file changes with StatReloader
+INFO 2025-04-25 02:06:21,221 basehttp "GET / HTTP/1.1" 200 5164
+INFO 2025-04-25 02:06:22,459 basehttp "GET /cart/ HTTP/1.1" 200 6107
+INFO 2025-04-25 02:06:23,195 basehttp "GET /checkout/ HTTP/1.1" 200 12216
+INFO 2025-04-25 02:06:27,248 basehttp "POST /process_order/ HTTP/1.1" 200 275
+INFO 2025-04-25 02:06:30,561 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:06:33,555 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:06:36,267 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:06:39,559 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:06:42,549 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:06:45,555 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:13:14,306 autoreload Watching for file changes with StatReloader
+INFO 2025-04-25 02:13:23,337 basehttp "GET / HTTP/1.1" 200 5164
+INFO 2025-04-25 02:13:24,371 basehttp "GET /cart/ HTTP/1.1" 200 6107
+INFO 2025-04-25 02:13:26,328 basehttp "GET /checkout/ HTTP/1.1" 200 12216
+INFO 2025-04-25 02:13:33,105 basehttp "POST /process_order/ HTTP/1.1" 200 275
+INFO 2025-04-25 02:13:36,564 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:13:39,548 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:13:42,557 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:13:45,554 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:13:48,548 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:13:51,554 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:13:54,548 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:13:57,550 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:14:00,554 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:14:03,549 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:14:06,560 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:14:09,553 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:14:12,562 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:14:15,548 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:14:18,551 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:14:21,556 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:14:24,560 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:14:27,556 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:14:30,559 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:14:33,563 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:14:33,574 basehttp "GET / HTTP/1.1" 200 5164
+INFO 2025-04-25 02:17:04,249 autoreload D:\Desktop\สำเร็จแล้ว ทำงานพร้อมกัน\myweb\store\views.py changed, reloading.
+INFO 2025-04-25 02:17:04,755 autoreload Watching for file changes with StatReloader
+INFO 2025-04-25 02:18:19,032 autoreload D:\Desktop\สำเร็จแล้ว ทำงานพร้อมกัน\myweb\store\views.py changed, reloading.
+INFO 2025-04-25 02:18:19,552 autoreload Watching for file changes with StatReloader
