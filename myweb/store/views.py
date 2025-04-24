@@ -268,21 +268,23 @@ def get_motor_data_from_order(order_id):
 
 def send_motor_control_request(order_id):
     motor_data = get_motor_data_from_order(order_id)  # ดึงข้อมูลมอเตอร์จากคำสั่งซื้อ
-    raspberry_pi_ip = "http://172.20.10.3:5000/control_motor/"  # IP ของ Raspberry Pi ที่รัน Flask API
+    raspberry_pi_url = "http://172.20.10.3:5000/control_motor/"
 
-    # ส่งคำขอไปยัง Flask API สำหรับแต่ละมอเตอร์ที่ได้รับจากคำสั่งซื้อ
-    for motor in motor_data:
-        logger.info(f"กำลังส่งคำขอไปที่ Raspberry Pi: {motor}")
-        
-        try:
-            logger.info(f"Sending motor control request for order {order_id} to Raspberry Pi")
-            response = requests.post(raspberry_pi_ip, json=motor)
-            logger.info(f"Response from Raspberry Pi: {response.status_code} - {response.text}")
-            response.raise_for_status()  # ตรวจสอบว่าคำขอสำเร็จหรือไม่
-            logger.info(f"มอเตอร์ {motor['motor_id']} ได้รับคำสั่งและทำงานเสร็จแล้ว")
-        except requests.exceptions.RequestException as e:
-            logger.error(f"เกิดข้อผิดพลาดในการควบคุมมอเตอร์ {motor['motor_id']}: {e}")
-            print(f"ข้อผิดพลาดในการควบคุมมอเตอร์ {motor['motor_id']}: {e}")
+    payload = {
+        "motor_data": motor_data
+    }
+
+    logger.info(f"กำลังส่งคำขอไปที่ Raspberry Pi: {payload}")
+
+    try:
+        response = requests.post(raspberry_pi_url, json=payload)
+        logger.info(f"Response from Raspberry Pi: {response.status_code} - {response.text}")
+        response.raise_for_status()
+        logger.info(f"✅ มอเตอร์ทั้งหมดควบคุมเสร็จสิ้นสำหรับ order {order_id}")
+
+    except requests.exceptions.RequestException as e:
+        logger.error(f"❌ เกิดข้อผิดพลาดในการควบคุมมอเตอร์สำหรับ order {order_id}: {e}")
+
             
 def payment_success(request, order_id):
     logger.info(f"🔁 payment_success view ถูกเรียกด้วย order_id: {order_id}")
