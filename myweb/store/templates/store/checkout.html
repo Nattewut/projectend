@@ -163,35 +163,42 @@
                 });
         }
 
-        function startPolling(orderId) {
-            if (pollingInterval) clearInterval(pollingInterval);
-            if (pollingTimeout) clearTimeout(pollingTimeout);
+    function startPolling(orderId) {
+        if (pollingInterval) clearInterval(pollingInterval);
+        if (pollingTimeout) clearTimeout(pollingTimeout);
 
-            pollingInterval = setInterval(async () => {
-                try {
-                    const res = await fetch(`/check_payment_status/?order_id=${orderId}`);
-                    const data = await res.json();
-                    if (data.status === "successful") {
-                        clearInterval(pollingInterval);
-                        clearTimeout(pollingTimeout);
-                        window.location.href = `/payment_success/${orderId}/`;
-                    } else if (data.status === "failed") {
-                        clearInterval(pollingInterval);
-                        clearTimeout(pollingTimeout);
-                        window.location.href = `/payment_failed/${orderId}/`;
-                    }
-                } catch (err) {
-                    console.error("Error checking payment status:", err);
+        pollingInterval = setInterval(async () => {
+            try {
+                const res = await fetch(`/check_payment_status/?order_id=${orderId}`);
+                const data = await res.json();
+
+                console.log("📦 Response from server:", data);  // ✅ ดูค่า status ที่ได้
+
+                if (data.status === "successful") {
+                    clearInterval(pollingInterval);
+                    clearTimeout(pollingTimeout);
+                    console.log("🎉 redirecting to success page");
+                    window.location.href = `/payment_success/${orderId}/`;
+                } else if (data.status === "failed") {
+                    clearInterval(pollingInterval);
+                    clearTimeout(pollingTimeout);
+                    console.log("❌ redirecting to failed page");
+                    window.location.href = `/payment_failed/${orderId}/`;
                 }
-            }, 3000);
+            } catch (err) {
+                console.error("❌ Error checking payment status:", err);
+            }
+        }, 3000);
 
-            // ✅ หยุด polling หลัง 3 นาทีถ้ายังไม่สำเร็จ
-            pollingTimeout = setTimeout(() => {
-                clearInterval(pollingInterval);
-                modal.style.display = "none";
-                alert("⏰ หมดเวลา กรุณาลองใหม่อีกครั้ง");
-            }, 180000); // 180000 = 3 นาที
-        }
+        // เพิ่ม timeout (กันลูปไม่หยุดถ้ารอนานเกินไป)
+        pollingTimeout = setTimeout(() => {
+            clearInterval(pollingInterval);
+            console.warn("⚠️ Polling timeout - no response within time limit.");
+            alert("หมดเวลารอชำระเงิน กรุณาลองใหม่อีกครั้ง");
+            window.location.href = "/";
+        }, 60000);  // 1 นาที
+    }
+
 
         closeBtn.onclick = function () {
             modal.style.display = "none";

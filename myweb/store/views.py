@@ -255,8 +255,10 @@ def check_payment_status(request):
     order_id = request.GET.get('order_id')
     try:
         order = Order.objects.get(id=order_id)
+        logger.info(f"🔍 ตรวจสถานะ Order #{order_id} => {order.payment_status}")
         return JsonResponse({'status': order.payment_status})
     except Order.DoesNotExist:
+        logger.warning(f"❌ ไม่พบ Order #{order_id}")
         return JsonResponse({'status': 'not_found'}, status=404)
 
 def get_motor_data_from_order(order_id):
