@@ -199,55 +199,47 @@ def opn_webhook(request):
 
             logger.info("✅ Webhook received with key: %s", body.get('key'))
 
-            if body.get('key') == 'charge.create':
-                payment_data = body.get('data')
-                charge_id = payment_data.get('id')
-                order_id = payment_data.get('metadata', {}).get('orderId')
+            event_key = body.get('key')
+            payment_data = body.get('data')
+            charge_id = payment_data.get('id')
+            order_id = payment_data.get('metadata', {}).get('orderId')
 
-                logger.info(f"Received charge.create for charge_id: {charge_id}, order_id: {order_id}")
+            try:
+                order = Order.objects.get(id=order_id)
 
-                try:
-                    order = Order.objects.get(id=order_id)
-                    if order.payment_status == 'pending' and order.charge_id == charge_id:
-                        order.payment_status = 'created'
-                        order.save()
-                        logger.info(f"Updated order {order_id} with status: {order.payment_status}")
-                except Order.DoesNotExist:
-                    logger.error(f"Order with id {order_id} not found.")
+                if event_key == 'charge.create':
+                    logger.info(f"Received charge.create for charge_id: {charge_id}, order_id: {order_id}")
+                    order.payment_status = 'created'
+                    order.charge_id = charge_id  # ✅ บันทึก charge_id ด้วย
+                    order.save()
+                    logger.info(f"✅ Updated order {order_id} with status: {order.payment_status}")
 
-            elif body.get('key') == 'charge.complete':
-                logger.info("✅ Webhook: charge.complete ถูกเรียกแล้ว")
-                logger.info("💾 Payload: %s", json.dumps(body, indent=2))
-                payment_data = body.get('data')
-                charge_id = payment_data.get('id')
-                order_id = payment_data.get('metadata', {}).get('orderId')
+                elif event_key == 'charge.complete':
+                    logger.info("✅ Webhook: charge.complete ถูกเรียกแล้ว")
+                    logger.info(f"💾 Payload: {json.dumps(body, indent=2)}")
 
-                logger.info(f"Received charge.complete for charge_id: {charge_id}, order_id: {order_id}")
-
-                try:
-                    order = Order.objects.get(id=order_id)
-                    if order.payment_status == 'pending' and order.charge_id == charge_id:
+                    if order.charge_id == charge_id and order.payment_status != 'successful':
                         order.payment_status = payment_data.get('status')
                         order.save()
-                        logger.info(f"Updated order {order_id} with status: {order.payment_status}")
-                        logger.info(f"Calling motor control for order {order_id} after payment success.")
+                        logger.info(f"🎉 Updated order {order_id} to: {order.payment_status}")
+                        logger.info(f"🔧 Calling motor control for order {order_id} after payment success.")
                         send_motor_control_request(order_id)
-                except Order.DoesNotExist:
-                    logger.error(f"Order with id {order_id} not found.")
 
-            else:
-                logger.warning(f"❌ Unexpected event type: {body.get('key')}")
-                return JsonResponse({"message": "Invalid event type."}, status=400)
+                else:
+                    logger.warning(f"❌ Unexpected event type: {event_key}")
+                    return JsonResponse({"message": "Invalid event type."}, status=400)
+
+            except Order.DoesNotExist:
+                logger.error(f"Order with id {order_id} not found.")
 
             return JsonResponse({"message": "Webhook processed successfully."}, status=200)
 
-        else:
-            return JsonResponse({"message": "Invalid HTTP method."}, status=405)
+        return JsonResponse({"message": "Invalid HTTP method."}, status=405)
 
     except Exception as e:
         logger.error(f"❌ Error processing webhook: {e}")
         return JsonResponse({"message": "Error processing webhook."}, status=500)
-    
+
 from django.views.decorators.http import require_GET
 
 @require_GET
