@@ -97,42 +97,46 @@
 </style>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         var modal = document.getElementById("qrModal");
         var closeBtn = document.getElementById("closeModal");
         var spanClose = document.querySelector(".close");
         var qrImage = document.getElementById("qr-code");
         var paymentAmount = document.getElementById("payment-amount");
         var form = document.getElementById("form");
-    
-        form.addEventListener("submit", function(e) {
+
+        let pollingInterval = null;
+        let pollingTimeout = null;
+        let currentOrderId = null;
+
+        form.addEventListener("submit", function (e) {
             e.preventDefault();
             fetchQRCode();
         });
-    
+
         function fetchQRCode() {
             let csrfToken = "{{ csrf_token }}";
             let name = document.querySelector("input[name='name']").value.trim();
             let email = document.querySelector("input[name='email']").value.trim();
             let totalAmount = parseFloat("{{ order.get_cart_total|floatformat:2 }}");
-    
+
             if (!name || !email) {
                 alert("❌ กรุณากรอกชื่อและอีเมลให้ครบถ้วน");
                 return;
             }
-    
+
             if (totalAmount <= 0) {
                 alert("❌ กรุณาเพิ่มสินค้าลงในตะกร้า");
                 return;
             }
-    
+
             let orderData = {
                 "form": {
                     "name": name,
                     "email": email
                 }
             };
-    
+
             fetch('/process_order/', {
                 method: 'POST',
                 headers: {
@@ -141,34 +145,72 @@
                 },
                 body: JSON.stringify(orderData)
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.qr_code_url) {
-                    qrImage.src = data.qr_code_url;
-                    paymentAmount.textContent = data.amount + " บาท";
-                    modal.style.display = "flex";
-                } else {
-                    alert("เกิดข้อผิดพลาด: " + data.error);
-                }
-            })
-            .catch(error => {
-                console.error("❌ Error:", error);
-                alert("เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง");
-            });
+                .then(response => response.json())
+                .then(data => {
+                    if (data.qr_code_url) {
+                        qrImage.src = data.qr_code_url;
+                        paymentAmount.textContent = data.amount + " บาท";
+                        currentOrderId = data.order_id;
+                        modal.style.display = "flex";
+                        startPolling(currentOrderId);
+                    } else {
+                        alert("เกิดข้อผิดพลาด: " + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error("❌ Error:", error);
+                    alert("เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง");
+                });
         }
-    
-        closeBtn.onclick = function() {
+
+        function startPolling(orderId) {
+            if (pollingInterval) clearInterval(pollingInterval);
+            if (pollingTimeout) clearTimeout(pollingTimeout);
+
+            pollingInterval = setInterval(async () => {
+                try {
+                    const res = await fetch(`/check_payment_status/?order_id=${orderId}`);
+                    const data = await res.json();
+                    if (data.status === "successful") {
+                        clearInterval(pollingInterval);
+                        clearTimeout(pollingTimeout);
+                        window.location.href = `/payment_success/${orderId}/`;
+                    } else if (data.status === "failed") {
+                        clearInterval(pollingInterval);
+                        clearTimeout(pollingTimeout);
+                        window.location.href = `/payment_failed/${orderId}/`;
+                    }
+                } catch (err) {
+                    console.error("Error checking payment status:", err);
+                }
+            }, 3000);
+
+            // ✅ หยุด polling หลัง 3 นาทีถ้ายังไม่สำเร็จ
+            pollingTimeout = setTimeout(() => {
+                clearInterval(pollingInterval);
+                modal.style.display = "none";
+                alert("⏰ หมดเวลา กรุณาลองใหม่อีกครั้ง");
+            }, 180000); // 180000 = 3 นาที
+        }
+
+        closeBtn.onclick = function () {
             modal.style.display = "none";
+            clearInterval(pollingInterval);
+            clearTimeout(pollingTimeout);
         };
-        spanClose.onclick = function() {
+        spanClose.onclick = function () {
             modal.style.display = "none";
+            clearInterval(pollingInterval);
+            clearTimeout(pollingTimeout);
         };
-        window.onclick = function(event) {
+        window.onclick = function (event) {
             if (event.target == modal) {
                 modal.style.display = "none";
+                clearInterval(pollingInterval);
+                clearTimeout(pollingTimeout);
             }
         };
     });
-    </script>
-    
+</script>
+
 {% endblock content %} 

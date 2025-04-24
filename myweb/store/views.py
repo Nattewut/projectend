@@ -59,6 +59,29 @@ def checkout(request):
         'OPN_PUBLIC_KEY': settings.OPN_PUBLIC_KEY
     })
 
+def updateItem(request):
+    data = json.loads(request.body)
+    productId = data.get('productId')
+    action = data.get('action')
+    logger.info(f"Action: {action}, Product: {productId}")
+
+    customer = request.user.customer
+    product = Product.objects.get(id=productId)
+    order, _ = Order.objects.get_or_create(customer=customer, complete=False)
+    orderItem, _ = OrderItem.objects.get_or_create(order=order, product=product)
+
+    if action == 'add':
+        orderItem.quantity += 1
+    elif action == 'remove':
+        orderItem.quantity -= 1
+
+    orderItem.save()
+
+    if orderItem.quantity <= 0:
+        orderItem.delete()
+
+    return JsonResponse("Item was updated", safe=False)
+
 @csrf_exempt
 def processOrder(request):
     try:
@@ -144,6 +167,10 @@ def create_qr_payment(order):
         # ตรวจสอบว่าได้รับข้อมูล scannable_code หรือไม่
         if "source" in data and "scannable_code" in data["source"]:
             qr_url = data["source"]["scannable_code"]["image"]["download_uri"]
+
+            order.charge_id = data["id"]  # ✅ เพิ่มตรงนี้
+            order.save()
+
             return JsonResponse({
                 "message": "ชำระเงินสำเร็จ",
                 "qr_code_url": qr_url,
@@ -162,8 +189,15 @@ def create_qr_payment(order):
 def opn_webhook(request):
     try:
         if request.method == 'POST':
-            body = json.loads(request.body)
-            logger.info("Received webhook: %s", body)
+            try:
+                raw_body = request.body.decode('utf-8')
+                logger.info(f"📥 Raw request body: {raw_body}")
+                body = json.loads(raw_body)
+            except json.JSONDecodeError as e:
+                logger.error(f"❌ JSON decode error in webhook: {e}")
+                return JsonResponse({"message": "Invalid JSON"}, status=400)
+
+            logger.info("✅ Webhook received with key: %s", body.get('key'))
 
             if body.get('key') == 'charge.create':
                 payment_data = body.get('data')
@@ -178,11 +212,12 @@ def opn_webhook(request):
                         order.payment_status = 'created'
                         order.save()
                         logger.info(f"Updated order {order_id} with status: {order.payment_status}")
-
                 except Order.DoesNotExist:
                     logger.error(f"Order with id {order_id} not found.")
 
             elif body.get('key') == 'charge.complete':
+                logger.info("✅ Webhook: charge.complete ถูกเรียกแล้ว")
+                logger.info("💾 Payload: %s", json.dumps(body, indent=2))
                 payment_data = body.get('data')
                 charge_id = payment_data.get('id')
                 order_id = payment_data.get('metadata', {}).get('orderId')
@@ -195,16 +230,13 @@ def opn_webhook(request):
                         order.payment_status = payment_data.get('status')
                         order.save()
                         logger.info(f"Updated order {order_id} with status: {order.payment_status}")
-
-                        # เรียกฟังก์ชันควบคุมมอเตอร์เมื่อการชำระเงินสำเร็
                         logger.info(f"Calling motor control for order {order_id} after payment success.")
                         send_motor_control_request(order_id)
-
                 except Order.DoesNotExist:
                     logger.error(f"Order with id {order_id} not found.")
 
             else:
-                logger.warning(f"Unexpected event type: {body.get('key')}")
+                logger.warning(f"❌ Unexpected event type: {body.get('key')}")
                 return JsonResponse({"message": "Invalid event type."}, status=400)
 
             return JsonResponse({"message": "Webhook processed successfully."}, status=200)
@@ -213,31 +245,19 @@ def opn_webhook(request):
             return JsonResponse({"message": "Invalid HTTP method."}, status=405)
 
     except Exception as e:
-        logger.error(f"Error processing webhook: {e}")
+        logger.error(f"❌ Error processing webhook: {e}")
         return JsonResponse({"message": "Error processing webhook."}, status=500)
+    
+from django.views.decorators.http import require_GET
 
-def updateItem(request):
-    data = json.loads(request.body)
-    productId = data.get('productId')
-    action = data.get('action')
-    logger.info(f"Action: {action}, Product: {productId}")
-
-    customer = request.user.customer
-    product = Product.objects.get(id=productId)
-    order, _ = Order.objects.get_or_create(customer=customer, complete=False)
-    orderItem, _ = OrderItem.objects.get_or_create(order=order, product=product)
-
-    if action == 'add':
-        orderItem.quantity += 1
-    elif action == 'remove':
-        orderItem.quantity -= 1
-
-    orderItem.save()
-
-    if orderItem.quantity <= 0:
-        orderItem.delete()
-
-    return JsonResponse("Item was updated", safe=False)
+@require_GET
+def check_payment_status(request):
+    order_id = request.GET.get('order_id')
+    try:
+        order = Order.objects.get(id=order_id)
+        return JsonResponse({'status': order.payment_status})
+    except Order.DoesNotExist:
+        return JsonResponse({'status': 'not_found'}, status=404)
 
 def get_motor_data_from_order(order_id):
     # ดึงข้อมูลคำสั่งซื้อจากฐานข้อมูล
@@ -271,11 +291,13 @@ def send_motor_control_request(order_id):
             print(f"ข้อผิดพลาดในการควบคุมมอเตอร์ {motor['motor_id']}: {e}")
             
 def payment_success(request, order_id):
+    logger.info(f"🔁 payment_success view ถูกเรียกด้วย order_id: {order_id}")
     order = get_object_or_404(Order, id=order_id)
     send_motor_control_request(order_id)
     return render(request, 'store/payment_success.html', {'order': order})
 
 def payment_failed(request, order_id):
+    logger.info(f"🔁 payment_Failed view ถูกเรียกด้วย order_id: {order_id}")
     order = get_object_or_404(Order, id=order_id)
     return render(request, 'store/payment_failed.html', {'order': order})
 
