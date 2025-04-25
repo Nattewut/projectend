@@ -1399,3 +1399,33 @@ INFO 2025-04-25 02:17:04,249 autoreload D:\Desktop\สำเร็จแล้ว ทำงานพร้อมกัน\mywe
 INFO 2025-04-25 02:17:04,755 autoreload Watching for file changes with StatReloader
 INFO 2025-04-25 02:18:19,032 autoreload D:\Desktop\สำเร็จแล้ว ทำงานพร้อมกัน\myweb\store\views.py changed, reloading.
 INFO 2025-04-25 02:18:19,552 autoreload Watching for file changes with StatReloader
+INFO 2025-04-25 02:18:59,049 autoreload D:\Desktop\สำเร็จแล้ว ทำงานพร้อมกัน\myweb\store\views.py changed, reloading.
+INFO 2025-04-25 02:19:15,130 basehttp "GET / HTTP/1.1" 200 5164
+INFO 2025-04-25 02:19:16,772 basehttp "GET /cart/ HTTP/1.1" 200 6107
+INFO 2025-04-25 02:19:17,439 basehttp "GET /checkout/ HTTP/1.1" 200 12216
+INFO 2025-04-25 02:19:22,106 basehttp "POST /process_order/ HTTP/1.1" 200 275
+INFO 2025-04-25 02:19:25,549 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:19:28,550 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:19:31,561 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:19:34,557 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:19:37,551 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:19:40,557 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:19:43,557 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:19:46,552 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:19:49,552 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:19:52,560 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:19:55,555 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:19:58,562 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:20:01,556 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:20:04,557 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:20:07,558 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:20:10,549 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:20:13,552 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:20:16,554 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:20:19,560 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:20:22,561 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-25 02:20:22,565 basehttp "GET / HTTP/1.1" 200 5164
+INFO 2025-04-25 15:29:50,791 autoreload Watching for file changes with StatReloader
+INFO 2025-04-25 15:29:52,291 basehttp "GET / HTTP/1.1" 200 5164
+INFO 2025-04-25 15:29:54,007 basehttp "GET /cart/ HTTP/1.1" 200 6107
+INFO 2025-04-25 15:29:54,843 basehttp "GET /checkout/ HTTP/1.1" 200 12216

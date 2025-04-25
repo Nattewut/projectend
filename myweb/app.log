@@ -445,3 +445,36 @@
 2025-04-25 02:14:30,559 - INFO - 🔍 ตรวจสถานะ Order #43 => pending
 2025-04-25 02:14:33,562 - INFO - 🔍 ตรวจสถานะ Order #43 => pending
 2025-04-25 02:14:33,572 - INFO - Store page rendered with 3 products
+2025-04-25 02:19:15,117 - INFO - Store page rendered with 3 products
+2025-04-25 02:19:16,764 - INFO - Cart page rendered with 3 items in the cart
+2025-04-25 02:19:17,432 - INFO - Checkout page rendered with 3 items in the cart
+2025-04-25 02:19:21,283 - INFO - Received data from Checkout: {'form': {'name': 'ำไ', 'email': 'fd@ghg'}}
+2025-04-25 02:19:21,287 - INFO - Order Total: 30.0
+2025-04-25 02:19:21,294 - INFO - Amount in cents: 3000
+2025-04-25 02:19:21,294 - INFO - Return URI: https://gnat-crucial-partly.ngrok-free.app/payment_success/43/
+2025-04-25 02:19:21,297 - INFO - 🔍 ส่งข้อมูลไปที่ Opn API: {'amount': 3000, 'currency': 'thb', 'source': {'type': 'promptpay'}, 'description': 'Order 43', 'return_uri': 'https://gnat-crucial-partly.ngrok-free.app/payment_success/43/', 'metadata': {'orderId': 43, 'motor_data': [{'motor_id': 2, 'motor_rounds': 1}, {'motor_id': 3, 'motor_rounds': 1}, {'motor_id': 1, 'motor_rounds': 1}]}, 'version': '2019-05-29'}
+2025-04-25 02:19:22,098 - INFO - 🔍 ตอบกลับจาก Opn API: {'object': 'charge', 'id': 'chrg_test_63hys5kyoins7afcbu3', 'location': '/charges/chrg_test_63hys5kyoins7afcbu3', 'amount': 3000, 'acquirer_reference_number': None, 'net': 2946, 'fee': 50, 'fee_vat': 4, 'interest': 0, 'interest_vat': 0, 'funding_amount': 3000, 'refunded_amount': 0, 'transaction_fees': {'fee_flat': '0.0', 'fee_rate': '1.65', 'vat_rate': '7.0'}, 'platform_fee': {'fixed': None, 'amount': None, 'percentage': None}, 'currency': 'THB', 'funding_currency': 'THB', 'ip': None, 'refunds': {'object': 'list', 'data': [], 'limit': 20, 'offset': 0, 'total': 0, 'location': '/charges/chrg_test_63hys5kyoins7afcbu3/refunds', 'order': 'chronological', 'from': '1970-01-01T00:00:00Z', 'to': '2025-04-24T19:19:21Z'}, 'link': None, 'description': 'Order 43', 'metadata': {'orderId': 43, 'motor_data': [{'motor_id': 2, 'motor_rounds': 1}, {'motor_id': 3, 'motor_rounds': 1}, {'motor_id': 1, 'motor_rounds': 1}]}, 'card': None, 'source': {'object': 'source', 'id': 'src_test_63hys5kqrg8m58ke1dk', 'livemode': False, 'location': '/sources/src_test_63hys5kqrg8m58ke1dk', 'amount': 3000, 'barcode': None, 'bank': None, 'created_at': '2025-04-24T19:19:21Z', 'currency': 'THB', 'email': None, 'flow': 'offline', 'installment_term': None, 'ip': None, 'absorption_type': None, 'name': None, 'mobile_number': None, 'phone_number': None, 'platform_type': None, 'scannable_code': {'object': 'barcode', 'type': 'qr', 'image': {'object': 'document', 'livemode': False, 'id': 'docu_test_63hys5n27ns2vzbf4oh', 'deleted': False, 'filename': 'qrcode.svg', 'location': '/charges/chrg_test_63hys5kyoins7afcbu3/documents/docu_test_63hys5n27ns2vzbf4oh', 'kind': 'qr', 'download_uri': 'https://api.omise.co/charges/chrg_test_63hys5kyoins7afcbu3/documents/docu_test_63hys5n27ns2vzbf4oh/downloads/781B87FC213DD47C', 'created_at': '2025-04-24T19:19:21Z'}, 'raw_data': None}, 'qr_settings': None, 'billing': None, 'shipping': None, 'items': [], 'references': None, 'provider_references': {'reference_number_1': 'pay2_test_63hys5l0b1e3s5u0438', 'reference_number_2': None}, 'store_id': None, 'store_name': None, 'terminal_id': None, 'type': 'promptpay', 'zero_interest_installments': None, 'charge_status': 'pending', 'receipt_amount': None, 'discounts': [], 'promotion_code': None, 'supplier_id': None}, 'schedule': None, 'linked_account': None, 'customer': None, 'dispute': None, 'transaction': None, 'failure_code': None, 'failure_message': None, 'merchant_advice': None, 'status': 'pending', 'authorize_uri': 'https://pay.omise.co/payments/pay2_test_63hys5l0b1e3s5u0438/authorize?acs=false', 'return_uri': 'https://gnat-crucial-partly.ngrok-free.app/payment_success/43/', 'created_at': '2025-04-24T19:19:21Z', 'paid_at': None, 'authorized_at': None, 'expires_at': '2025-04-25T19:19:21Z', 'expired_at': None, 'reversed_at': None, 'multi_capture': False, 'zero_interest_installments': False, 'branch': None, 'terminal': None, 'device': None, 'authorized': False, 'capturable': False, 'capture': True, 'disputable': False, 'livemode': False, 'refundable': False, 'partially_refundable': False, 'reversed': False, 'reversible': False, 'voided': False, 'paid': False, 'expired': False, 'can_perform_void': False, 'approval_code': None}
+2025-04-25 02:19:25,549 - INFO - 🔍 ตรวจสถานะ Order #43 => pending
+2025-04-25 02:19:28,549 - INFO - 🔍 ตรวจสถานะ Order #43 => pending
+2025-04-25 02:19:31,560 - INFO - 🔍 ตรวจสถานะ Order #43 => pending
+2025-04-25 02:19:34,556 - INFO - 🔍 ตรวจสถานะ Order #43 => pending
+2025-04-25 02:19:37,550 - INFO - 🔍 ตรวจสถานะ Order #43 => pending
+2025-04-25 02:19:40,556 - INFO - 🔍 ตรวจสถานะ Order #43 => pending
+2025-04-25 02:19:43,556 - INFO - 🔍 ตรวจสถานะ Order #43 => pending
+2025-04-25 02:19:46,552 - INFO - 🔍 ตรวจสถานะ Order #43 => pending
+2025-04-25 02:19:49,551 - INFO - 🔍 ตรวจสถานะ Order #43 => pending
+2025-04-25 02:19:52,559 - INFO - 🔍 ตรวจสถานะ Order #43 => pending
+2025-04-25 02:19:55,554 - INFO - 🔍 ตรวจสถานะ Order #43 => pending
+2025-04-25 02:19:58,561 - INFO - 🔍 ตรวจสถานะ Order #43 => pending
+2025-04-25 02:20:01,555 - INFO - 🔍 ตรวจสถานะ Order #43 => pending
+2025-04-25 02:20:04,556 - INFO - 🔍 ตรวจสถานะ Order #43 => pending
+2025-04-25 02:20:07,557 - INFO - 🔍 ตรวจสถานะ Order #43 => pending
+2025-04-25 02:20:10,549 - INFO - 🔍 ตรวจสถานะ Order #43 => pending
+2025-04-25 02:20:13,551 - INFO - 🔍 ตรวจสถานะ Order #43 => pending
+2025-04-25 02:20:16,553 - INFO - 🔍 ตรวจสถานะ Order #43 => pending
+2025-04-25 02:20:19,559 - INFO - 🔍 ตรวจสถานะ Order #43 => pending
+2025-04-25 02:20:22,560 - INFO - 🔍 ตรวจสถานะ Order #43 => pending
+2025-04-25 02:20:22,564 - INFO - Store page rendered with 3 products
+2025-04-25 15:29:52,272 - INFO - Store page rendered with 3 products
+2025-04-25 15:29:53,999 - INFO - Cart page rendered with 3 items in the cart
+2025-04-25 15:29:54,802 - INFO - Checkout page rendered with 3 items in the cart
