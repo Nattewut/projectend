@@ -224,8 +224,27 @@ def opn_webhook(request):
                         order.payment_status = payment_data.get('status')
                         order.save()
                         logger.info(f"🎉 Updated order {order_id} to: {order.payment_status}")
-                        logger.info(f"🔧 Calling motor control for order {order_id} after payment success.")
-                        send_motor_control_request(order_id)
+
+                        # ตรวจสอบสถานะการชำระเงินก่อนเรียกใช้งานมอเตอร์
+                        if order.payment_status == 'successful':
+                            logger.info(f"🔧 Calling motor control for order {order_id} after payment success.")
+                            send_motor_control_request(order_id)
+                        else:
+                            logger.warning(f"❌ Payment failed for Order {order_id}, motor control will not be triggered.")
+                    
+                elif event_key == 'charge.failed':
+                    # การชำระเงินล้มเหลว
+                    logger.warning(f"❌ Payment failed for Order {order_id}, charge_id: {charge_id}")
+                    order.payment_status = 'failed'
+                    order.save()
+                    logger.info(f"❌ Updated order {order_id} to status: failed")
+
+                elif event_key == 'charge.cancelled':
+                    # การชำระเงินถูกยกเลิก
+                    logger.warning(f"❌ Payment cancelled for Order {order_id}, charge_id: {charge_id}")
+                    order.payment_status = 'cancelled'
+                    order.save()
+                    logger.info(f"❌ Updated order {order_id} to status: cancelled")
 
                 else:
                     logger.warning(f"❌ Unexpected event type: {event_key}")
@@ -273,24 +292,31 @@ def get_motor_data_from_order(order_id):
     return motor_data
 
 def send_motor_control_request(order_id):
-    motor_data = get_motor_data_from_order(order_id)  # ดึงข้อมูลมอเตอร์จากคำสั่งซื้อ
-    raspberry_pi_url = "http://172.20.10.3:5000/control_motor/"
+    order = get_object_or_404(Order, id=order_id)
 
-    payload = {
-        "motor_data": motor_data
-    }
+    # ตรวจสอบสถานะการชำระเงินก่อนการส่งคำขอควบคุมมอเตอร์
+    if order.payment_status == 'successful':
+        motor_data = get_motor_data_from_order(order_id)  # ดึงข้อมูลมอเตอร์จากคำสั่งซื้อ
+        raspberry_pi_url = "http://172.20.10.3:5000/control_motor/"
 
-    logger.info(f"กำลังส่งคำขอไปที่ Raspberry Pi: {payload}")
+        payload = {
+            "motor_data": motor_data
+        }
 
-    # ใช้ Lock เพื่อป้องกันการทำงานพร้อมกัน
-    with motor_lock:
-        try:
-            response = requests.post(raspberry_pi_url, json=payload)
-            logger.info(f"Response from Raspberry Pi: {response.status_code} - {response.text}")
-            response.raise_for_status()
-            logger.info(f"✅ มอเตอร์ทั้งหมดควบคุมเสร็จสิ้นสำหรับ order {order_id}")
-        except requests.exceptions.RequestException as e:
-            logger.error(f"❌ เกิดข้อผิดพลาดในการควบคุมมอเตอร์สำหรับ order {order_id}: {e}")
+        logger.info(f"กำลังส่งคำขอไปที่ Raspberry Pi: {payload}")
+
+        # ใช้ Lock เพื่อป้องกันการทำงานพร้อมกัน
+        with motor_lock:
+            try:
+                response = requests.post(raspberry_pi_url, json=payload)
+                logger.info(f"Response from Raspberry Pi: {response.status_code} - {response.text}")
+                response.raise_for_status()
+                logger.info(f"✅ มอเตอร์ทั้งหมดควบคุมเสร็จสิ้นสำหรับ order {order_id}")
+            except requests.exceptions.RequestException as e:
+                logger.error(f"❌ เกิดข้อผิดพลาดในการควบคุมมอเตอร์สำหรับ order {order_id}: {e}")
+    else:
+        logger.warning(f"❌ Payment not successful for Order #{order_id}, motor control will not be triggered.")
+
 
 def payment_success(request, order_id):
     logger.info(f"🔁 payment_success view ถูกเรียกด้วย order_id: {order_id}")
