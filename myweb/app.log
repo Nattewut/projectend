@@ -478,3 +478,256 @@
 2025-04-25 15:29:52,272 - INFO - Store page rendered with 3 products
 2025-04-25 15:29:53,999 - INFO - Cart page rendered with 3 items in the cart
 2025-04-25 15:29:54,802 - INFO - Checkout page rendered with 3 items in the cart
+2025-04-25 17:40:35,825 - INFO - Store page rendered with 3 products
+2025-04-27 00:10:45,661 - INFO - Store page rendered with 3 products
+2025-04-27 00:10:47,206 - INFO - Action: add, Product: 6
+2025-04-27 00:10:47,230 - INFO - Store page rendered with 3 products
+2025-04-27 00:10:48,677 - INFO - Action: add, Product: 4
+2025-04-27 00:10:48,702 - INFO - Store page rendered with 3 products
+2025-04-27 00:10:49,477 - INFO - Action: add, Product: 3
+2025-04-27 00:10:49,501 - INFO - Store page rendered with 3 products
+2025-04-27 01:14:47,238 - INFO - Store page rendered with 3 products
+2025-04-27 01:14:49,021 - INFO - Action: add, Product: 6
+2025-04-27 01:14:49,046 - INFO - Store page rendered with 3 products
+2025-04-27 01:14:50,133 - INFO - Cart page rendered with 3 items in the cart
+2025-04-27 01:14:51,052 - INFO - Checkout page rendered with 3 items in the cart
+2025-04-27 01:14:53,957 - INFO - Received data from Checkout: {'form': {'name': 're', 'email': 're@ew'}}
+2025-04-27 01:14:53,962 - INFO - Order Total: 65.0
+2025-04-27 01:14:53,968 - INFO - Amount in cents: 6500
+2025-04-27 01:14:53,968 - INFO - Return URI: https://gnat-crucial-partly.ngrok-free.app/payment_success/43/
+2025-04-27 01:14:53,971 - INFO - 🔍 ส่งข้อมูลไปที่ Opn API: {'amount': 6500, 'currency': 'thb', 'source': {'type': 'promptpay'}, 'description': 'Order 43', 'return_uri': 'https://gnat-crucial-partly.ngrok-free.app/payment_success/43/', 'metadata': {'orderId': 43, 'motor_data': [{'motor_id': 2, 'motor_rounds': 2}, {'motor_id': 3, 'motor_rounds': 2}, {'motor_id': 1, 'motor_rounds': 3}]}, 'version': '2019-05-29'}
+2025-04-27 01:14:54,606 - INFO - 🔍 ตอบกลับจาก Opn API: {'object': 'charge', 'id': 'chrg_test_63iqba64r70zdprxe22', 'location': '/charges/chrg_test_63iqba64r70zdprxe22', 'amount': 6500, 'acquirer_reference_number': None, 'net': 6386, 'fee': 107, 'fee_vat': 7, 'interest': 0, 'interest_vat': 0, 'funding_amount': 6500, 'refunded_amount': 0, 'transaction_fees': {'fee_flat': '0.0', 'fee_rate': '1.65', 'vat_rate': '7.0'}, 'platform_fee': {'fixed': None, 'amount': None, 'percentage': None}, 'currency': 'THB', 'funding_currency': 'THB', 'ip': None, 'refunds': {'object': 'list', 'data': [], 'limit': 20, 'offset': 0, 'total': 0, 'location': '/charges/chrg_test_63iqba64r70zdprxe22/refunds', 'order': 'chronological', 'from': '1970-01-01T00:00:00Z', 'to': '2025-04-26T18:14:54Z'}, 'link': None, 'description': 'Order 43', 'metadata': {'orderId': 43, 'motor_data': [{'motor_id': 2, 'motor_rounds': 2}, {'motor_id': 3, 'motor_rounds': 2}, {'motor_id': 1, 'motor_rounds': 3}]}, 'card': None, 'source': {'object': 'source', 'id': 'src_test_63iqba5zb0eudr6xhj4', 'livemode': False, 'location': '/sources/src_test_63iqba5zb0eudr6xhj4', 'amount': 6500, 'barcode': None, 'bank': None, 'created_at': '2025-04-26T18:14:54Z', 'currency': 'THB', 'email': None, 'flow': 'offline', 'installment_term': None, 'ip': None, 'absorption_type': None, 'name': None, 'mobile_number': None, 'phone_number': None, 'platform_type': None, 'scannable_code': {'object': 'barcode', 'type': 'qr', 'image': {'object': 'document', 'livemode': False, 'id': 'docu_test_63iqba87h4gh4srsma3', 'deleted': False, 'filename': 'qrcode.svg', 'location': '/charges/chrg_test_63iqba64r70zdprxe22/documents/docu_test_63iqba87h4gh4srsma3', 'kind': 'qr', 'download_uri': 'https://api.omise.co/charges/chrg_test_63iqba64r70zdprxe22/documents/docu_test_63iqba87h4gh4srsma3/downloads/1964CB4F50CF2029', 'created_at': '2025-04-26T18:14:54Z'}, 'raw_data': None}, 'qr_settings': None, 'billing': None, 'shipping': None, 'items': [], 'references': None, 'provider_references': {'reference_number_1': 'pay2_test_63iqba65uzqrkxeocrk', 'reference_number_2': None}, 'store_id': None, 'store_name': None, 'terminal_id': None, 'type': 'promptpay', 'zero_interest_installments': None, 'charge_status': 'pending', 'receipt_amount': None, 'discounts': [], 'promotion_code': None, 'supplier_id': None}, 'schedule': None, 'linked_account': None, 'customer': None, 'dispute': None, 'transaction': None, 'failure_code': None, 'failure_message': None, 'merchant_advice': None, 'status': 'pending', 'authorize_uri': 'https://pay.omise.co/payments/pay2_test_63iqba65uzqrkxeocrk/authorize?acs=false', 'return_uri': 'https://gnat-crucial-partly.ngrok-free.app/payment_success/43/', 'created_at': '2025-04-26T18:14:54Z', 'paid_at': None, 'authorized_at': None, 'expires_at': '2025-04-27T18:14:54Z', 'expired_at': None, 'reversed_at': None, 'multi_capture': False, 'zero_interest_installments': False, 'branch': None, 'terminal': None, 'device': None, 'authorized': False, 'capturable': False, 'capture': True, 'disputable': False, 'livemode': False, 'refundable': False, 'partially_refundable': False, 'reversed': False, 'reversible': False, 'voided': False, 'paid': False, 'expired': False, 'can_perform_void': False, 'approval_code': None}
+2025-04-27 01:15:36,373 - INFO - Store page rendered with 3 products
+2025-04-27 01:21:04,500 - INFO - Store page rendered with 3 products
+2025-04-27 01:21:05,892 - INFO - Action: add, Product: 4
+2025-04-27 01:21:05,923 - INFO - Store page rendered with 3 products
+2025-04-27 01:21:30,502 - INFO - Store page rendered with 3 products
+2025-04-27 01:37:14,294 - INFO - Store page rendered with 3 products
+2025-04-27 01:37:15,276 - INFO - Action: add, Product: 6
+2025-04-27 01:37:15,301 - INFO - Store page rendered with 3 products
+2025-04-27 01:37:16,217 - INFO - Cart page rendered with 3 items in the cart
+2025-04-27 01:37:17,679 - INFO - Checkout page rendered with 3 items in the cart
+2025-04-27 01:50:34,820 - INFO - Store page rendered with 3 products
+2025-04-27 01:50:41,330 - INFO - Action: add, Product: 4
+2025-04-27 01:50:41,356 - INFO - Store page rendered with 3 products
+2025-04-27 01:50:42,648 - INFO - Cart page rendered with 3 items in the cart
+2025-04-27 01:50:43,995 - INFO - Action: remove, Product: 4
+2025-04-27 01:50:44,017 - INFO - Cart page rendered with 3 items in the cart
+2025-04-27 01:50:44,162 - INFO - Action: remove, Product: 4
+2025-04-27 01:50:44,185 - INFO - Cart page rendered with 3 items in the cart
+2025-04-27 01:50:44,330 - INFO - Action: remove, Product: 4
+2025-04-27 01:50:44,352 - INFO - Cart page rendered with 3 items in the cart
+2025-04-27 01:50:44,514 - INFO - Action: remove, Product: 4
+2025-04-27 01:50:44,538 - INFO - Cart page rendered with 2 items in the cart
+2025-04-27 01:50:44,723 - INFO - Action: remove, Product: 3
+2025-04-27 01:50:44,741 - INFO - Cart page rendered with 2 items in the cart
+2025-04-27 01:50:44,889 - INFO - Action: remove, Product: 3
+2025-04-27 01:50:44,910 - INFO - Cart page rendered with 1 items in the cart
+2025-04-27 01:50:45,049 - INFO - Action: remove, Product: 6
+2025-04-27 01:50:45,072 - INFO - Cart page rendered with 1 items in the cart
+2025-04-27 01:50:45,227 - INFO - Action: remove, Product: 6
+2025-04-27 01:50:45,248 - INFO - Cart page rendered with 1 items in the cart
+2025-04-27 01:50:45,402 - INFO - Action: remove, Product: 6
+2025-04-27 01:50:45,424 - INFO - Cart page rendered with 1 items in the cart
+2025-04-27 01:50:45,554 - INFO - Action: remove, Product: 6
+2025-04-27 01:50:45,579 - INFO - Cart page rendered with 0 items in the cart
+2025-04-27 01:50:46,749 - INFO - Store page rendered with 3 products
+2025-04-27 01:53:07,857 - INFO - Store page rendered with 3 products
+2025-04-27 01:54:39,364 - INFO - Store page rendered with 3 products
+2025-04-27 01:54:55,541 - INFO - Store page rendered with 3 products
+2025-04-27 01:56:39,300 - INFO - Store page rendered with 3 products
+2025-04-27 01:56:41,538 - INFO - Action: add, Product: 6
+2025-04-27 01:56:41,567 - INFO - Store page rendered with 3 products
+2025-04-27 01:56:42,409 - INFO - Action: add, Product: 4
+2025-04-27 01:56:42,439 - INFO - Store page rendered with 3 products
+2025-04-27 01:56:43,034 - INFO - Action: add, Product: 3
+2025-04-27 01:56:43,065 - INFO - Store page rendered with 3 products
+2025-04-27 01:56:47,378 - INFO - Action: add, Product: 4
+2025-04-27 01:56:47,403 - INFO - Store page rendered with 3 products
+2025-04-27 01:56:48,009 - INFO - Action: add, Product: 4
+2025-04-27 01:56:48,040 - INFO - Store page rendered with 3 products
+2025-04-27 01:56:48,442 - INFO - Action: add, Product: 4
+2025-04-27 01:56:48,466 - INFO - Store page rendered with 3 products
+2025-04-27 01:56:49,193 - INFO - Action: add, Product: 4
+2025-04-27 01:56:49,219 - INFO - Store page rendered with 3 products
+2025-04-27 01:58:03,845 - INFO - Store page rendered with 3 products
+2025-04-27 01:58:07,674 - INFO - Action: add, Product: 6
+2025-04-27 01:58:07,701 - INFO - Store page rendered with 3 products
+2025-04-27 01:58:08,129 - INFO - Action: add, Product: 6
+2025-04-27 01:58:08,154 - INFO - Store page rendered with 3 products
+2025-04-27 01:58:08,705 - INFO - Action: add, Product: 6
+2025-04-27 01:58:08,730 - INFO - Store page rendered with 3 products
+2025-04-27 01:58:09,266 - INFO - Action: add, Product: 6
+2025-04-27 01:58:09,290 - INFO - Store page rendered with 3 products
+2025-04-27 01:58:09,513 - INFO - Action: add, Product: 6
+2025-04-27 01:58:09,538 - INFO - Store page rendered with 3 products
+2025-04-27 01:58:09,705 - INFO - Action: add, Product: 6
+2025-04-27 01:58:09,737 - INFO - Store page rendered with 3 products
+2025-04-27 01:58:09,881 - INFO - Action: add, Product: 6
+2025-04-27 01:58:09,906 - INFO - Store page rendered with 3 products
+2025-04-27 01:58:10,049 - INFO - Action: add, Product: 6
+2025-04-27 01:58:10,075 - INFO - Store page rendered with 3 products
+2025-04-27 01:58:10,858 - INFO - Action: add, Product: 6
+2025-04-27 01:58:10,883 - INFO - Store page rendered with 3 products
+2025-04-27 01:58:11,073 - INFO - Action: add, Product: 6
+2025-04-27 01:58:11,100 - INFO - Store page rendered with 3 products
+2025-04-27 01:58:11,257 - INFO - Action: add, Product: 6
+2025-04-27 01:58:11,281 - INFO - Store page rendered with 3 products
+2025-04-27 01:58:11,403 - INFO - Action: add, Product: 6
+2025-04-27 01:58:11,428 - INFO - Store page rendered with 3 products
+2025-04-27 01:58:12,113 - INFO - Cart page rendered with 3 items in the cart
+2025-04-27 01:58:13,683 - INFO - Action: remove, Product: 6
+2025-04-27 01:58:13,705 - INFO - Cart page rendered with 3 items in the cart
+2025-04-27 01:58:13,857 - INFO - Action: remove, Product: 6
+2025-04-27 01:58:13,880 - INFO - Cart page rendered with 3 items in the cart
+2025-04-27 01:58:14,034 - INFO - Action: remove, Product: 6
+2025-04-27 01:58:14,056 - INFO - Cart page rendered with 3 items in the cart
+2025-04-27 01:58:14,194 - INFO - Action: remove, Product: 6
+2025-04-27 01:58:14,221 - INFO - Cart page rendered with 3 items in the cart
+2025-04-27 01:58:15,089 - INFO - Action: remove, Product: 6
+2025-04-27 01:58:15,107 - INFO - Cart page rendered with 3 items in the cart
+2025-04-27 01:58:15,264 - INFO - Action: remove, Product: 6
+2025-04-27 01:58:15,286 - INFO - Cart page rendered with 3 items in the cart
+2025-04-27 01:58:15,457 - INFO - Action: remove, Product: 6
+2025-04-27 01:58:15,480 - INFO - Cart page rendered with 3 items in the cart
+2025-04-27 01:58:15,618 - INFO - Action: remove, Product: 6
+2025-04-27 01:58:15,643 - INFO - Cart page rendered with 3 items in the cart
+2025-04-27 01:58:15,787 - INFO - Action: remove, Product: 6
+2025-04-27 01:58:15,812 - INFO - Cart page rendered with 3 items in the cart
+2025-04-27 01:58:15,961 - INFO - Action: remove, Product: 6
+2025-04-27 01:58:15,984 - INFO - Cart page rendered with 3 items in the cart
+2025-04-27 01:58:16,138 - INFO - Action: remove, Product: 6
+2025-04-27 01:58:16,162 - INFO - Cart page rendered with 3 items in the cart
+2025-04-27 01:58:16,305 - INFO - Action: remove, Product: 6
+2025-04-27 01:58:16,330 - INFO - Cart page rendered with 3 items in the cart
+2025-04-27 01:58:16,481 - INFO - Action: remove, Product: 6
+2025-04-27 01:58:16,510 - INFO - Cart page rendered with 2 items in the cart
+2025-04-27 01:58:16,674 - INFO - Action: remove, Product: 4
+2025-04-27 01:58:16,696 - INFO - Cart page rendered with 2 items in the cart
+2025-04-27 01:58:16,826 - INFO - Action: remove, Product: 4
+2025-04-27 01:58:16,850 - INFO - Cart page rendered with 2 items in the cart
+2025-04-27 01:58:16,993 - INFO - Action: remove, Product: 4
+2025-04-27 01:58:17,014 - INFO - Cart page rendered with 2 items in the cart
+2025-04-27 01:58:17,154 - INFO - Action: remove, Product: 4
+2025-04-27 01:58:17,177 - INFO - Cart page rendered with 2 items in the cart
+2025-04-27 01:58:17,346 - INFO - Action: remove, Product: 4
+2025-04-27 01:58:17,371 - INFO - Cart page rendered with 1 items in the cart
+2025-04-27 01:58:17,514 - INFO - Action: remove, Product: 3
+2025-04-27 01:58:17,539 - INFO - Cart page rendered with 0 items in the cart
+2025-04-27 01:58:20,832 - INFO - Store page rendered with 3 products
+2025-04-27 01:58:37,191 - INFO - Store page rendered with 3 products
+2025-04-27 01:58:38,682 - INFO - Action: add, Product: 3
+2025-04-27 01:58:38,713 - INFO - Store page rendered with 3 products
+2025-04-27 01:58:39,713 - INFO - Action: add, Product: 4
+2025-04-27 01:58:39,742 - INFO - Store page rendered with 3 products
+2025-04-27 01:58:40,394 - INFO - Action: add, Product: 6
+2025-04-27 01:58:40,421 - INFO - Store page rendered with 3 products
+2025-04-27 02:01:01,890 - INFO - Cart page rendered with 3 items in the cart
+2025-04-27 02:01:02,530 - INFO - Checkout page rendered with 3 items in the cart
+2025-04-27 02:01:09,394 - INFO - Received data from Checkout: {'form': {'name': 'ำไ', 'email': 'fdfd@dsds'}}
+2025-04-27 02:01:09,399 - INFO - Order Total: 30.0
+2025-04-27 02:01:09,405 - INFO - Amount in cents: 3000
+2025-04-27 02:01:09,405 - INFO - Return URI: https://gnat-crucial-partly.ngrok-free.app/payment_success/43/
+2025-04-27 02:01:09,409 - INFO - 🔍 ส่งข้อมูลไปที่ Opn API: {'amount': 3000, 'currency': 'thb', 'source': {'type': 'promptpay'}, 'description': 'Order 43', 'return_uri': 'https://gnat-crucial-partly.ngrok-free.app/payment_success/43/', 'metadata': {'orderId': 43, 'motor_data': [{'motor_id': 3, 'motor_rounds': 1}, {'motor_id': 2, 'motor_rounds': 1}, {'motor_id': 1, 'motor_rounds': 1}]}, 'version': '2019-05-29'}
+2025-04-27 02:01:10,149 - INFO - 🔍 ตอบกลับจาก Opn API: {'object': 'charge', 'id': 'chrg_test_63iqrkdm4irmpi2j0x1', 'location': '/charges/chrg_test_63iqrkdm4irmpi2j0x1', 'amount': 3000, 'acquirer_reference_number': None, 'net': 2946, 'fee': 50, 'fee_vat': 4, 'interest': 0, 'interest_vat': 0, 'funding_amount': 3000, 'refunded_amount': 0, 'transaction_fees': {'fee_flat': '0.0', 'fee_rate': '1.65', 'vat_rate': '7.0'}, 'platform_fee': {'fixed': None, 'amount': None, 'percentage': None}, 'currency': 'THB', 'funding_currency': 'THB', 'ip': None, 'refunds': {'object': 'list', 'data': [], 'limit': 20, 'offset': 0, 'total': 0, 'location': '/charges/chrg_test_63iqrkdm4irmpi2j0x1/refunds', 'order': 'chronological', 'from': '1970-01-01T00:00:00Z', 'to': '2025-04-26T19:01:10Z'}, 'link': None, 'description': 'Order 43', 'metadata': {'orderId': 43, 'motor_data': [{'motor_id': 3, 'motor_rounds': 1}, {'motor_id': 2, 'motor_rounds': 1}, {'motor_id': 1, 'motor_rounds': 1}]}, 'card': None, 'source': {'object': 'source', 'id': 'src_test_63iqrkdbz2o33mfdjun', 'livemode': False, 'location': '/sources/src_test_63iqrkdbz2o33mfdjun', 'amount': 3000, 'barcode': None, 'bank': None, 'created_at': '2025-04-26T19:01:09Z', 'currency': 'THB', 'email': None, 'flow': 'offline', 'installment_term': None, 'ip': None, 'absorption_type': None, 'name': None, 'mobile_number': None, 'phone_number': None, 'platform_type': None, 'scannable_code': {'object': 'barcode', 'type': 'qr', 'image': {'object': 'document', 'livemode': False, 'id': 'docu_test_63iqrkfq6ve78fxa41b', 'deleted': False, 'filename': 'qrcode.svg', 'location': '/charges/chrg_test_63iqrkdm4irmpi2j0x1/documents/docu_test_63iqrkfq6ve78fxa41b', 'kind': 'qr', 'download_uri': 'https://api.omise.co/charges/chrg_test_63iqrkdm4irmpi2j0x1/documents/docu_test_63iqrkfq6ve78fxa41b/downloads/0E1CAA71AEE02130', 'created_at': '2025-04-26T19:01:09Z'}, 'raw_data': None}, 'qr_settings': None, 'billing': None, 'shipping': None, 'items': [], 'references': None, 'provider_references': {'reference_number_1': 'pay2_test_63iqrkdo07ac1ft7afs', 'reference_number_2': None}, 'store_id': None, 'store_name': None, 'terminal_id': None, 'type': 'promptpay', 'zero_interest_installments': None, 'charge_status': 'pending', 'receipt_amount': None, 'discounts': [], 'promotion_code': None, 'supplier_id': None}, 'schedule': None, 'linked_account': None, 'customer': None, 'dispute': None, 'transaction': None, 'failure_code': None, 'failure_message': None, 'merchant_advice': None, 'status': 'pending', 'authorize_uri': 'https://pay.omise.co/payments/pay2_test_63iqrkdo07ac1ft7afs/authorize?acs=false', 'return_uri': 'https://gnat-crucial-partly.ngrok-free.app/payment_success/43/', 'created_at': '2025-04-26T19:01:09Z', 'paid_at': None, 'authorized_at': None, 'expires_at': '2025-04-27T19:01:09Z', 'expired_at': None, 'reversed_at': None, 'multi_capture': False, 'zero_interest_installments': False, 'branch': None, 'terminal': None, 'device': None, 'authorized': False, 'capturable': False, 'capture': True, 'disputable': False, 'livemode': False, 'refundable': False, 'partially_refundable': False, 'reversed': False, 'reversible': False, 'voided': False, 'paid': False, 'expired': False, 'can_perform_void': False, 'approval_code': None}
+2025-04-27 02:01:13,176 - INFO - 🔍 ตรวจสถานะ Order #43 => pending
+2025-04-27 02:01:16,592 - INFO - 🔍 ตรวจสถานะ Order #43 => pending
+2025-04-27 02:01:19,602 - INFO - 🔍 ตรวจสถานะ Order #43 => pending
+2025-04-27 02:01:22,604 - INFO - 🔍 ตรวจสถานะ Order #43 => pending
+2025-04-27 02:01:25,594 - INFO - 🔍 ตรวจสถานะ Order #43 => pending
+2025-04-27 02:01:28,604 - INFO - 🔍 ตรวจสถานะ Order #43 => pending
+2025-04-27 02:01:31,163 - INFO - 🔍 ตรวจสถานะ Order #43 => pending
+2025-04-27 02:03:33,861 - INFO - Store page rendered with 3 products
+2025-04-27 02:03:35,641 - INFO - Action: add, Product: 6
+2025-04-27 02:03:35,666 - INFO - Store page rendered with 3 products
+2025-04-27 02:03:36,681 - INFO - Action: add, Product: 3
+2025-04-27 02:03:36,706 - INFO - Store page rendered with 3 products
+2025-04-27 02:03:37,393 - INFO - Action: add, Product: 4
+2025-04-27 02:03:37,417 - INFO - Store page rendered with 3 products
+2025-04-27 02:03:37,922 - INFO - Action: add, Product: 4
+2025-04-27 02:03:37,945 - INFO - Store page rendered with 3 products
+2025-04-27 02:03:38,217 - INFO - Action: add, Product: 4
+2025-04-27 02:03:38,242 - INFO - Store page rendered with 3 products
+2025-04-27 02:03:38,409 - INFO - Action: add, Product: 4
+2025-04-27 02:03:38,433 - INFO - Store page rendered with 3 products
+2025-04-27 02:03:38,833 - INFO - Action: add, Product: 4
+2025-04-27 02:03:38,856 - INFO - Store page rendered with 3 products
+2025-04-27 02:03:39,017 - INFO - Action: add, Product: 4
+2025-04-27 02:03:39,041 - INFO - Store page rendered with 3 products
+2025-04-27 02:03:39,193 - INFO - Action: add, Product: 4
+2025-04-27 02:03:39,216 - INFO - Store page rendered with 3 products
+2025-04-27 02:03:39,345 - INFO - Action: add, Product: 4
+2025-04-27 02:03:39,369 - INFO - Store page rendered with 3 products
+2025-04-27 02:03:39,554 - INFO - Action: add, Product: 4
+2025-04-27 02:03:39,578 - INFO - Store page rendered with 3 products
+2025-04-27 02:03:40,560 - INFO - Cart page rendered with 3 items in the cart
+2025-04-27 02:03:41,857 - INFO - Action: remove, Product: 3
+2025-04-27 02:03:41,874 - INFO - Cart page rendered with 3 items in the cart
+2025-04-27 02:03:42,089 - INFO - Action: remove, Product: 3
+2025-04-27 02:03:42,111 - INFO - Cart page rendered with 2 items in the cart
+2025-04-27 02:03:43,147 - INFO - Action: remove, Product: 4
+2025-04-27 02:03:43,169 - INFO - Cart page rendered with 2 items in the cart
+2025-04-27 02:03:43,955 - INFO - Action: remove, Product: 4
+2025-04-27 02:03:43,976 - INFO - Cart page rendered with 2 items in the cart
+2025-04-27 02:03:44,145 - INFO - Action: remove, Product: 4
+2025-04-27 02:03:44,169 - INFO - Cart page rendered with 2 items in the cart
+2025-04-27 02:03:44,330 - INFO - Action: remove, Product: 4
+2025-04-27 02:03:44,354 - INFO - Cart page rendered with 2 items in the cart
+2025-04-27 02:03:44,521 - INFO - Action: remove, Product: 4
+2025-04-27 02:03:44,543 - INFO - Cart page rendered with 2 items in the cart
+2025-04-27 02:03:44,697 - INFO - Action: remove, Product: 4
+2025-04-27 02:03:44,720 - INFO - Cart page rendered with 2 items in the cart
+2025-04-27 02:03:44,874 - INFO - Action: remove, Product: 4
+2025-04-27 02:03:44,897 - INFO - Cart page rendered with 2 items in the cart
+2025-04-27 02:03:45,074 - INFO - Action: remove, Product: 4
+2025-04-27 02:03:45,092 - INFO - Cart page rendered with 2 items in the cart
+2025-04-27 02:03:45,256 - INFO - Action: remove, Product: 4
+2025-04-27 02:03:45,278 - INFO - Cart page rendered with 2 items in the cart
+2025-04-27 02:03:45,434 - INFO - Action: remove, Product: 4
+2025-04-27 02:03:45,459 - INFO - Cart page rendered with 1 items in the cart
+2025-04-27 02:03:45,745 - INFO - Action: remove, Product: 6
+2025-04-27 02:03:45,768 - INFO - Cart page rendered with 1 items in the cart
+2025-04-27 02:03:45,946 - INFO - Action: remove, Product: 6
+2025-04-27 02:03:45,973 - INFO - Cart page rendered with 0 items in the cart
+2025-04-27 02:03:46,911 - INFO - Store page rendered with 3 products
+2025-04-27 02:03:47,685 - INFO - Store page rendered with 3 products
+2025-04-27 02:04:19,634 - INFO - Store page rendered with 3 products
+2025-04-27 02:04:29,319 - INFO - Store page rendered with 3 products
+2025-04-27 02:04:32,402 - INFO - Action: add, Product: 6
+2025-04-27 02:04:32,433 - INFO - Store page rendered with 3 products
+2025-04-27 02:04:33,578 - INFO - Action: add, Product: 4
+2025-04-27 02:04:33,605 - INFO - Store page rendered with 3 products
+2025-04-27 02:04:34,449 - INFO - Action: add, Product: 3
+2025-04-27 02:04:34,479 - INFO - Store page rendered with 3 products
+2025-04-27 02:04:35,626 - INFO - Cart page rendered with 3 items in the cart
+2025-04-27 02:04:36,568 - INFO - Checkout page rendered with 3 items in the cart
+2025-04-27 02:04:40,074 - INFO - Received data from Checkout: {'form': {'name': 'ds', 'email': 'ds@ds'}}
+2025-04-27 02:04:40,078 - INFO - Order Total: 30.0
+2025-04-27 02:04:40,085 - INFO - Amount in cents: 3000
+2025-04-27 02:04:40,085 - INFO - Return URI: https://gnat-crucial-partly.ngrok-free.app/payment_success/43/
+2025-04-27 02:04:40,089 - INFO - 🔍 ส่งข้อมูลไปที่ Opn API: {'amount': 3000, 'currency': 'thb', 'source': {'type': 'promptpay'}, 'description': 'Order 43', 'return_uri': 'https://gnat-crucial-partly.ngrok-free.app/payment_success/43/', 'metadata': {'orderId': 43, 'motor_data': [{'motor_id': 1, 'motor_rounds': 1}, {'motor_id': 2, 'motor_rounds': 1}, {'motor_id': 3, 'motor_rounds': 1}]}, 'version': '2019-05-29'}
+2025-04-27 02:04:40,761 - INFO - 🔍 ตอบกลับจาก Opn API: {'object': 'charge', 'id': 'chrg_test_63iqssvkw267yoo3y0i', 'location': '/charges/chrg_test_63iqssvkw267yoo3y0i', 'amount': 3000, 'acquirer_reference_number': None, 'net': 2946, 'fee': 50, 'fee_vat': 4, 'interest': 0, 'interest_vat': 0, 'funding_amount': 3000, 'refunded_amount': 0, 'transaction_fees': {'fee_flat': '0.0', 'fee_rate': '1.65', 'vat_rate': '7.0'}, 'platform_fee': {'fixed': None, 'amount': None, 'percentage': None}, 'currency': 'THB', 'funding_currency': 'THB', 'ip': None, 'refunds': {'object': 'list', 'data': [], 'limit': 20, 'offset': 0, 'total': 0, 'location': '/charges/chrg_test_63iqssvkw267yoo3y0i/refunds', 'order': 'chronological', 'from': '1970-01-01T00:00:00Z', 'to': '2025-04-26T19:04:40Z'}, 'link': None, 'description': 'Order 43', 'metadata': {'orderId': 43, 'motor_data': [{'motor_id': 1, 'motor_rounds': 1}, {'motor_id': 2, 'motor_rounds': 1}, {'motor_id': 3, 'motor_rounds': 1}]}, 'card': None, 'source': {'object': 'source', 'id': 'src_test_63iqssvbvcpwg719rjv', 'livemode': False, 'location': '/sources/src_test_63iqssvbvcpwg719rjv', 'amount': 3000, 'barcode': None, 'bank': None, 'created_at': '2025-04-26T19:04:40Z', 'currency': 'THB', 'email': None, 'flow': 'offline', 'installment_term': None, 'ip': None, 'absorption_type': None, 'name': None, 'mobile_number': None, 'phone_number': None, 'platform_type': None, 'scannable_code': {'object': 'barcode', 'type': 'qr', 'image': {'object': 'document', 'livemode': False, 'id': 'docu_test_63iqssxmj1k2n6shn0j', 'deleted': False, 'filename': 'qrcode.svg', 'location': '/charges/chrg_test_63iqssvkw267yoo3y0i/documents/docu_test_63iqssxmj1k2n6shn0j', 'kind': 'qr', 'download_uri': 'https://api.omise.co/charges/chrg_test_63iqssvkw267yoo3y0i/documents/docu_test_63iqssxmj1k2n6shn0j/downloads/18D58D148DCFF908', 'created_at': '2025-04-26T19:04:40Z'}, 'raw_data': None}, 'qr_settings': None, 'billing': None, 'shipping': None, 'items': [], 'references': None, 'provider_references': {'reference_number_1': 'pay2_test_63iqssvmik9mr6ewuct', 'reference_number_2': None}, 'store_id': None, 'store_name': None, 'terminal_id': None, 'type': 'promptpay', 'zero_interest_installments': None, 'charge_status': 'pending', 'receipt_amount': None, 'discounts': [], 'promotion_code': None, 'supplier_id': None}, 'schedule': None, 'linked_account': None, 'customer': None, 'dispute': None, 'transaction': None, 'failure_code': None, 'failure_message': None, 'merchant_advice': None, 'status': 'pending', 'authorize_uri': 'https://pay.omise.co/payments/pay2_test_63iqssvmik9mr6ewuct/authorize?acs=false', 'return_uri': 'https://gnat-crucial-partly.ngrok-free.app/payment_success/43/', 'created_at': '2025-04-26T19:04:40Z', 'paid_at': None, 'authorized_at': None, 'expires_at': '2025-04-27T19:04:40Z', 'expired_at': None, 'reversed_at': None, 'multi_capture': False, 'zero_interest_installments': False, 'branch': None, 'terminal': None, 'device': None, 'authorized': False, 'capturable': False, 'capture': True, 'disputable': False, 'livemode': False, 'refundable': False, 'partially_refundable': False, 'reversed': False, 'reversible': False, 'voided': False, 'paid': False, 'expired': False, 'can_perform_void': False, 'approval_code': None}
+2025-04-27 02:06:08,105 - INFO - Store page rendered with 3 products
+2025-04-27 02:06:09,592 - INFO - Cart page rendered with 3 items in the cart
+2025-04-27 02:06:10,384 - INFO - Checkout page rendered with 3 items in the cart
+2025-04-27 02:06:13,475 - INFO - Received data from Checkout: {'form': {'name': 'ew', 'email': 'ew@ew'}}
+2025-04-27 02:06:13,480 - INFO - Order Total: 30.0
+2025-04-27 02:06:13,487 - INFO - Amount in cents: 3000
+2025-04-27 02:06:13,487 - INFO - Return URI: https://gnat-crucial-partly.ngrok-free.app/payment_success/43/
+2025-04-27 02:06:13,491 - INFO - 🔍 ส่งข้อมูลไปที่ Opn API: {'amount': 3000, 'currency': 'thb', 'source': {'type': 'promptpay'}, 'description': 'Order 43', 'return_uri': 'https://gnat-crucial-partly.ngrok-free.app/payment_success/43/', 'metadata': {'orderId': 43, 'motor_data': [{'motor_id': 1, 'motor_rounds': 1}, {'motor_id': 2, 'motor_rounds': 1}, {'motor_id': 3, 'motor_rounds': 1}]}, 'version': '2019-05-29'}
+2025-04-27 02:06:14,080 - INFO - 🔍 ตอบกลับจาก Opn API: {'object': 'charge', 'id': 'chrg_test_63iqtcledhhzkrgh9he', 'location': '/charges/chrg_test_63iqtcledhhzkrgh9he', 'amount': 3000, 'acquirer_reference_number': None, 'net': 2946, 'fee': 50, 'fee_vat': 4, 'interest': 0, 'interest_vat': 0, 'funding_amount': 3000, 'refunded_amount': 0, 'transaction_fees': {'fee_flat': '0.0', 'fee_rate': '1.65', 'vat_rate': '7.0'}, 'platform_fee': {'fixed': None, 'amount': None, 'percentage': None}, 'currency': 'THB', 'funding_currency': 'THB', 'ip': None, 'refunds': {'object': 'list', 'data': [], 'limit': 20, 'offset': 0, 'total': 0, 'location': '/charges/chrg_test_63iqtcledhhzkrgh9he/refunds', 'order': 'chronological', 'from': '1970-01-01T00:00:00Z', 'to': '2025-04-26T19:06:14Z'}, 'link': None, 'description': 'Order 43', 'metadata': {'orderId': 43, 'motor_data': [{'motor_id': 1, 'motor_rounds': 1}, {'motor_id': 2, 'motor_rounds': 1}, {'motor_id': 3, 'motor_rounds': 1}]}, 'card': None, 'source': {'object': 'source', 'id': 'src_test_63iqtcl7j90fdmd1bqk', 'livemode': False, 'location': '/sources/src_test_63iqtcl7j90fdmd1bqk', 'amount': 3000, 'barcode': None, 'bank': None, 'created_at': '2025-04-26T19:06:13Z', 'currency': 'THB', 'email': None, 'flow': 'offline', 'installment_term': None, 'ip': None, 'absorption_type': None, 'name': None, 'mobile_number': None, 'phone_number': None, 'platform_type': None, 'scannable_code': {'object': 'barcode', 'type': 'qr', 'image': {'object': 'document', 'livemode': False, 'id': 'docu_test_63iqtcn06hlt1ebrkth', 'deleted': False, 'filename': 'qrcode.svg', 'location': '/charges/chrg_test_63iqtcledhhzkrgh9he/documents/docu_test_63iqtcn06hlt1ebrkth', 'kind': 'qr', 'download_uri': 'https://api.omise.co/charges/chrg_test_63iqtcledhhzkrgh9he/documents/docu_test_63iqtcn06hlt1ebrkth/downloads/428B265DB213E304', 'created_at': '2025-04-26T19:06:13Z'}, 'raw_data': None}, 'qr_settings': None, 'billing': None, 'shipping': None, 'items': [], 'references': None, 'provider_references': {'reference_number_1': 'pay2_test_63iqtclg0nh6x38gguf', 'reference_number_2': None}, 'store_id': None, 'store_name': None, 'terminal_id': None, 'type': 'promptpay', 'zero_interest_installments': None, 'charge_status': 'pending', 'receipt_amount': None, 'discounts': [], 'promotion_code': None, 'supplier_id': None}, 'schedule': None, 'linked_account': None, 'customer': None, 'dispute': None, 'transaction': None, 'failure_code': None, 'failure_message': None, 'merchant_advice': None, 'status': 'pending', 'authorize_uri': 'https://pay.omise.co/payments/pay2_test_63iqtclg0nh6x38gguf/authorize?acs=false', 'return_uri': 'https://gnat-crucial-partly.ngrok-free.app/payment_success/43/', 'created_at': '2025-04-26T19:06:13Z', 'paid_at': None, 'authorized_at': None, 'expires_at': '2025-04-27T19:06:13Z', 'expired_at': None, 'reversed_at': None, 'multi_capture': False, 'zero_interest_installments': False, 'branch': None, 'terminal': None, 'device': None, 'authorized': False, 'capturable': False, 'capture': True, 'disputable': False, 'livemode': False, 'refundable': False, 'partially_refundable': False, 'reversed': False, 'reversible': False, 'voided': False, 'paid': False, 'expired': False, 'can_perform_void': False, 'approval_code': None}
+2025-04-27 02:06:17,603 - INFO - 🔍 ตรวจสถานะ Order #43 => pending
+2025-04-27 02:06:20,603 - INFO - 🔍 ตรวจสถานะ Order #43 => pending
+2025-04-27 02:06:23,597 - INFO - 🔍 ตรวจสถานะ Order #43 => pending
+2025-04-27 02:06:26,603 - INFO - 🔍 ตรวจสถานะ Order #43 => pending
+2025-04-27 02:06:29,602 - INFO - 🔍 ตรวจสถานะ Order #43 => pending
+2025-04-27 02:06:32,560 - INFO - 🔍 ตรวจสถานะ Order #43 => pending
+2025-04-27 02:10:57,907 - INFO - Store page rendered with 3 products
+2025-04-27 02:11:01,386 - INFO - Cart page rendered with 3 items in the cart
+2025-04-27 02:11:02,144 - INFO - Checkout page rendered with 3 items in the cart
+2025-04-27 02:11:04,915 - INFO - Received data from Checkout: {'form': {'name': 'ew', 'email': 'ew@ew'}}
+2025-04-27 02:11:04,922 - INFO - Order Total: 30.0
+2025-04-27 02:11:04,927 - INFO - Amount in cents: 3000
+2025-04-27 02:11:04,928 - INFO - Return URI: https://gnat-crucial-partly.ngrok-free.app/payment_success/43/
+2025-04-27 02:11:04,931 - INFO - 🔍 ส่งข้อมูลไปที่ Opn API: {'amount': 3000, 'currency': 'thb', 'source': {'type': 'promptpay'}, 'description': 'Order 43', 'return_uri': 'https://gnat-crucial-partly.ngrok-free.app/payment_success/43/', 'metadata': {'orderId': 43, 'motor_data': [{'motor_id': 1, 'motor_rounds': 1}, {'motor_id': 2, 'motor_rounds': 1}, {'motor_id': 3, 'motor_rounds': 1}]}, 'version': '2019-05-29'}
+2025-04-27 02:11:05,584 - INFO - 🔍 ตอบกลับจาก Opn API: {'object': 'charge', 'id': 'chrg_test_63iqv25h9o2rwcv25dl', 'location': '/charges/chrg_test_63iqv25h9o2rwcv25dl', 'amount': 3000, 'acquirer_reference_number': None, 'net': 2946, 'fee': 50, 'fee_vat': 4, 'interest': 0, 'interest_vat': 0, 'funding_amount': 3000, 'refunded_amount': 0, 'transaction_fees': {'fee_flat': '0.0', 'fee_rate': '1.65', 'vat_rate': '7.0'}, 'platform_fee': {'fixed': None, 'amount': None, 'percentage': None}, 'currency': 'THB', 'funding_currency': 'THB', 'ip': None, 'refunds': {'object': 'list', 'data': [], 'limit': 20, 'offset': 0, 'total': 0, 'location': '/charges/chrg_test_63iqv25h9o2rwcv25dl/refunds', 'order': 'chronological', 'from': '1970-01-01T00:00:00Z', 'to': '2025-04-26T19:11:05Z'}, 'link': None, 'description': 'Order 43', 'metadata': {'orderId': 43, 'motor_data': [{'motor_id': 1, 'motor_rounds': 1}, {'motor_id': 2, 'motor_rounds': 1}, {'motor_id': 3, 'motor_rounds': 1}]}, 'card': None, 'source': {'object': 'source', 'id': 'src_test_63iqv2588ep9c1c0057', 'livemode': False, 'location': '/sources/src_test_63iqv2588ep9c1c0057', 'amount': 3000, 'barcode': None, 'bank': None, 'created_at': '2025-04-26T19:11:05Z', 'currency': 'THB', 'email': None, 'flow': 'offline', 'installment_term': None, 'ip': None, 'absorption_type': None, 'name': None, 'mobile_number': None, 'phone_number': None, 'platform_type': None, 'scannable_code': {'object': 'barcode', 'type': 'qr', 'image': {'object': 'document', 'livemode': False, 'id': 'docu_test_63iqv27k8djo8fbgbwf', 'deleted': False, 'filename': 'qrcode.svg', 'location': '/charges/chrg_test_63iqv25h9o2rwcv25dl/documents/docu_test_63iqv27k8djo8fbgbwf', 'kind': 'qr', 'download_uri': 'https://api.omise.co/charges/chrg_test_63iqv25h9o2rwcv25dl/documents/docu_test_63iqv27k8djo8fbgbwf/downloads/882A0699D190C267', 'created_at': '2025-04-26T19:11:05Z'}, 'raw_data': None}, 'qr_settings': None, 'billing': None, 'shipping': None, 'items': [], 'references': None, 'provider_references': {'reference_number_1': 'pay2_test_63iqv25j5npg71cu9kt', 'reference_number_2': None}, 'store_id': None, 'store_name': None, 'terminal_id': None, 'type': 'promptpay', 'zero_interest_installments': None, 'charge_status': 'pending', 'receipt_amount': None, 'discounts': [], 'promotion_code': None, 'supplier_id': None}, 'schedule': None, 'linked_account': None, 'customer': None, 'dispute': None, 'transaction': None, 'failure_code': None, 'failure_message': None, 'merchant_advice': None, 'status': 'pending', 'authorize_uri': 'https://pay.omise.co/payments/pay2_test_63iqv25j5npg71cu9kt/authorize?acs=false', 'return_uri': 'https://gnat-crucial-partly.ngrok-free.app/payment_success/43/', 'created_at': '2025-04-26T19:11:05Z', 'paid_at': None, 'authorized_at': None, 'expires_at': '2025-04-27T19:11:05Z', 'expired_at': None, 'reversed_at': None, 'multi_capture': False, 'zero_interest_installments': False, 'branch': None, 'terminal': None, 'device': None, 'authorized': False, 'capturable': False, 'capture': True, 'disputable': False, 'livemode': False, 'refundable': False, 'partially_refundable': False, 'reversed': False, 'reversible': False, 'voided': False, 'paid': False, 'expired': False, 'can_perform_void': False, 'approval_code': None}

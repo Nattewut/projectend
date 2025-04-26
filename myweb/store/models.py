@@ -26,7 +26,7 @@ class Product(models.Model):
     digital = models.BooleanField(default=False, null=True, blank=True)  # สินค้าแบบดิจิทัลหรือไม่
     motor = models.ForeignKey(Motor, on_delete=models.SET_NULL, null=True, blank=True)  # การเชื่อมโยงกับมอเตอร์
     motor_rounds = models.IntegerField(default=1)  # จำนวนรอบที่มอเตอร์ต้องหมุน
-
+    stock = models.IntegerField(default=0)
     def __str__(self):
         return self.name
 

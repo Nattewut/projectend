@@ -321,15 +321,35 @@ def send_motor_control_request(order_id):
 def payment_success(request, order_id):
     logger.info(f"🔁 payment_success view ถูกเรียกด้วย order_id: {order_id}")
     order = get_object_or_404(Order, id=order_id)
+    items = order.orderitem_set.all()  # ดึงสินค้าที่อยู่ในคำสั่งซื้อ
+    payment_time = order.date_ordered.strftime('%d/%m/%Y %H:%M:%S')  # แสดงเวลาในการชำระเงิน
 
-    # ตรวจสอบสถานะการชำระเงินก่อนส่งคำขอควบคุมมอเตอร์
     if order.payment_status == 'successful':
-        # เพิ่มคำขอควบคุมมอเตอร์เข้าไปในคิว
+        # ✅ ลดจำนวนสินค้าคงเหลือในสต็อก
+        for item in items:
+            product = item.product
+            if product:  # ป้องกันกรณีสินค้าถูกลบไป
+                if hasattr(product, 'stock'):
+                    product.stock = max(product.stock - item.quantity, 0)  # ห้ามติดลบ
+                    product.save()
+
+        # เรียกฟังก์ชันการควบคุมมอเตอร์
         add_motor_request(order_id)
+
+        # เคลียร์ตะกร้า (ลบสินค้าจากตะกร้า)
+        if 'cart' in request.session:
+            del request.session['cart']  # ลบคุกกี้หรือตัวแปรตะกร้าสินค้าออกจากเซสชั่น
+            logger.info(f"Cart cleared for order #{order_id}")
+
     else:
         logger.warning(f"❌ Payment failed for Order #{order_id}, motor will not be controlled.")
 
-    return render(request, 'store/payment_success.html', {'order': order})
+    # แสดงผลหน้า payment success พร้อมแสดงรายการสินค้าที่ซื้อและเวลาชำระเงิน
+    return render(request, 'store/payment_success.html', {
+        'order': order,
+        'items': items,  # ส่งข้อมูลสินค้าที่ซื้อไปยังเทมเพลต
+        'payment_time': payment_time,  # ส่งเวลาในการชำระเงินไปยังเทมเพลต
+    })
 
 def payment_failed(request, order_id):
     logger.info(f"🔁 payment_failed view ถูกเรียกด้วย order_id: {order_id}")
@@ -337,16 +357,25 @@ def payment_failed(request, order_id):
     return render(request, 'store/payment_failed.html', {'order': order})
 
 # คิวสำหรับเก็บคำขอควบคุมมอเตอร์
+import time
+import queue
+import threading
+import logging
+
+# คิวสำหรับเก็บคำขอควบคุมมอเตอร์
 motor_queue = queue.Queue()
 
 # ตัวแปร Lock เพื่อป้องกันการทำงานพร้อมกัน
 motor_lock = threading.Lock()
 
+# ตั้งค่า logger
+logger = logging.getLogger(__name__)
+
 def process_motor_request(order_id):
     """
     ฟังก์ชันนี้จะควบคุมมอเตอร์สำหรับออเดอร์หนึ่งๆ
     """
-    logger.info(f"กำลังควบคุมมอเตอร์สำหรับออเดอร์ {order_id}...")
+    logger.info(f"กำลังกำหนดคำขอควบคุมมอเตอร์สำหรับออเดอร์ {order_id}...")
     time.sleep(5)  # จำลองการควบคุมมอเตอร์ที่ใช้เวลา
     logger.info(f"ควบคุมมอเตอร์เสร็จสิ้นสำหรับออเดอร์ {order_id}")
 
@@ -359,9 +388,15 @@ def motor_controller():
         order_id = motor_queue.get()  # รอให้มีคำขอมา
         if order_id is None:  # ถ้าเจอ None ให้หยุดทำงาน
             break
+
         # ใช้ Lock เพื่อควบคุมการทำงานให้ทำทีละคำขอ
         with motor_lock:
             process_motor_request(order_id)
+        
+        # หน่วงเวลา 10 วินาทีหลังจากประมวลผลคำขอเสร็จ
+        logger.info(f"⏳ รอ 10 วินาทีก่อนทำออเดอร์ถัดไป...")
+        time.sleep(10)  # หน่วงเวลา 10 วินาทีที่นี่
+
         motor_queue.task_done()  # แจ้งว่าเสร็จสิ้นการทำงาน
 
 def add_motor_request(order_id):
@@ -375,6 +410,35 @@ def add_motor_request(order_id):
 motor_thread = threading.Thread(target=motor_controller)
 motor_thread.start()
 
+
+def update_item(request):
+    data = json.loads(request.body)
+    product_id = data['productId']
+    action = data['action']
+    product = Product.objects.get(id=product_id)
+
+    if action == 'add' and product.stock > 0:  # ตรวจสอบว่าในสต็อกมีสินค้า
+        product.stock -= 1  # ลดจำนวนสินค้า
+        product.save()  # อัปเดตในฐานข้อมูล
+    elif action == 'remove':
+        product.stock += 1  # เพิ่มสินค้ากลับถ้ามีการลบจากตะกร้า
+        product.save()
+
+    return JsonResponse("Item was updated", safe=False)
+
+def update_stock(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        product_id = data['productId']
+        new_stock = data['newStock']
+
+        product = Product.objects.get(id=product_id)
+        product.stock = new_stock  # อัปเดตจำนวนสินค้าตามที่ส่งมา
+
+        product.save()
+
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
 
 
 

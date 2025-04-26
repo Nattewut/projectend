@@ -4,23 +4,29 @@
 	<div class="row">
 		{% for product in products %}
 		<div class="col-lg-4">
-			<img class="thumbnail" src="{{product.imageURL}}">
+			<img class="thumbnail" src="{{ product.imageURL }}">
 			<div class="box-element product">
-				<h6><strong>{{product.name}}</strong></h6>
+				<h6><strong>{{ product.name }}</strong></h6>
 				<hr>
 
 				<div style="display: flex; gap:1em; justify-content: space-between;">
 					<div>
-						<button data-product="{{product.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart">เพิ่มลงในตะกร้า</button>
+						{% if product.stock > 0 %}
+							<button data-product="{{ product.id }}" data-action="add" class="btn btn-outline-secondary add-btn update-cart">เพิ่มลงในตะกร้า</button>
+						{% else %}
+							<button class="btn btn-outline-secondary" disabled>สินค้าหมด</button>
+						{% endif %}
 						<a class="btn btn-outline-success" href="#">ดูรายละเอียด</a>		
 					</div>
 				
-					<h4><strong>${{product.price}}</strong></h4>
+					<h4><strong>${{ product.price }}</strong></h4>
 				</div>
+
+				<!-- แสดงจำนวนสินค้า -->
+				<p>จำนวนสินค้า: <strong>{{ product.stock }} ชิ้น</strong></p>
 			</div>
 		</div>
 		{% endfor %}
 	</div>
 
 {% endblock content %}
-
