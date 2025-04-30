@@ -14,6 +14,7 @@ from .models import Order
 from .utils import get_base_url
 import queue
 import threading
+from django.db.models import Sum
 
 # ตั้งค่า logger
 logger = logging.getLogger(__name__)
@@ -37,8 +38,13 @@ def store(request):
     data = cartData(request)
     cartItems = data['cartItems']
     products = Product.objects.all()
-    logger.info(f"Store page rendered with {len(products)} products")
-    return render(request, 'store/store.html', {'products': products, 'cartItems': cartItems})
+    total_stock = Product.objects.filter(stock__gt=0).aggregate(Sum('stock'))['stock__sum'] or 0
+
+    return render(request, 'store/store.html', {
+        'products': products,
+        'cartItems': cartItems,
+        'total_stock': total_stock
+    })
 
 def cart(request):
     data = cartData(request)
@@ -325,21 +331,37 @@ def payment_success(request, order_id):
     payment_time = order.date_ordered.strftime('%d/%m/%Y %H:%M:%S')  # แสดงเวลาในการชำระเงิน
 
     if order.payment_status == 'successful':
-        # ✅ ลดจำนวนสินค้าคงเหลือในสต็อก
-        for item in items:
-            product = item.product
-            if product:  # ป้องกันกรณีสินค้าถูกลบไป
-                if hasattr(product, 'stock'):
-                    product.stock = max(product.stock - item.quantity, 0)  # ห้ามติดลบ
-                    product.save()
+        try:
+            # ✅ ลดจำนวนสินค้าคงเหลือในสต็อก
+            for item in items:
+                product = item.product
+                if product:  # ป้องกันกรณีสินค้าถูกลบไป
+                    if hasattr(product, 'stock'):
+                        product.stock = max(product.stock - item.quantity, 0)  # ห้ามติดลบ
+                        product.save()
+            
+            # เรียกฟังก์ชันการควบคุมมอเตอร์
+            add_motor_request(order_id)
+            logger.info(f"✅ Motor controlled for order #{order_id}")
 
-        # เรียกฟังก์ชันการควบคุมมอเตอร์
-        add_motor_request(order_id)
+        except Exception as e:
+            logger.error(f"❌ Error controlling motor or updating stock for order #{order_id}: {e}")
 
         # เคลียร์ตะกร้า (ลบสินค้าจากตะกร้า)
         if 'cart' in request.session:
             del request.session['cart']  # ลบคุกกี้หรือตัวแปรตะกร้าสินค้าออกจากเซสชั่น
             logger.info(f"Cart cleared for order #{order_id}")
+
+        # ถ้าผู้ใช้ล็อกอินและเป็นเจ้าของคำสั่งซื้อ
+        if request.user.is_authenticated:
+            # อัพเดตสถานะของคำสั่งซื้อเป็น 'complete'
+            order.complete = True
+            order.save()
+
+            # ลบสินค้าจากตะกร้าของลูกค้า
+            order_items = OrderItem.objects.filter(order=order)
+            order_items.delete()
+            logger.info(f"✅ Order #{order_id} marked as complete and cleared from user's cart")
 
     else:
         logger.warning(f"❌ Payment failed for Order #{order_id}, motor will not be controlled.")
@@ -350,6 +372,7 @@ def payment_success(request, order_id):
         'items': items,  # ส่งข้อมูลสินค้าที่ซื้อไปยังเทมเพลต
         'payment_time': payment_time,  # ส่งเวลาในการชำระเงินไปยังเทมเพลต
     })
+
 
 def payment_failed(request, order_id):
     logger.info(f"🔁 payment_failed view ถูกเรียกด้วย order_id: {order_id}")

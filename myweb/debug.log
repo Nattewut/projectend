@@ -1801,3 +1801,606 @@ INFO 2025-04-27 02:10:57,923 basehttp "GET / HTTP/1.1" 200 5629
 INFO 2025-04-27 02:11:01,394 basehttp "GET /cart/ HTTP/1.1" 200 6111
 INFO 2025-04-27 02:11:02,151 basehttp "GET /checkout/ HTTP/1.1" 200 12220
 INFO 2025-04-27 02:11:05,591 basehttp "POST /process_order/ HTTP/1.1" 200 275
+INFO 2025-04-28 01:45:14,998 autoreload Watching for file changes with StatReloader
+INFO 2025-04-28 01:45:19,738 basehttp "GET / HTTP/1.1" 200 5629
+INFO 2025-04-28 01:45:32,239 basehttp "GET /cart/ HTTP/1.1" 200 6111
+INFO 2025-04-28 01:46:43,783 basehttp "GET /checkout/ HTTP/1.1" 200 12220
+INFO 2025-04-28 01:46:47,923 basehttp "POST /process_order/ HTTP/1.1" 200 275
+INFO 2025-04-28 01:46:50,946 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-28 01:46:53,931 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-28 01:46:56,940 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-28 01:46:59,930 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-28 01:47:02,936 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-28 01:47:06,936 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-28 01:47:08,934 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-28 01:47:12,930 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-28 01:47:15,924 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-28 01:47:17,930 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-28 01:47:21,930 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-28 01:47:24,935 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-28 01:47:27,934 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-28 01:47:29,931 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-28 01:47:33,933 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-28 01:47:36,927 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-28 01:47:38,930 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-28 01:47:42,926 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-28 01:47:44,931 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-28 01:47:48,930 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-28 01:56:48,363 basehttp "GET / HTTP/1.1" 200 5629
+INFO 2025-04-30 17:11:00,431 autoreload Watching for file changes with StatReloader
+INFO 2025-04-30 17:11:02,746 basehttp "GET / HTTP/1.1" 200 5638
+INFO 2025-04-30 17:11:06,550 basehttp "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-04-30 17:11:06,575 basehttp "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4288
+INFO 2025-04-30 17:11:09,461 basehttp "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+INFO 2025-04-30 17:11:09,479 basehttp "GET /admin/ HTTP/1.1" 200 13815
+INFO 2025-04-30 17:13:17,352 autoreload D:\Desktop\สมบูรทั้งหมดยกเว้น แจ้งเตือน - Copy\myweb\store\admin.py changed, reloading.
+INFO 2025-04-30 17:13:39,606 autoreload Watching for file changes with StatReloader
+INFO 2025-04-30 17:13:43,683 basehttp "GET / HTTP/1.1" 200 5629
+INFO 2025-04-30 17:13:45,847 basehttp "GET /admin/ HTTP/1.1" 200 13815
+INFO 2025-04-30 17:13:58,603 basehttp "GET /admin/store/order/ HTTP/1.1" 200 72368
+INFO 2025-04-30 17:13:58,662 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:13:58,750 basehttp "GET /static/admin/img/icon-no.svg HTTP/1.1" 200 560
+INFO 2025-04-30 17:13:58,796 basehttp "GET /static/admin/img/sorting-icons.svg HTTP/1.1" 200 1097
+INFO 2025-04-30 17:14:05,319 basehttp "GET /admin/store/order/? HTTP/1.1" 200 72368
+INFO 2025-04-30 17:14:05,342 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:14:06,083 basehttp "GET /admin/store/order/?payment_status__exact=successful HTTP/1.1" 200 12461
+INFO 2025-04-30 17:14:06,109 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:14:08,204 basehttp "GET /admin/store/order/?payment_status__exact=pending HTTP/1.1" 200 78115
+INFO 2025-04-30 17:14:08,231 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:14:09,261 basehttp "GET /admin/store/order/? HTTP/1.1" 200 72368
+INFO 2025-04-30 17:14:09,277 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:14:11,140 basehttp "GET /admin/store/order/137/change/ HTTP/1.1" 200 17064
+INFO 2025-04-30 17:14:11,174 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:14:13,036 basehttp "GET /admin/store/order/? HTTP/1.1" 200 72368
+INFO 2025-04-30 17:14:24,368 basehttp "GET /admin/store/product/ HTTP/1.1" 200 13585
+INFO 2025-04-30 17:14:24,397 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:14:25,675 basehttp "GET /admin/store/order/ HTTP/1.1" 200 72368
+INFO 2025-04-30 17:14:25,701 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:14:26,447 basehttp "GET /admin/store/orderitem/ HTTP/1.1" 200 41983
+INFO 2025-04-30 17:14:26,472 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:14:27,674 basehttp "GET /admin/store/motor/ HTTP/1.1" 200 12477
+INFO 2025-04-30 17:14:27,696 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:14:28,484 basehttp "GET /admin/store/orderitem/ HTTP/1.1" 200 41983
+INFO 2025-04-30 17:14:28,510 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:14:29,145 basehttp "GET /admin/store/customer/ HTTP/1.1" 200 24069
+INFO 2025-04-30 17:14:29,172 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:14:30,802 basehttp "GET /admin/store/customer/48/change/ HTTP/1.1" 200 13779
+INFO 2025-04-30 17:14:30,831 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:14:34,082 basehttp "GET /admin/store/customer/ HTTP/1.1" 200 24069
+INFO 2025-04-30 17:14:35,986 basehttp "GET /admin/store/customer/48/change/ HTTP/1.1" 200 13779
+INFO 2025-04-30 17:14:36,015 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:14:39,700 basehttp "GET /admin/store/customer/ HTTP/1.1" 200 24069
+INFO 2025-04-30 17:14:41,587 basehttp "GET /admin/store/customer/ HTTP/1.1" 200 24069
+INFO 2025-04-30 17:14:41,613 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:14:43,820 basehttp "GET /admin/store/order/ HTTP/1.1" 200 72368
+INFO 2025-04-30 17:14:43,842 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:14:45,425 basehttp "GET /admin/store/order/137/change/ HTTP/1.1" 200 17064
+INFO 2025-04-30 17:14:45,453 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:14:47,597 basehttp "GET /admin/store/order/ HTTP/1.1" 200 72368
+INFO 2025-04-30 17:15:26,016 basehttp "GET /admin/store/order/137/change/ HTTP/1.1" 200 17064
+INFO 2025-04-30 17:15:26,043 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:15:28,560 basehttp "POST /admin/store/order/137/change/ HTTP/1.1" 302 0
+INFO 2025-04-30 17:15:28,795 basehttp "GET /admin/store/order/ HTTP/1.1" 200 72567
+INFO 2025-04-30 17:15:28,823 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:16:44,834 autoreload D:\Desktop\สมบูรทั้งหมดยกเว้น แจ้งเตือน - Copy\myweb\store\admin.py changed, reloading.
+INFO 2025-04-30 17:16:54,893 autoreload Watching for file changes with StatReloader
+INFO 2025-04-30 17:16:56,440 basehttp "GET / HTTP/1.1" 200 5629
+INFO 2025-04-30 17:16:57,357 basehttp "GET /cart/ HTTP/1.1" 200 6111
+INFO 2025-04-30 17:16:58,563 basehttp "GET / HTTP/1.1" 200 5629
+INFO 2025-04-30 17:17:00,649 basehttp "GET /admin/ HTTP/1.1" 200 13824
+INFO 2025-04-30 17:17:03,227 basehttp "GET /admin/store/product/ HTTP/1.1" 200 13585
+INFO 2025-04-30 17:17:03,267 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:17:04,959 basehttp "GET /admin/store/order/ HTTP/1.1" 200 72371
+INFO 2025-04-30 17:17:04,986 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+ERROR 2025-04-30 17:17:07,126 log Internal Server Error: /admin/store/order/137/change/
+Traceback (most recent call last):
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\contrib\admin\options.py", line 1964, in change_view
+    return self.changeform_view(request, object_id, form_url, extra_context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\contrib\admin\options.py", line 1820, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\contrib\admin\options.py", line 1893, in _changeform_view
+    formsets, inline_instances = self._create_formsets(
+                                 ~~~~~~~~~~~~~~~~~~~~~^
+        request, obj, change=True
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\contrib\admin\options.py", line 2332, in _create_formsets
+    for FormSet, inline in self.get_formsets_with_inlines(*get_formsets_args):
+                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\contrib\admin\options.py", line 937, in get_formsets_with_inlines
+    yield inline.get_formset(request, obj), inline
+          ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\contrib\admin\options.py", line 2509, in get_formset
+    return inlineformset_factory(self.parent_model, self.model, **defaults)
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\forms\models.py", line 1343, in inlineformset_factory
+    FormSet = modelformset_factory(model, **kwargs)
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\forms\models.py", line 1051, in modelformset_factory
+    form = modelform_factory(
+        model,
+    ...<9 lines>...
+        field_classes=field_classes,
+    )
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\forms\models.py", line 654, in modelform_factory
+    return type(form)(class_name, (form,), form_class_attrs)
+           ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\forms\models.py", line 334, in __new__
+    raise FieldError(message)
+django.core.exceptions.FieldError: Unknown field(s) (get_total) specified for OrderItem
+ERROR 2025-04-30 17:17:07,134 basehttp "GET /admin/store/order/137/change/ HTTP/1.1" 500 169483
+INFO 2025-04-30 17:18:09,505 autoreload D:\Desktop\สมบูรทั้งหมดยกเว้น แจ้งเตือน - Copy\myweb\store\admin.py changed, reloading.
+INFO 2025-04-30 17:18:26,090 autoreload Watching for file changes with StatReloader
+INFO 2025-04-30 17:18:27,471 basehttp "GET / HTTP/1.1" 200 5629
+INFO 2025-04-30 17:18:29,993 basehttp "GET /admin/ HTTP/1.1" 200 13824
+INFO 2025-04-30 17:18:31,927 basehttp "GET /admin/store/product/ HTTP/1.1" 200 13585
+INFO 2025-04-30 17:18:31,987 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:18:33,507 basehttp "GET /admin/store/order/ HTTP/1.1" 200 72371
+INFO 2025-04-30 17:18:33,534 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:18:34,711 basehttp "GET /admin/store/order/137/change/ HTTP/1.1" 200 29441
+INFO 2025-04-30 17:18:34,739 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:18:34,792 basehttp "GET /static/admin/js/inlines.js HTTP/1.1" 200 15526
+INFO 2025-04-30 17:19:24,702 basehttp "GET /admin/store/order/ HTTP/1.1" 200 72371
+INFO 2025-04-30 17:19:24,718 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:20:53,160 autoreload D:\Desktop\สมบูรทั้งหมดยกเว้น แจ้งเตือน - Copy\myweb\store\admin.py changed, reloading.
+INFO 2025-04-30 17:21:07,874 autoreload Watching for file changes with StatReloader
+INFO 2025-04-30 17:21:09,761 basehttp "GET / HTTP/1.1" 200 5629
+INFO 2025-04-30 17:21:13,126 basehttp "GET /admin/ HTTP/1.1" 200 13824
+INFO 2025-04-30 17:21:15,155 basehttp "GET /admin/store/order/ HTTP/1.1" 200 72371
+INFO 2025-04-30 17:21:15,195 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:21:16,502 basehttp "GET /admin/store/order/137/change/ HTTP/1.1" 200 30163
+INFO 2025-04-30 17:21:16,528 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:36:02,728 autoreload D:\Desktop\สมบูรทั้งหมดยกเว้น แจ้งเตือน - Copy\myweb\store\admin.py changed, reloading.
+INFO 2025-04-30 17:36:22,092 autoreload Watching for file changes with StatReloader
+INFO 2025-04-30 17:36:23,397 basehttp "GET / HTTP/1.1" 200 5629
+INFO 2025-04-30 17:36:25,832 basehttp "GET /admin/ HTTP/1.1" 200 13824
+INFO 2025-04-30 17:36:27,943 basehttp "GET /admin/store/product/ HTTP/1.1" 200 13585
+INFO 2025-04-30 17:36:27,982 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:36:29,849 basehttp "GET /admin/store/order/ HTTP/1.1" 200 77007
+INFO 2025-04-30 17:36:29,883 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:36:31,227 basehttp "GET /admin/store/order/137/change/ HTTP/1.1" 200 29441
+INFO 2025-04-30 17:36:31,263 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:39:46,427 autoreload D:\Desktop\สมบูรทั้งหมดยกเว้น แจ้งเตือน - Copy\myweb\store\admin.py changed, reloading.
+INFO 2025-04-30 17:40:02,229 autoreload Watching for file changes with StatReloader
+INFO 2025-04-30 17:40:07,611 basehttp "GET / HTTP/1.1" 200 5629
+INFO 2025-04-30 17:40:10,662 basehttp "GET /admin/ HTTP/1.1" 200 13824
+INFO 2025-04-30 17:40:12,625 basehttp "GET /admin/store/product/ HTTP/1.1" 200 13585
+INFO 2025-04-30 17:40:12,663 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:40:14,169 basehttp "GET /admin/store/order/ HTTP/1.1" 200 68353
+INFO 2025-04-30 17:40:14,196 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:40:17,720 basehttp "GET /admin/store/order/137/change/ HTTP/1.1" 200 17064
+INFO 2025-04-30 17:40:17,748 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:40:23,757 basehttp "GET /admin/store/order/137/history/ HTTP/1.1" 200 9699
+INFO 2025-04-30 17:40:25,173 basehttp "GET /admin/store/order/137/change/ HTTP/1.1" 200 17064
+INFO 2025-04-30 17:44:20,823 autoreload Watching for file changes with StatReloader
+INFO 2025-04-30 17:44:22,079 basehttp "GET / HTTP/1.1" 200 5629
+INFO 2025-04-30 17:44:24,512 basehttp "GET /admin/ HTTP/1.1" 200 13824
+INFO 2025-04-30 17:44:26,828 basehttp "GET /admin/store/order/ HTTP/1.1" 200 68353
+INFO 2025-04-30 17:44:26,863 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:44:28,534 basehttp "GET /admin/store/order/137/change/ HTTP/1.1" 200 17064
+INFO 2025-04-30 17:44:28,561 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:44:38,187 basehttp "POST /admin/store/order/137/change/ HTTP/1.1" 302 0
+INFO 2025-04-30 17:44:38,204 basehttp "GET /admin/store/order/137/change/ HTTP/1.1" 200 17289
+INFO 2025-04-30 17:44:38,304 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:44:40,503 basehttp "GET /admin/store/order/ HTTP/1.1" 200 68353
+INFO 2025-04-30 17:44:40,526 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:44:45,104 basehttp "GET /admin/store/order/136/change/ HTTP/1.1" 200 17064
+INFO 2025-04-30 17:44:45,131 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:44:48,491 basehttp "GET /admin/store/order/ HTTP/1.1" 200 68353
+INFO 2025-04-30 17:44:48,516 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:44:49,872 basehttp "GET /admin/store/order/137/change/ HTTP/1.1" 200 17064
+INFO 2025-04-30 17:44:49,899 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:45:04,824 autoreload D:\Desktop\สมบูรทั้งหมดยกเว้น แจ้งเตือน - Copy\myweb\store\admin.py changed, reloading.
+INFO 2025-04-30 17:45:22,083 autoreload Watching for file changes with StatReloader
+INFO 2025-04-30 17:45:23,727 basehttp "GET / HTTP/1.1" 200 5629
+INFO 2025-04-30 17:45:30,910 basehttp "GET /admin/ HTTP/1.1" 200 13833
+INFO 2025-04-30 17:45:33,459 basehttp "GET /admin/store/order/ HTTP/1.1" 200 68360
+INFO 2025-04-30 17:45:33,495 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:45:35,201 basehttp "GET /admin/store/order/137/change/ HTTP/1.1" 200 29441
+INFO 2025-04-30 17:45:35,227 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:47:24,881 autoreload D:\Desktop\สมบูรทั้งหมดยกเว้น แจ้งเตือน - Copy\myweb\store\admin.py changed, reloading.
+INFO 2025-04-30 17:47:41,513 autoreload Watching for file changes with StatReloader
+INFO 2025-04-30 17:47:43,175 basehttp "GET / HTTP/1.1" 200 5629
+INFO 2025-04-30 17:47:47,331 basehttp "GET /admin/ HTTP/1.1" 200 13833
+INFO 2025-04-30 17:47:49,906 basehttp "GET /admin/store/order/ HTTP/1.1" 200 68353
+INFO 2025-04-30 17:47:49,936 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:47:51,228 basehttp "GET /admin/store/order/137/change/ HTTP/1.1" 200 30163
+INFO 2025-04-30 17:47:51,263 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:50:41,558 autoreload D:\Desktop\สมบูรทั้งหมดยกเว้น แจ้งเตือน - Copy\myweb\store\admin.py changed, reloading.
+INFO 2025-04-30 17:50:55,424 autoreload Watching for file changes with StatReloader
+INFO 2025-04-30 17:50:57,077 basehttp "GET / HTTP/1.1" 200 5629
+INFO 2025-04-30 17:51:01,150 basehttp "GET /admin/ HTTP/1.1" 200 13833
+INFO 2025-04-30 17:51:03,040 basehttp "GET /admin/store/order/ HTTP/1.1" 200 68353
+INFO 2025-04-30 17:51:03,139 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 17:51:04,879 basehttp "GET /admin/store/order/137/change/ HTTP/1.1" 200 30163
+INFO 2025-04-30 17:51:04,907 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:03:47,394 autoreload D:\Desktop\สมบูรทั้งหมดยกเว้น แจ้งเตือน - Copy\myweb\store\admin.py changed, reloading.
+INFO 2025-04-30 18:03:59,495 autoreload Watching for file changes with StatReloader
+INFO 2025-04-30 18:04:00,815 basehttp "GET / HTTP/1.1" 200 5629
+INFO 2025-04-30 18:04:03,187 basehttp "GET /admin/ HTTP/1.1" 200 13833
+INFO 2025-04-30 18:04:05,537 basehttp "GET /admin/store/order/ HTTP/1.1" 200 68353
+INFO 2025-04-30 18:04:05,591 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:04:06,952 basehttp "GET /admin/store/order/137/change/ HTTP/1.1" 200 21049
+INFO 2025-04-30 18:04:06,979 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:05:11,656 basehttp "GET /admin/store/order/ HTTP/1.1" 200 68353
+INFO 2025-04-30 18:05:11,684 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:05:22,777 basehttp "GET /admin/store/order/137/change/ HTTP/1.1" 200 21049
+INFO 2025-04-30 18:05:22,802 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:06:34,867 autoreload D:\Desktop\สมบูรทั้งหมดยกเว้น แจ้งเตือน - Copy\myweb\store\admin.py changed, reloading.
+INFO 2025-04-30 18:06:47,372 autoreload Watching for file changes with StatReloader
+INFO 2025-04-30 18:06:48,543 basehttp "GET / HTTP/1.1" 200 5629
+INFO 2025-04-30 18:06:50,772 basehttp "GET /admin/ HTTP/1.1" 200 13833
+INFO 2025-04-30 18:06:52,941 basehttp "GET /admin/store/order/ HTTP/1.1" 200 68353
+INFO 2025-04-30 18:06:52,980 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:06:55,209 basehttp "GET /admin/store/order/137/change/ HTTP/1.1" 200 23640
+INFO 2025-04-30 18:06:55,237 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:09:00,029 autoreload D:\Desktop\สมบูรทั้งหมดยกเว้น แจ้งเตือน - Copy\myweb\store\admin.py changed, reloading.
+INFO 2025-04-30 18:09:13,611 autoreload Watching for file changes with StatReloader
+INFO 2025-04-30 18:09:14,788 basehttp "GET / HTTP/1.1" 200 5629
+INFO 2025-04-30 18:09:18,218 basehttp "GET /admin/ HTTP/1.1" 200 13833
+INFO 2025-04-30 18:09:20,370 basehttp "GET /admin/store/order/ HTTP/1.1" 200 68353
+INFO 2025-04-30 18:09:20,404 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:09:28,381 basehttp "GET /admin/store/order/137/change/ HTTP/1.1" 200 23196
+INFO 2025-04-30 18:09:28,410 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:10:17,484 basehttp "GET /admin/store/order/ HTTP/1.1" 200 68353
+INFO 2025-04-30 18:10:17,510 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:11:40,660 autoreload D:\Desktop\สมบูรทั้งหมดยกเว้น แจ้งเตือน - Copy\myweb\store\admin.py changed, reloading.
+INFO 2025-04-30 18:11:53,478 autoreload Watching for file changes with StatReloader
+INFO 2025-04-30 18:11:54,656 basehttp "GET / HTTP/1.1" 200 5629
+INFO 2025-04-30 18:11:57,383 basehttp "GET /admin/ HTTP/1.1" 200 13833
+INFO 2025-04-30 18:11:59,191 basehttp "GET /admin/store/order/ HTTP/1.1" 200 64027
+INFO 2025-04-30 18:11:59,228 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:12:01,913 basehttp "GET /admin/store/order/137/change/ HTTP/1.1" 200 23640
+INFO 2025-04-30 18:12:01,970 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:12:04,305 basehttp "GET /admin/store/order/ HTTP/1.1" 200 64027
+INFO 2025-04-30 18:12:05,331 basehttp "GET /admin/store/order/136/change/ HTTP/1.1" 200 23640
+INFO 2025-04-30 18:12:05,360 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:12:10,238 basehttp "GET /admin/store/order/ HTTP/1.1" 200 64027
+INFO 2025-04-30 18:12:11,538 basehttp "GET /admin/store/order/118/change/ HTTP/1.1" 200 21031
+INFO 2025-04-30 18:12:11,567 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:12:14,247 basehttp "GET /admin/store/order/ HTTP/1.1" 200 64027
+INFO 2025-04-30 18:12:59,014 basehttp "GET /admin/store/order/137/change/ HTTP/1.1" 200 23640
+INFO 2025-04-30 18:12:59,042 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:13:09,844 basehttp "GET /admin/store/order/137/history/ HTTP/1.1" 200 9918
+INFO 2025-04-30 18:13:14,791 basehttp "GET /admin/store/order/137/change/ HTTP/1.1" 200 23640
+INFO 2025-04-30 18:13:19,503 basehttp "POST /admin/store/order/137/change/ HTTP/1.1" 302 0
+INFO 2025-04-30 18:13:19,723 basehttp "GET /admin/store/order/ HTTP/1.1" 200 64220
+INFO 2025-04-30 18:13:19,749 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:13:21,231 basehttp "GET /admin/store/order/137/change/ HTTP/1.1" 200 23640
+INFO 2025-04-30 18:13:21,257 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:13:22,266 basehttp "GET /admin/store/order/137/history/ HTTP/1.1" 200 10106
+INFO 2025-04-30 18:13:23,606 basehttp "GET /admin/store/order/137/change/ HTTP/1.1" 200 23640
+INFO 2025-04-30 18:13:24,408 basehttp "GET /admin/store/order/ HTTP/1.1" 200 64024
+INFO 2025-04-30 18:13:28,472 basehttp "GET /admin/store/order/137/change/ HTTP/1.1" 200 23640
+INFO 2025-04-30 18:13:28,500 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:14:42,108 autoreload D:\Desktop\สมบูรทั้งหมดยกเว้น แจ้งเตือน - Copy\myweb\store\admin.py changed, reloading.
+INFO 2025-04-30 18:14:58,297 autoreload Watching for file changes with StatReloader
+INFO 2025-04-30 18:14:59,774 basehttp "GET / HTTP/1.1" 200 5629
+INFO 2025-04-30 18:15:02,850 basehttp "GET /admin/ HTTP/1.1" 200 13828
+INFO 2025-04-30 18:15:05,366 basehttp "GET /admin/store/order/ HTTP/1.1" 200 64024
+INFO 2025-04-30 18:15:05,396 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:15:07,158 basehttp "GET /admin/store/order/137/change/ HTTP/1.1" 200 22144
+INFO 2025-04-30 18:15:07,185 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:15:09,379 basehttp "POST /admin/store/order/137/change/ HTTP/1.1" 302 0
+INFO 2025-04-30 18:15:09,632 basehttp "GET /admin/store/order/ HTTP/1.1" 200 64220
+INFO 2025-04-30 18:15:09,659 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:16:52,943 autoreload D:\Desktop\สมบูรทั้งหมดยกเว้น แจ้งเตือน - Copy\myweb\store\admin.py changed, reloading.
+INFO 2025-04-30 18:17:06,903 autoreload Watching for file changes with StatReloader
+INFO 2025-04-30 18:17:08,243 basehttp "GET / HTTP/1.1" 200 5629
+INFO 2025-04-30 18:17:10,535 basehttp "GET /admin/ HTTP/1.1" 200 13819
+INFO 2025-04-30 18:17:12,241 basehttp "GET /admin/store/order/ HTTP/1.1" 200 64919
+INFO 2025-04-30 18:17:12,278 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:17:18,541 basehttp "GET /admin/store/order/137/change/ HTTP/1.1" 200 23640
+INFO 2025-04-30 18:17:18,568 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:18:03,076 basehttp "GET /admin/store/order/ HTTP/1.1" 200 64919
+INFO 2025-04-30 18:18:03,104 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:18:10,428 basehttp "GET /admin/store/customer/ HTTP/1.1" 200 24069
+INFO 2025-04-30 18:18:10,457 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:18:12,281 basehttp "GET /admin/store/customer/21/change/ HTTP/1.1" 200 13768
+INFO 2025-04-30 18:18:12,310 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:18:15,872 basehttp "GET /admin/store/customer/ HTTP/1.1" 200 24069
+INFO 2025-04-30 18:18:15,901 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:18:16,975 basehttp "GET /admin/store/motor/ HTTP/1.1" 200 12477
+INFO 2025-04-30 18:18:17,000 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:18:19,669 basehttp "GET /admin/store/orderitem/ HTTP/1.1" 200 41983
+INFO 2025-04-30 18:18:19,695 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:18:21,765 basehttp "GET /admin/store/orderitem/191/change/ HTTP/1.1" 200 20893
+INFO 2025-04-30 18:18:21,799 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:18:23,155 basehttp "GET /admin/store/orderitem/ HTTP/1.1" 200 41983
+INFO 2025-04-30 18:18:24,914 basehttp "GET /admin/store/orderitem/178/change/ HTTP/1.1" 200 20893
+INFO 2025-04-30 18:18:24,943 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:18:27,255 basehttp "GET /admin/store/orderitem/ HTTP/1.1" 200 41983
+INFO 2025-04-30 18:18:28,974 basehttp "GET /admin/store/order/ HTTP/1.1" 200 64919
+INFO 2025-04-30 18:18:29,000 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:18:30,230 basehttp "GET /admin/store/order/137/change/ HTTP/1.1" 200 23640
+INFO 2025-04-30 18:18:30,262 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:18:39,766 basehttp "GET /admin/store/orderitem/ HTTP/1.1" 200 41983
+INFO 2025-04-30 18:18:39,794 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:18:43,420 basehttp "GET /admin/store/order/ HTTP/1.1" 200 64919
+INFO 2025-04-30 18:18:43,443 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:18:44,692 basehttp "GET /admin/store/order/137/change/ HTTP/1.1" 200 23640
+INFO 2025-04-30 18:18:44,719 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:18:52,688 basehttp "GET /admin/store/orderitem/ HTTP/1.1" 200 41983
+INFO 2025-04-30 18:18:52,716 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:18:54,337 basehttp "GET /admin/store/orderitem/178/change/ HTTP/1.1" 200 20893
+INFO 2025-04-30 18:18:54,370 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:18:59,621 basehttp "GET /admin/store/orderitem/ HTTP/1.1" 200 41983
+INFO 2025-04-30 18:18:59,647 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:19:04,779 basehttp "GET /admin/store/order/ HTTP/1.1" 200 64919
+INFO 2025-04-30 18:19:04,802 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:19:13,572 basehttp "GET /admin/store/product/ HTTP/1.1" 200 13585
+INFO 2025-04-30 18:19:13,599 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:19:16,647 basehttp "GET /admin/store/shippingaddress/ HTTP/1.1" 200 10459
+INFO 2025-04-30 18:19:16,676 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:19:32,442 basehttp "GET /admin/auth/group/ HTTP/1.1" 200 10818
+INFO 2025-04-30 18:19:32,470 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:19:35,727 basehttp "GET /admin/auth/user/ HTTP/1.1" 200 15415
+INFO 2025-04-30 18:19:35,755 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:19:39,650 basehttp "GET /admin/auth/group/ HTTP/1.1" 200 10818
+INFO 2025-04-30 18:19:39,678 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:19:42,628 basehttp "GET /admin/auth/user/ HTTP/1.1" 200 15415
+INFO 2025-04-30 18:19:42,656 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:19:44,696 basehttp "GET /admin/auth/group/ HTTP/1.1" 200 10818
+INFO 2025-04-30 18:19:44,723 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:19:45,947 basehttp "GET /admin/auth/user/ HTTP/1.1" 200 15415
+INFO 2025-04-30 18:19:45,974 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:19:46,441 basehttp "GET /admin/auth/group/ HTTP/1.1" 200 10818
+INFO 2025-04-30 18:19:46,469 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:20:20,265 basehttp "GET /admin/store/product/ HTTP/1.1" 200 13585
+INFO 2025-04-30 18:20:20,291 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:20:21,347 basehttp "GET /admin/store/order/ HTTP/1.1" 200 64919
+INFO 2025-04-30 18:20:21,373 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:20:45,462 basehttp "GET /admin/store/order/?date_ordered__gte=2025-04-30+00%3A00%3A00%2B00%3A00&date_ordered__lt=2025-05-01+00%3A00%3A00%2B00%3A00 HTTP/1.1" 200 13948
+INFO 2025-04-30 18:20:45,496 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:20:48,103 basehttp "GET /admin/store/order/?date_ordered__gte=2025-04-23+00%3A00%3A00%2B00%3A00&date_ordered__lt=2025-05-01+00%3A00%3A00%2B00%3A00 HTTP/1.1" 200 13948
+INFO 2025-04-30 18:20:48,138 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:20:49,499 basehttp "GET /admin/store/order/?date_ordered__gte=2025-04-23+00%3A00%3A00%2B00%3A00&date_ordered__lt=2025-05-01+00%3A00%3A00%2B00%3A00 HTTP/1.1" 200 13948
+INFO 2025-04-30 18:20:49,526 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:20:50,119 basehttp "GET /admin/store/order/?date_ordered__gte=2025-04-01+00%3A00%3A00%2B00%3A00&date_ordered__lt=2025-05-01+00%3A00%3A00%2B00%3A00 HTTP/1.1" 200 32297
+INFO 2025-04-30 18:20:50,146 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:20:53,650 basehttp "GET /admin/store/order/?date_ordered__gte=2025-01-01+00%3A00%3A00%2B00%3A00&date_ordered__lt=2026-01-01+00%3A00%3A00%2B00%3A00 HTTP/1.1" 200 81549
+INFO 2025-04-30 18:20:53,676 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:20:55,760 basehttp "GET /admin/store/order/? HTTP/1.1" 200 64919
+INFO 2025-04-30 18:20:55,794 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:20:58,608 basehttp "GET /admin/store/order/?date_ordered__gte=2025-04-30+00%3A00%3A00%2B00%3A00&date_ordered__lt=2025-05-01+00%3A00%3A00%2B00%3A00 HTTP/1.1" 200 13948
+INFO 2025-04-30 18:20:58,635 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:21:00,292 basehttp "GET /admin/store/order/? HTTP/1.1" 200 64919
+INFO 2025-04-30 18:21:00,308 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:21:04,592 basehttp "GET /admin/store/order/?date_ordered__gte=2025-04-30+00%3A00%3A00%2B00%3A00&date_ordered__lt=2025-05-01+00%3A00%3A00%2B00%3A00 HTTP/1.1" 200 13948
+INFO 2025-04-30 18:21:04,616 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:21:05,624 basehttp "GET /admin/store/order/?date_ordered__gte=2025-04-23+00%3A00%3A00%2B00%3A00&date_ordered__lt=2025-05-01+00%3A00%3A00%2B00%3A00 HTTP/1.1" 200 13948
+INFO 2025-04-30 18:21:05,651 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:21:10,018 basehttp "GET /admin/store/order/?date_ordered__gte=2025-04-30+00%3A00%3A00%2B00%3A00&date_ordered__lt=2025-05-01+00%3A00%3A00%2B00%3A00 HTTP/1.1" 200 13948
+INFO 2025-04-30 18:21:10,046 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:21:11,120 basehttp "GET /admin/store/order/? HTTP/1.1" 200 64919
+INFO 2025-04-30 18:21:11,146 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:21:13,273 basehttp "GET /admin/store/order/?date_ordered__gte=2025-04-30+00%3A00%3A00%2B00%3A00&date_ordered__lt=2025-05-01+00%3A00%3A00%2B00%3A00 HTTP/1.1" 200 13948
+INFO 2025-04-30 18:21:13,308 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:21:15,138 basehttp "GET /admin/store/order/? HTTP/1.1" 200 64919
+INFO 2025-04-30 18:21:15,170 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:21:16,752 basehttp "GET /admin/store/order/?date_ordered__gte=2025-04-23+00%3A00%3A00%2B00%3A00&date_ordered__lt=2025-05-01+00%3A00%3A00%2B00%3A00 HTTP/1.1" 200 13948
+INFO 2025-04-30 18:21:16,785 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:21:18,255 basehttp "GET /admin/store/order/? HTTP/1.1" 200 64919
+INFO 2025-04-30 18:21:18,282 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:21:20,228 basehttp "GET /admin/store/order/?date_ordered__gte=2025-04-23+00%3A00%3A00%2B00%3A00&date_ordered__lt=2025-05-01+00%3A00%3A00%2B00%3A00 HTTP/1.1" 200 13948
+INFO 2025-04-30 18:21:20,262 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:21:22,778 basehttp "GET /admin/store/order/?date_ordered__gte=2025-04-30+00%3A00%3A00%2B00%3A00&date_ordered__lt=2025-05-01+00%3A00%3A00%2B00%3A00 HTTP/1.1" 200 13948
+INFO 2025-04-30 18:21:22,812 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:21:23,951 basehttp "GET /admin/store/order/?date_ordered__gte=2025-04-23+00%3A00%3A00%2B00%3A00&date_ordered__lt=2025-05-01+00%3A00%3A00%2B00%3A00 HTTP/1.1" 200 13948
+INFO 2025-04-30 18:21:23,982 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:21:24,921 basehttp "GET /admin/store/order/?date_ordered__gte=2025-04-30+00%3A00%3A00%2B00%3A00&date_ordered__lt=2025-05-01+00%3A00%3A00%2B00%3A00 HTTP/1.1" 200 13948
+INFO 2025-04-30 18:21:24,950 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:21:25,410 basehttp "GET /admin/store/order/?date_ordered__gte=2025-04-23+00%3A00%3A00%2B00%3A00&date_ordered__lt=2025-05-01+00%3A00%3A00%2B00%3A00 HTTP/1.1" 200 13948
+INFO 2025-04-30 18:21:25,432 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:21:26,554 basehttp "GET /admin/store/order/?date_ordered__gte=2025-04-30+00%3A00%3A00%2B00%3A00&date_ordered__lt=2025-05-01+00%3A00%3A00%2B00%3A00 HTTP/1.1" 200 13948
+INFO 2025-04-30 18:21:26,582 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:21:27,220 basehttp "GET /admin/store/order/? HTTP/1.1" 200 64919
+INFO 2025-04-30 18:21:27,247 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:21:39,467 basehttp "GET /admin/store/order/?date_ordered__gte=2025-04-30+00%3A00%3A00%2B00%3A00&date_ordered__lt=2025-05-01+00%3A00%3A00%2B00%3A00 HTTP/1.1" 200 13948
+INFO 2025-04-30 18:21:39,495 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:21:41,229 basehttp "GET /admin/store/order/? HTTP/1.1" 200 64919
+INFO 2025-04-30 18:21:41,260 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:21:45,954 basehttp "GET /admin/store/order/?date_ordered__gte=2025-04-30+00%3A00%3A00%2B00%3A00&date_ordered__lt=2025-05-01+00%3A00%3A00%2B00%3A00 HTTP/1.1" 200 13948
+INFO 2025-04-30 18:21:45,990 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:21:46,890 basehttp "GET /admin/store/order/? HTTP/1.1" 200 64919
+INFO 2025-04-30 18:21:46,921 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:21:51,513 basehttp "GET /admin/store/order/?date_ordered__gte=2025-04-23+00%3A00%3A00%2B00%3A00&date_ordered__lt=2025-05-01+00%3A00%3A00%2B00%3A00 HTTP/1.1" 200 13948
+INFO 2025-04-30 18:21:51,549 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:21:51,898 basehttp "GET /admin/store/order/?date_ordered__gte=2025-04-23+00%3A00%3A00%2B00%3A00&date_ordered__lt=2025-05-01+00%3A00%3A00%2B00%3A00 HTTP/1.1" 200 13948
+INFO 2025-04-30 18:21:51,927 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:21:52,549 basehttp "GET /admin/store/order/?date_ordered__gte=2025-04-01+00%3A00%3A00%2B00%3A00&date_ordered__lt=2025-05-01+00%3A00%3A00%2B00%3A00 HTTP/1.1" 200 32297
+INFO 2025-04-30 18:21:52,583 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:21:53,461 basehttp "GET /admin/store/order/?date_ordered__gte=2025-01-01+00%3A00%3A00%2B00%3A00&date_ordered__lt=2026-01-01+00%3A00%3A00%2B00%3A00 HTTP/1.1" 200 81549
+INFO 2025-04-30 18:21:53,490 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:21:54,195 basehttp "GET /admin/store/order/?date_ordered__gte=2025-04-23+00%3A00%3A00%2B00%3A00&date_ordered__lt=2025-05-01+00%3A00%3A00%2B00%3A00 HTTP/1.1" 200 13948
+INFO 2025-04-30 18:21:54,228 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:21:54,883 basehttp "GET /admin/store/order/?date_ordered__gte=2025-04-30+00%3A00%3A00%2B00%3A00&date_ordered__lt=2025-05-01+00%3A00%3A00%2B00%3A00 HTTP/1.1" 200 13948
+INFO 2025-04-30 18:21:54,911 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:21:55,482 basehttp "GET /admin/store/order/? HTTP/1.1" 200 64919
+INFO 2025-04-30 18:21:55,508 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:24:51,543 autoreload D:\Desktop\สมบูรทั้งหมดยกเว้น แจ้งเตือน - Copy\myweb\store\admin.py changed, reloading.
+INFO 2025-04-30 18:25:05,135 autoreload Watching for file changes with StatReloader
+INFO 2025-04-30 18:25:06,386 basehttp "GET / HTTP/1.1" 200 5629
+INFO 2025-04-30 18:25:09,041 basehttp "GET /admin/ HTTP/1.1" 200 13819
+INFO 2025-04-30 18:25:14,917 basehttp "GET /admin/store/order/ HTTP/1.1" 200 65302
+INFO 2025-04-30 18:25:14,949 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:25:18,840 basehttp "GET /admin/store/order/? HTTP/1.1" 200 65302
+INFO 2025-04-30 18:25:18,865 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:25:19,955 basehttp "GET /admin/store/order/?date_ordered__month=2&date_ordered__year=2025 HTTP/1.1" 200 40238
+INFO 2025-04-30 18:25:19,990 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:25:20,753 basehttp "GET /admin/store/order/?date_ordered__day=8&date_ordered__month=2&date_ordered__year=2025 HTTP/1.1" 200 40080
+INFO 2025-04-30 18:25:20,776 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:25:22,829 basehttp "GET /admin/store/order/?date_ordered__month=2&date_ordered__year=2025 HTTP/1.1" 200 40238
+INFO 2025-04-30 18:25:22,859 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:25:24,079 basehttp "GET /admin/store/order/?date_ordered__year=2025 HTTP/1.1" 200 70328
+INFO 2025-04-30 18:25:24,107 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:25:25,567 basehttp "GET /admin/store/order/? HTTP/1.1" 200 65302
+INFO 2025-04-30 18:25:25,595 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:25:26,380 basehttp "GET /admin/store/order/?date_ordered__month=2&date_ordered__year=2025 HTTP/1.1" 200 40238
+INFO 2025-04-30 18:25:26,409 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:25:28,121 basehttp "GET /admin/store/order/?date_ordered__day=8&date_ordered__month=2&date_ordered__year=2025 HTTP/1.1" 200 40080
+INFO 2025-04-30 18:25:28,153 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:25:29,274 basehttp "GET /admin/store/order/?date_ordered__month=2&date_ordered__year=2025 HTTP/1.1" 200 40238
+INFO 2025-04-30 18:25:29,301 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:25:30,169 basehttp "GET /admin/store/order/?date_ordered__year=2025 HTTP/1.1" 200 70328
+INFO 2025-04-30 18:25:30,197 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:25:31,321 basehttp "GET /admin/store/order/? HTTP/1.1" 200 65302
+INFO 2025-04-30 18:25:31,354 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:29:48,210 autoreload D:\Desktop\สมบูรทั้งหมดยกเว้น แจ้งเตือน - Copy\myweb\store\admin.py changed, reloading.
+INFO 2025-04-30 18:30:03,002 autoreload Watching for file changes with StatReloader
+INFO 2025-04-30 18:30:06,348 basehttp "GET / HTTP/1.1" 200 5629
+INFO 2025-04-30 18:30:09,843 basehttp "GET /admin/ HTTP/1.1" 200 13819
+INFO 2025-04-30 18:30:13,361 basehttp "GET /admin/store/order/ HTTP/1.1" 200 65302
+INFO 2025-04-30 18:30:13,398 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:30:15,979 basehttp "GET /admin/store/order/? HTTP/1.1" 200 65302
+INFO 2025-04-30 18:30:16,006 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:33:31,698 autoreload Watching for file changes with StatReloader
+INFO 2025-04-30 18:35:02,931 autoreload Watching for file changes with StatReloader
+INFO 2025-04-30 18:36:11,840 autoreload D:\Desktop\สมบูรทั้งหมดยกเว้น แจ้งเตือน - Copy\myweb\store\admin.py changed, reloading.
+INFO 2025-04-30 18:36:35,238 autoreload Watching for file changes with StatReloader
+INFO 2025-04-30 18:36:36,741 basehttp "GET / HTTP/1.1" 200 5629
+INFO 2025-04-30 18:36:39,616 basehttp "GET /admin/ HTTP/1.1" 200 13819
+INFO 2025-04-30 18:36:41,703 basehttp "GET /admin/store/order/ HTTP/1.1" 200 65302
+INFO 2025-04-30 18:36:41,742 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 18:56:17,111 autoreload D:\Desktop\สมบูรทั้งหมดยกเว้น แจ้งเตือน - Copy\myweb\store\admin.py changed, reloading.
+INFO 2025-04-30 18:56:36,545 autoreload Watching for file changes with StatReloader
+INFO 2025-04-30 18:57:33,203 autoreload Watching for file changes with StatReloader
+INFO 2025-04-30 18:58:42,995 autoreload Watching for file changes with StatReloader
+INFO 2025-04-30 19:02:37,457 autoreload Watching for file changes with StatReloader
+INFO 2025-04-30 19:05:24,838 autoreload Watching for file changes with StatReloader
+INFO 2025-04-30 19:07:16,488 autoreload D:\Desktop\สมบูรทั้งหมดยกเว้น แจ้งเตือน - Copy\myweb\store\admin.py changed, reloading.
+INFO 2025-04-30 19:07:39,553 autoreload Watching for file changes with StatReloader
+INFO 2025-04-30 19:07:41,099 basehttp "GET / HTTP/1.1" 200 5629
+INFO 2025-04-30 19:07:43,932 basehttp "GET /admin/ HTTP/1.1" 200 13819
+INFO 2025-04-30 19:07:46,464 basehttp "GET /admin/store/product/ HTTP/1.1" 200 13585
+INFO 2025-04-30 19:07:46,524 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 19:07:47,515 basehttp "GET /admin/store/order/ HTTP/1.1" 200 69788
+INFO 2025-04-30 19:07:47,530 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 19:07:55,806 basehttp "GET /admin/store/order/137/change/ HTTP/1.1" 200 23640
+INFO 2025-04-30 19:07:55,842 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 19:12:01,377 basehttp "GET /admin/store/order/ HTTP/1.1" 200 69788
+INFO 2025-04-30 19:12:01,405 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 19:15:39,299 basehttp "GET / HTTP/1.1" 200 5629
+INFO 2025-04-30 19:15:41,580 basehttp "GET /admin/ HTTP/1.1" 200 13819
+INFO 2025-04-30 19:15:43,977 basehttp "GET /admin/store/order/ HTTP/1.1" 200 69788
+INFO 2025-04-30 19:15:44,012 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 19:15:49,062 basehttp "GET /admin/store/order/?payment_status__exact=successful HTTP/1.1" 200 12461
+INFO 2025-04-30 19:15:49,088 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 19:15:50,791 basehttp "GET /admin/store/order/?payment_status__exact=pending HTTP/1.1" 200 75501
+INFO 2025-04-30 19:15:50,811 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 19:15:52,503 basehttp "GET /admin/store/order/? HTTP/1.1" 200 69788
+INFO 2025-04-30 19:15:52,529 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 19:15:54,091 basehttp "GET /admin/store/order/?payment_status__exact=pending HTTP/1.1" 200 75501
+INFO 2025-04-30 19:15:54,119 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 19:19:21,082 autoreload D:\Desktop\สมบูรทั้งหมดยกเว้น แจ้งเตือน - Copy\myweb\store\views.py changed, reloading.
+INFO 2025-04-30 19:19:36,443 autoreload Watching for file changes with StatReloader
+INFO 2025-04-30 19:19:37,603 basehttp "GET / HTTP/1.1" 200 5629
+INFO 2025-04-30 19:19:38,724 basehttp "GET /cart/ HTTP/1.1" 200 6111
+INFO 2025-04-30 19:19:39,314 basehttp "GET /checkout/ HTTP/1.1" 200 12220
+INFO 2025-04-30 19:19:43,068 basehttp "POST /process_order/ HTTP/1.1" 200 275
+INFO 2025-04-30 19:29:56,746 autoreload D:\Desktop\สมบูรทั้งหมดยกเว้น แจ้งเตือน - Copy\myweb\store\views.py changed, reloading.
+INFO 2025-04-30 22:30:59,839 autoreload Watching for file changes with StatReloader
+INFO 2025-04-30 22:31:02,237 basehttp "GET / HTTP/1.1" 200 5629
+INFO 2025-04-30 22:31:06,352 basehttp "GET /admin/ HTTP/1.1" 200 13819
+INFO 2025-04-30 22:42:55,603 autoreload D:\Desktop\สมบูรทั้งหมดการตรวจสอบสินค้า ลบสินค้าออกจากตระก้า\myweb\store\views.py changed, reloading.
+INFO 2025-04-30 22:53:09,348 autoreload Watching for file changes with StatReloader
+INFO 2025-04-30 22:53:10,655 basehttp "GET / HTTP/1.1" 200 5657
+INFO 2025-04-30 22:53:16,633 basehttp "GET /cart/ HTTP/1.1" 200 6137
+INFO 2025-04-30 22:53:19,045 basehttp "GET /cart/ HTTP/1.1" 200 6137
+INFO 2025-04-30 22:53:20,986 basehttp "GET /checkout/ HTTP/1.1" 200 12246
+INFO 2025-04-30 22:53:24,927 basehttp "GET /cart/ HTTP/1.1" 200 6137
+INFO 2025-04-30 22:55:25,689 basehttp "GET / HTTP/1.1" 200 5662
+INFO 2025-04-30 22:55:27,285 basehttp "GET /cart/ HTTP/1.1" 200 6028
+INFO 2025-04-30 22:55:34,120 basehttp "GET / HTTP/1.1" 200 5662
+INFO 2025-04-30 23:09:09,403 basehttp "GET / HTTP/1.1" 200 5662
+INFO 2025-04-30 23:09:15,021 basehttp "GET /admin/ HTTP/1.1" 200 13819
+WARNING 2025-04-30 23:09:15,650 log Not Found: /ฟก
+WARNING 2025-04-30 23:09:15,651 basehttp "GET /%E0%B8%9F%E0%B8%81 HTTP/1.1" 404 5354
+INFO 2025-04-30 23:09:20,068 basehttp "GET /admin/ HTTP/1.1" 200 13819
+INFO 2025-04-30 23:09:23,936 basehttp "GET /admin/store/customer/ HTTP/1.1" 200 24069
+INFO 2025-04-30 23:09:23,991 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-04-30 23:12:23,948 basehttp "GET / HTTP/1.1" 200 5662
+INFO 2025-04-30 23:13:38,316 basehttp "GET / HTTP/1.1" 200 5662
+INFO 2025-04-30 23:50:23,894 autoreload Watching for file changes with StatReloader
+INFO 2025-04-30 23:58:52,386 basehttp "GET / HTTP/1.1" 200 5662
+INFO 2025-04-30 23:58:54,645 basehttp "GET /cart/ HTTP/1.1" 200 6028
+INFO 2025-04-30 23:58:55,498 basehttp "GET /checkout/ HTTP/1.1" 200 12137
+INFO 2025-04-30 23:59:13,514 basehttp "POST /process_order/ HTTP/1.1" 200 275
+INFO 2025-04-30 23:59:17,143 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-30 23:59:20,147 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-30 23:59:23,149 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-30 23:59:26,151 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-30 23:59:29,155 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-30 23:59:32,147 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-30 23:59:35,148 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-30 23:59:38,143 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-30 23:59:41,146 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-30 23:59:44,140 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-30 23:59:46,528 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-30 23:59:49,530 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-30 23:59:52,535 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-30 23:59:56,147 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-04-30 23:59:58,521 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-05-01 00:00:01,529 basehttp "GET /check_payment_status/?order_id=43 HTTP/1.1" 200 21
+INFO 2025-05-01 00:00:04,756 basehttp "GET / HTTP/1.1" 200 5662
+INFO 2025-05-01 00:07:56,616 autoreload Watching for file changes with StatReloader
+INFO 2025-05-01 00:07:58,406 basehttp "GET / HTTP/1.1" 200 5662
+INFO 2025-05-01 00:46:24,071 basehttp "GET / HTTP/1.1" 200 5993
+INFO 2025-05-01 00:46:57,136 basehttp "GET / HTTP/1.1" 200 5662
+INFO 2025-05-01 00:47:00,723 basehttp "GET /cart/ HTTP/1.1" 200 6028
+INFO 2025-05-01 00:47:02,361 basehttp "GET / HTTP/1.1" 200 5662
+INFO 2025-05-01 00:47:03,467 basehttp "GET / HTTP/1.1" 200 5662
+INFO 2025-05-01 00:53:16,816 basehttp "GET / HTTP/1.1" 200 5912
+INFO 2025-05-01 00:53:22,729 basehttp "POST /update_item/ HTTP/1.1" 200 18
+INFO 2025-05-01 00:53:22,751 basehttp "GET / HTTP/1.1" 200 5912
+INFO 2025-05-01 00:53:22,920 basehttp "GET /static/images/cart.png HTTP/1.1" 200 92001
+INFO 2025-05-01 00:53:22,923 basehttp "GET /images/headphones_YycFlsb.jpg HTTP/1.1" 200 10782
+INFO 2025-05-01 00:53:22,927 basehttp "GET /static/css/main.css HTTP/1.1" 200 5170
+INFO 2025-05-01 00:53:22,927 basehttp "GET /images/shoes_yNyuZHS.jpg HTTP/1.1" 200 29593
+INFO 2025-05-01 00:53:22,928 basehttp "GET /images/poster_TUOkDrn.jpg HTTP/1.1" 200 22934
+INFO 2025-05-01 00:53:23,049 basehttp "GET /static/js/cart.js HTTP/1.1" 200 1757
+INFO 2025-05-01 00:54:46,966 basehttp "GET / HTTP/1.1" 200 5913
+INFO 2025-05-01 00:54:47,027 basehttp "GET /static/css/main.css HTTP/1.1" 200 5409
+INFO 2025-05-01 00:54:49,197 basehttp "GET /static/css/main.css HTTP/1.1" 304 0
+INFO 2025-05-01 00:54:58,222 basehttp "POST /update_item/ HTTP/1.1" 200 18
+INFO 2025-05-01 00:54:58,242 basehttp "GET / HTTP/1.1" 200 5913
+INFO 2025-05-01 00:54:58,276 basehttp "GET /static/css/main.css HTTP/1.1" 200 5409
+INFO 2025-05-01 00:54:58,277 basehttp "GET /images/shoes_yNyuZHS.jpg HTTP/1.1" 200 29593
+INFO 2025-05-01 00:54:58,278 basehttp "GET /static/images/cart.png HTTP/1.1" 200 92001
+INFO 2025-05-01 00:54:58,341 basehttp "GET /images/headphones_YycFlsb.jpg HTTP/1.1" 200 10782
+INFO 2025-05-01 00:54:58,342 basehttp "GET /images/poster_TUOkDrn.jpg HTTP/1.1" 200 22934
+INFO 2025-05-01 00:54:58,417 basehttp "GET /static/js/cart.js HTTP/1.1" 200 1757
+INFO 2025-05-01 00:57:34,336 basehttp "GET / HTTP/1.1" 200 5914
+INFO 2025-05-01 00:57:34,389 basehttp "GET /static/css/main.css HTTP/1.1" 200 5170
+INFO 2025-05-01 00:57:36,345 basehttp "GET /static/css/main.css HTTP/1.1" 304 0
+INFO 2025-05-01 00:58:33,623 basehttp "GET / HTTP/1.1" 200 5914
+INFO 2025-05-01 00:58:33,675 basehttp "GET /static/css/main.css HTTP/1.1" 304 0
+INFO 2025-05-01 00:58:35,502 basehttp "GET /cart/ HTTP/1.1" 200 6254
+INFO 2025-05-01 00:58:37,093 basehttp "GET / HTTP/1.1" 200 5914
+INFO 2025-05-01 00:58:38,291 basehttp "GET /cart/ HTTP/1.1" 200 6254
+INFO 2025-05-01 00:58:39,349 basehttp "GET /checkout/ HTTP/1.1" 200 12363
+INFO 2025-05-01 00:58:44,295 basehttp "POST /process_order/ HTTP/1.1" 200 275
+INFO 2025-05-01 00:58:46,871 basehttp "GET / HTTP/1.1" 200 5914
+INFO 2025-05-01 00:58:46,902 basehttp "GET /static/css/main.css HTTP/1.1" 304 0
