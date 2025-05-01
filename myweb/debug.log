@@ -2456,3 +2456,6 @@ INFO 2025-05-01 15:20:58,856 basehttp "GET /static/admin/img/tooltag-add.svg HTT
 INFO 2025-05-01 15:21:00,416 basehttp "GET /admin/store/order/ HTTP/1.1" 200 69788
 INFO 2025-05-01 15:21:00,443 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
 INFO 2025-05-01 19:36:44,251 autoreload Watching for file changes with StatReloader
+INFO 2025-05-01 19:36:45,692 basehttp "GET / HTTP/1.1" 200 5710
+INFO 2025-05-01 19:36:45,732 basehttp "GET /static/css/main.css HTTP/1.1" 304 0
+INFO 2025-05-01 19:44:39,479 autoreload D:\Desktop\สมบูรทั้งหมดการตรวจสอบสินค้า ลบสินค้าออกจากตระก้า\myweb\store\urls.py changed, reloading.
