@@ -67,7 +67,10 @@
 	 
 	    </ul>
 	    <div class="form-inline my-2 my-lg-0">
-	     	<a href="#"class="btn btn-warning">เข้าสู่ระบบ</a>
+            {% if request.resolver_match.url_name == "store" %}
+                <p class="btn btn-warning total-stock-display">สินค้าในระบบ: {{ total_stock }} ชิ้น</p>
+            {% endif %}
+        
 	     	
 	     	<a href="{% url 'cart' %}">
 	    		<img  id="cart-icon" src="{% static 'images/cart.png' %}">
@@ -93,6 +96,7 @@
 	<script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
 </body>
 </html>
+
 
 
 
