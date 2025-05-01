@@ -463,7 +463,11 @@ def update_stock(request):
         return JsonResponse({'success': True})
     return JsonResponse({'success': False})
 
-
+def stock_view(request):
+    # ดึงข้อมูลสต็อกสินค้าทั้งหมด
+    products = Product.objects.all()
+    stock_data = {product.name: product.stock for product in products}
+    return JsonResponse(stock_data)
 
 
 

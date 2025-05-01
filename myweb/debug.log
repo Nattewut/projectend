@@ -2455,3 +2455,4 @@ INFO 2025-05-01 15:20:58,836 basehttp "GET /static/admin/js/filters.js HTTP/1.1"
 INFO 2025-05-01 15:20:58,856 basehttp "GET /static/admin/img/tooltag-add.svg HTTP/1.1" 304 0
 INFO 2025-05-01 15:21:00,416 basehttp "GET /admin/store/order/ HTTP/1.1" 200 69788
 INFO 2025-05-01 15:21:00,443 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 11566
+INFO 2025-05-01 19:36:44,251 autoreload Watching for file changes with StatReloader
